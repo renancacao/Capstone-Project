@@ -48,7 +48,6 @@ class DataBaseHelper extends SQLiteOpenHelper{
                 "PRIMARY KEY ("+ TagsEntry.COLUMN_ID_MEME + "," +
                 TagsEntry.COLUMN_TAG + "))");
 
-
     }
 
     @Override

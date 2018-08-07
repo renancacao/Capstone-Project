@@ -6,8 +6,11 @@ import android.provider.BaseColumns;
 public class DataBaseContract {
 
     public static final String AUTHORITY = "com.rcacao.pocketmemes";
+
     public static final String PATH_MEMES = "memes";
     public static final String PATH_GROUP = "groups";
+    public static final String PATH_GROUP_MEMES = "groupmemes";
+    public static final String PATH_TAGS = "tags";
 
     private static final Uri BASE_CONTENT_URI = Uri.parse("content://" + AUTHORITY);
 
@@ -50,6 +53,9 @@ public class DataBaseContract {
         public static final String COLUMN_ID_GROUP = "id_group";
 
 
+        public static final Uri CONTENT_URI =
+                BASE_CONTENT_URI.buildUpon().appendPath(PATH_GROUP_MEMES).build();
+
     }
 
     public static final class TagsEntry implements BaseColumns {
@@ -61,6 +67,8 @@ public class DataBaseContract {
         public static final String COLUMN_TAG = "tag";
 
 
+        public static final Uri CONTENT_URI =
+                BASE_CONTENT_URI.buildUpon().appendPath(PATH_TAGS).build();
     }
 
 }
