@@ -4,9 +4,12 @@
     <dimen name="menu_margin">24dp</dimen>
     <dimen name="menu_margin_end">16dp</dimen>
     <dimen name="minimum_pad">4dp</dimen>
+    <dimen name="normal_pad">8dp</dimen>
+    <dimen name="extra_pad">16dp</dimen>
     <dimen name="fab_size">56dp</dimen>
     <dimen name="fab_margin">24dp</dimen>
     <dimen name="fab_elevation">6dp</dimen>
     <dimen name="menu_elevation">4dp</dimen>
     <dimen name="nav_header_height">100dp</dimen>
+    <dimen name="iconrecycler_height">120dp</dimen>
 </resources>
