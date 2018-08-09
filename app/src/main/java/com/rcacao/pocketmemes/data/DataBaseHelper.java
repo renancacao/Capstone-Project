@@ -32,9 +32,9 @@ class DataBaseHelper extends SQLiteOpenHelper{
                 MemeEntry.COLUMN_ALTERATION + " TEXT)");
 
         db.execSQL("CREATE TABLE " + GroupEntry.TABLE_NAME + "("  +
-                GroupEntry._ID + " INTEGER PRIMARY KEY," +
-                GroupEntry.COLUMN_NAME + " TEXT," +
-                GroupEntry.COLUMN_IMAGE + " TEXT)");
+                GroupEntry._ID + " INTEGER," +
+                GroupEntry.COLUMN_NAME + " TEXT PRIMARY KEY," +
+                GroupEntry.COLUMN_IMAGE + " INTEGER)");
 
         db.execSQL("CREATE TABLE " + GroupMemeEntry.TABLE_NAME + "("  +
                 GroupMemeEntry.COLUMN_ID_MEME + " INTEGER," +

@@ -17,6 +17,12 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.NewGroupActivity" />
+
+        <provider
+            android:name=".data.MemeContentProvider"
+            android:authorities="com.rcacao.pocketmemes"
+            android:exported="false" />
+
     </application>
 
 </manifest>

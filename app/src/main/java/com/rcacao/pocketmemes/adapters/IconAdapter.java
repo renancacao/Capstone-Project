@@ -2,6 +2,7 @@ package com.rcacao.pocketmemes.adapters;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.rcacao.pocketmemes.R;
+
+import java.util.Arrays;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -21,10 +24,12 @@ public class IconAdapter extends RecyclerView.Adapter<IconAdapter.IconViewHolder
     private int[] icons;
     private boolean values[];
     private final Context context;
+    private int selected = -1;
+    private IconClickListener listener;
 
     public IconAdapter(Context context) {
         this.context = context;
-        //this.mOnClickListener = (ListItemClickListener) context;
+        this.listener = (IconClickListener) context;
 
         icons = getIcons();
         values = new boolean[icons.length];
@@ -103,8 +108,8 @@ public class IconAdapter extends RecyclerView.Adapter<IconAdapter.IconViewHolder
                 R.drawable.ic_whatshot};
     }
 
-    public interface ListItemClickListener {
-        void onListItemClick(int clickedItemIndex);
+    public int getSelectedId() {
+        return icons[selected];
     }
 
     @NonNull
@@ -121,9 +126,19 @@ public class IconAdapter extends RecyclerView.Adapter<IconAdapter.IconViewHolder
     public void onBindViewHolder(@NonNull IconViewHolder holder, int position) {
 
         holder.imageIcon.setImageResource(icons[position]);
+        selectIcon(holder, values[position]);
 
     }
 
+    private void selectIcon(@NonNull IconViewHolder holder, boolean value) {
+
+        if (value){
+            holder.imageIcon.setColorFilter(ContextCompat.getColor(context, R.color.colorAccent));
+        }
+        else{
+            holder.imageIcon.setColorFilter(ContextCompat.getColor(context, R.color.iconDark));
+        }
+    }
 
 
     @Override
@@ -135,6 +150,18 @@ public class IconAdapter extends RecyclerView.Adapter<IconAdapter.IconViewHolder
             return 0;
         }
     }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
+
+
 
     public class IconViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
@@ -149,8 +176,17 @@ public class IconAdapter extends RecyclerView.Adapter<IconAdapter.IconViewHolder
 
         @Override
         public void onClick(View view) {
-            int cPos = getAdapterPosition();
-           // mOnClickListener.onListItemClick(cPos);
+            selected = getAdapterPosition();
+            Arrays.fill(values,false);
+            values[selected] = true;
+            notifyDataSetChanged();
+            listener.onClick(getSelectedId());
         }
     }
+
+    public interface IconClickListener{
+        void onClick(int id);
+    }
+
+
 }

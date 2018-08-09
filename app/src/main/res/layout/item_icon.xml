@@ -2,8 +2,8 @@
 
 
 <ImageView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="40dp"
-    android:layout_height="40dp"
+    android:layout_width="@dimen/icon_size"
+    android:layout_height="@dimen/icon_size"
     android:layout_margin="@dimen/normal_pad"
     xmlns:tools="http://schemas.android.com/tools"
     tools:src="@drawable/ic_help"

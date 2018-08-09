@@ -3,4 +3,8 @@
     <string name="meme">Meme</string>
     <string name="search_meme">Pesquisar memes</string>
     <string name="group_name">Nome do grupo</string>
+    <string name="new_group">novo grupo</string>
+    <string name="group_exists">Já existe um grupo com este nome!</string>
+    <string name="select_icon">Selecione um ícone!</string>
+    <string name="enter_group_name">Informe o nome do grupo!</string>
 </resources>
