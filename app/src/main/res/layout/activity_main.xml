@@ -8,6 +8,7 @@
     tools:openDrawer="start"
     android:id="@+id/drawer_layout"
     tools:context=".ui.MainActivity"
+    android:animateLayoutChanges="true"
     >
 
     <include layout="@layout/main_content" />

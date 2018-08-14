@@ -14,13 +14,13 @@ import android.widget.Toast;
 
 import com.rcacao.pocketmemes.R;
 import com.rcacao.pocketmemes.adapters.IconAdapter;
-import com.rcacao.pocketmemes.data.DataBaseContract.GroupEntry;
+import com.rcacao.pocketmemes.data.database.DataBaseContract.GroupEntry;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class NewGroupActivity extends AppCompatActivity implements IconAdapter.IconClickListener{
+public class NewGroupActivity extends AppCompatActivity implements IconAdapter.IconClickListener {
 
 
     @BindView(R.id.recyclerView_icons)
@@ -48,25 +48,27 @@ public class NewGroupActivity extends AppCompatActivity implements IconAdapter.I
         recyclerViewIcons.setHasFixedSize(true);
 
         GridLayoutManager layoutManager =
-                new GridLayoutManager(this,3,LinearLayoutManager.HORIZONTAL,false);
+                new GridLayoutManager(this, 3, LinearLayoutManager.HORIZONTAL, false);
 
         recyclerViewIcons.setLayoutManager(layoutManager);
     }
 
-    @OnClick(R.id.menu_back)void clickMenuBack(){
+    @OnClick(R.id.menu_back)
+    void clickMenuBack() {
         setResult(RESULT_CANCELED);
         finish();
     }
 
-    @OnClick(R.id.menu_ok)void clickMenuOK(){
+    @OnClick(R.id.menu_ok)
+    void clickMenuOK() {
 
-        if (adapter.getSelectedId() == -1){
-            Toast.makeText(this, R.string.select_icon,Toast.LENGTH_SHORT).show();
+        if (adapter.getSelectedId() == -1) {
+            Toast.makeText(this, R.string.select_icon, Toast.LENGTH_SHORT).show();
             return;
         }
 
-        if (etNewGroup.getText().toString().trim().isEmpty()){
-            Toast.makeText(this, R.string.enter_group_name,Toast.LENGTH_SHORT).show();
+        if (etNewGroup.getText().toString().trim().isEmpty()) {
+            Toast.makeText(this, R.string.enter_group_name, Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -75,16 +77,15 @@ public class NewGroupActivity extends AppCompatActivity implements IconAdapter.I
         values.put(GroupEntry.COLUMN_IMAGE, adapter.getSelectedId());
 
         Uri insert;
-        try{
+        try {
             insert = getContentResolver().insert(GroupEntry.CONTENT_URI, values);
-        }
-        catch (SQLiteConstraintException ex){
-            insert=null;
-            Toast.makeText(this, R.string.group_exists,Toast.LENGTH_SHORT).show();
+        } catch (SQLiteConstraintException ex) {
+            insert = null;
+            Toast.makeText(this, R.string.group_exists, Toast.LENGTH_SHORT).show();
             etNewGroup.requestFocus();
             etNewGroup.selectAll();
         }
-        if (insert!=null){
+        if (insert != null) {
             setResult(RESULT_OK);
             finish();
         }

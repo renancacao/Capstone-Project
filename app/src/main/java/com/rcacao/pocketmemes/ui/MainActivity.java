@@ -8,14 +8,14 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.support.v7.widget.Toolbar;
 import android.widget.EditText;
 
 import com.rcacao.pocketmemes.R;
-import com.rcacao.pocketmemes.data.DataBaseContract;
+import com.rcacao.pocketmemes.data.database.DataBaseContract;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.et_search)
     EditText etSearch;
     private int MENU_ADD_ID = -1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,13 +74,15 @@ public class MainActivity extends AppCompatActivity {
         startActivityForResult(intent, NEWGROUP_REQUEST);
     }
 
-    @OnClick(R.id.menu_slide) void clickMenuSlide(){
+    @OnClick(R.id.menu_slide)
+    void clickMenuSlide() {
 
         drawerLayout.openDrawer(GravityCompat.START);
 
     }
 
-    @OnClick(R.id.menu_search) void clickMenuSearch(){
+    @OnClick(R.id.menu_search)
+    void clickMenuSearch() {
 
         searchToolbar.setVisibility(View.VISIBLE);
         mainToolbar.setVisibility(View.GONE);
@@ -87,33 +90,45 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    @OnClick(R.id.menu_back) void clickMenuBack(){
+    @OnClick(R.id.menu_back)
+    void clickMenuBack() {
 
-        searchToolbar.setVisibility(View.GONE);
         mainToolbar.setVisibility(View.VISIBLE);
+        searchToolbar.setVisibility(View.GONE);
 
     }
 
-    @OnClick(R.id.menu_clear) void clickMenuClear(){
+    @OnClick(R.id.menu_clear)
+    void clickMenuClear() {
         etSearch.setText("");
         etSearch.requestFocus();
     }
 
-    @OnClick(R.id.menu_search_send) void clickSearchSend(){
+    @OnClick(R.id.menu_search_send)
+    void clickSearchSend() {
 
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if(requestCode==NEWGROUP_REQUEST){
+        if (requestCode == NEWGROUP_REQUEST) {
 
-            if(resultCode==RESULT_OK){
+            if (resultCode == RESULT_OK) {
                 loadMenu();
             }
         }
 
     }
+
+    @OnClick(R.id.fabNewMeme)
+    void clickFabNew() {
+
+        Intent intent = new Intent(this, WebSearchActivity.class);
+        startActivity(intent);
+
+    }
+
 
     private void loadMenu() {
 
@@ -126,17 +141,17 @@ public class MainActivity extends AppCompatActivity {
                 DataBaseContract.GroupEntry.COLUMN_IMAGE};
 
         Cursor cursor = getContentResolver().query(DataBaseContract.GroupEntry.CONTENT_URI,
-                project, "",null, DataBaseContract.GroupEntry.COLUMN_NAME);
+                project, "", null, DataBaseContract.GroupEntry.COLUMN_NAME);
 
         int group = 0;
         int order = 0;
         MenuItem item;
         if (cursor != null) {
-            while(cursor.moveToNext()){
+            while (cursor.moveToNext()) {
 
                 item = menu.add(group, cursor.getInt(0), order, cursor.getString(1));
                 item.setIcon(cursor.getInt(2));
-                order+=1;
+                order += 1;
             }
 
             cursor.close();

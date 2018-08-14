@@ -1,4 +1,4 @@
-package com.rcacao.pocketmemes.data;
+package com.rcacao.pocketmemes.data.database;
 
 import android.net.Uri;
 import android.provider.BaseColumns;

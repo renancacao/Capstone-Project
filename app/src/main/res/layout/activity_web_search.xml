@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:animateLayoutChanges="true"
-    >
+    tools:context=".ui.WebSearchActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -18,8 +17,8 @@
             android:layout_width="match_parent"
             android:layout_height="?actionBarSize"
             android:id="@+id/search_toolbar"
-            android:background="@color/searchToolbar"
-            android:visibility="gone">
+            android:background="@color/webSearchToolbar"
+            android:visibility="visible">
 
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
@@ -27,7 +26,6 @@
 
                 <ImageView
                     android:id="@+id/menu_back"
-                    style="@style/IconDark"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:src="@drawable/ic_arrow_24dp"
@@ -39,8 +37,8 @@
                     android:layout_marginStart="@dimen/menu_margin"
                     android:layout_marginEnd="@dimen/menu_margin"
                     android:id="@+id/et_search"
-                    android:hint="@string/search_meme"
                     android:lines="1"
+                    android:hint="@string/search_web"
                     app:layout_constraintEnd_toStartOf="@+id/menu_search_send"
                     app:layout_constraintStart_toEndOf="@+id/menu_back" />
 
@@ -49,7 +47,6 @@
                     android:layout_height="match_parent"
                     android:src="@drawable/ic_search_24dp"
                     android:id="@+id/menu_search_send"
-                    style="@style/IconDark"
                     android:layout_marginEnd="@dimen/menu_margin"
                     app:layout_constraintEnd_toStartOf="@+id/menu_clear"/>
 
@@ -58,58 +55,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:src="@drawable/ic_clear_24dp"
-                    style="@style/IconDark"
                     android:id="@+id/menu_clear"
-                    android:layout_marginEnd="@dimen/menu_margin_end"
-                    app:layout_constraintEnd_toEndOf="parent"/>
-
-
-            </android.support.constraint.ConstraintLayout>
-
-        </android.support.v7.widget.Toolbar>
-
-        <android.support.v7.widget.Toolbar
-            android:layout_width="match_parent"
-            android:layout_height="?actionBarSize"
-            android:id="@+id/main_toolbar"
-            android:visibility="visible">
-
-            <android.support.constraint.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <ImageView
-                    android:id="@+id/menu_slide"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/ic_menu_24dp"
-                    app:layout_constraintStart_toStartOf="parent"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="@dimen/menu_margin"
-                    android:gravity="center_vertical"
-                    android:text="Pocket Memes"
-                    android:textColor="@android:color/white"
-                    android:textSize="26sp"
-                    android:textStyle="bold"
-                    app:layout_constraintStart_toEndOf="@+id/menu_slide" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/ic_search_24dp"
-                    android:id="@+id/menu_search"
-                    android:layout_marginEnd="@dimen/menu_margin"
-                    app:layout_constraintEnd_toStartOf="@+id/menu_reorder"/>
-
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/ic_filter_list_24dp"
-                    android:id="@+id/menu_reorder"
                     android:layout_marginEnd="@dimen/menu_margin_end"
                     app:layout_constraintEnd_toEndOf="parent"/>
 
@@ -125,16 +71,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:padding="@dimen/minimum_pad" />
+        android:padding="@dimen/minimum_pad"
+        android:id="@+id/recyclerView_web"/>
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fabNewMeme"
-        android:layout_width="@dimen/fab_size"
-        android:layout_height="@dimen/fab_size"
-        android:src="@drawable/ic_add_24dp"
-        android:elevation="@dimen/fab_elevation"
-        android:layout_gravity="end|bottom"
-        android:layout_margin="@dimen/fab_margin"/>
-
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:id="@+id/progressbar"
+        android:visibility="invisible"
+        tools:visibility="visible"/>
 
 </android.support.design.widget.CoordinatorLayout>

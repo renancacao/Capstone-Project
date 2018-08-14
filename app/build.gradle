@@ -1,5 +1,10 @@
 apply plugin: 'com.android.application'
 
+def apikeyPropertiesFile = rootProject.file("secret.txt");
+def apikeyProperties = new Properties()
+apikeyProperties.load(new FileInputStream(apikeyPropertiesFile))
+
+
 android {
     compileSdkVersion 27
     defaultConfig {
@@ -9,6 +14,9 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        buildConfigField("String", "apikey", apikeyProperties['apikey'])
+        buildConfigField("String", "cx", apikeyProperties['cx'])
     }
     buildTypes {
         release {
@@ -16,8 +24,8 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    sourceSets{
-        main{
+    sourceSets {
+        main {
             res.srcDirs += ['src/main/res_icons']
         }
     }
@@ -33,4 +41,7 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+    implementation 'com.squareup.retrofit2:retrofit:2.4.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
+    implementation 'com.squareup.picasso:picasso:2.71828'
 }

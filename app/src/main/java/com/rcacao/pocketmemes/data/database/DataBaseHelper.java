@@ -1,15 +1,13 @@
-package com.rcacao.pocketmemes.data;
+package com.rcacao.pocketmemes.data.database;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.media.MediaMetadata;
 
-import com.rcacao.pocketmemes.data.DataBaseContract.MemeEntry;
-import com.rcacao.pocketmemes.data.DataBaseContract.GroupEntry;
-import com.rcacao.pocketmemes.data.DataBaseContract.GroupMemeEntry;
-import com.rcacao.pocketmemes.data.DataBaseContract.TagsEntry;
+import com.rcacao.pocketmemes.data.database.DataBaseContract.MemeEntry;
+import com.rcacao.pocketmemes.data.database.DataBaseContract.GroupEntry;
+import com.rcacao.pocketmemes.data.database.DataBaseContract.GroupMemeEntry;
+import com.rcacao.pocketmemes.data.database.DataBaseContract.TagsEntry;
 
 class DataBaseHelper extends SQLiteOpenHelper{
 

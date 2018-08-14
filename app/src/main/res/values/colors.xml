@@ -5,6 +5,8 @@
     <color name="colorAccent">#1976d2</color>
     <color name="searchToolbar">#d7ccc8</color>
     <color name="searchToolbarDark">#bcaaa4</color>
+    <color name="webSearchToolbar">#7986cb</color>
+    <color name="webSearchToolbarDark">#3949ab</color>
     <color name="icon">#ffffff</color>
     <color name="iconDark">#a1887f</color>
 

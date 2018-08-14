@@ -1,4 +1,4 @@
-package com.rcacao.pocketmemes.data;
+package com.rcacao.pocketmemes.data.database;
 
 import android.content.ContentProvider;
 import android.content.ContentUris;
@@ -6,23 +6,22 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.UriMatcher;
 import android.database.Cursor;
-import android.database.SQLException;
 import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.rcacao.pocketmemes.data.DataBaseContract.GroupEntry;
-import com.rcacao.pocketmemes.data.DataBaseContract.MemeEntry;
-import com.rcacao.pocketmemes.data.DataBaseContract.GroupMemeEntry;
-import com.rcacao.pocketmemes.data.DataBaseContract.TagsEntry;
+import com.rcacao.pocketmemes.data.database.DataBaseContract.GroupEntry;
+import com.rcacao.pocketmemes.data.database.DataBaseContract.MemeEntry;
+import com.rcacao.pocketmemes.data.database.DataBaseContract.GroupMemeEntry;
+import com.rcacao.pocketmemes.data.database.DataBaseContract.TagsEntry;
 
-import static com.rcacao.pocketmemes.data.DataBaseContract.AUTHORITY;
-import static com.rcacao.pocketmemes.data.DataBaseContract.PATH_GROUP;
-import static com.rcacao.pocketmemes.data.DataBaseContract.PATH_GROUP_MEMES;
-import static com.rcacao.pocketmemes.data.DataBaseContract.PATH_MEMES;
-import static com.rcacao.pocketmemes.data.DataBaseContract.PATH_TAGS;
+import static com.rcacao.pocketmemes.data.database.DataBaseContract.AUTHORITY;
+import static com.rcacao.pocketmemes.data.database.DataBaseContract.PATH_GROUP;
+import static com.rcacao.pocketmemes.data.database.DataBaseContract.PATH_GROUP_MEMES;
+import static com.rcacao.pocketmemes.data.database.DataBaseContract.PATH_MEMES;
+import static com.rcacao.pocketmemes.data.database.DataBaseContract.PATH_TAGS;
 
 
 public class MemeContentProvider extends ContentProvider {
