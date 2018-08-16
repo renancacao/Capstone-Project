@@ -1,6 +1,7 @@
 package com.rcacao.pocketmemes.adapters;
 
 import android.content.Context;
+import android.net.TrafficStats;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.widget.ImageView;
 import com.rcacao.pocketmemes.R;
 import com.rcacao.pocketmemes.data.models.ResultItem;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Transformation;
 
 import java.util.List;
 
@@ -23,11 +25,12 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.ResultHold
 
     private final Context context;
     private List<ResultItem> items;
-    private IconClickListener listener;
+    private ResultClickListener listener;
 
     public ResultAdapter(Context context, List<ResultItem> items) {
         this.context = context;
         this.items = items;
+        listener = (ResultClickListener)context;
     }
 
     public void setItems(List<ResultItem> items) {
@@ -47,8 +50,10 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.ResultHold
     @Override
     public void onBindViewHolder(@NonNull ResultHolder holder, int position) {
 
-        Picasso.get().load(items.get(position).getLink()).into(holder.imageResult);
-
+        Picasso.get().load(items.get(position).getImageUrl())
+                .resize(R.integer.width_resize,0)
+                .onlyScaleDown()
+                .into(holder.imageResult);
 
     }
 
@@ -66,7 +71,12 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.ResultHold
         return position;
     }
 
-    public interface IconClickListener {
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
+
+    public interface ResultClickListener {
         void onClick(int id);
     }
 
@@ -84,7 +94,7 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.ResultHold
 
         @Override
         public void onClick(View view) {
-            //listener.onClick(getAdapterPosition());
+            listener.onClick(getAdapterPosition());
         }
     }
 

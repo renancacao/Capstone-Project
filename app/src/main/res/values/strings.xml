@@ -9,4 +9,8 @@
     <string name="select_icon">Selecione um ícone!</string>
     <string name="enter_group_name">Informe o nome do grupo!</string>
     <string name="search_result">resultado da pesquisa</string>
+    <string name="new_meme">Novo Meme</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

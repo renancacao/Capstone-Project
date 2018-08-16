@@ -5,9 +5,19 @@
     <color name="colorAccent">#1976d2</color>
     <color name="searchToolbar">#d7ccc8</color>
     <color name="searchToolbarDark">#bcaaa4</color>
-    <color name="webSearchToolbar">#7986cb</color>
-    <color name="webSearchToolbarDark">#3949ab</color>
+    <color name="webSearchToolbar">#4fc3f7</color>
+    <color name="webSearchToolbarDark">#0288d1</color>
     <color name="icon">#ffffff</color>
     <color name="iconDark">#a1887f</color>
+
+    <color name="font_creator_red">#ff0004</color>
+    <color name="font_creator_blue">#0062ff</color>
+    <color name="font_creator_green">#1aca1a</color>
+    <color name="font_creator_yellow">#ffee00</color>
+    <color name="font_creator_orange">#ff7b00</color>
+    <color name="font_creator_purple">#e100ff</color>
+    <color name="font_creator_black">#000000</color>
+    <color name="font_creator_gray">#969494</color>
+    <color name="font_creator_white">#ffffff</color>
 
 </resources>

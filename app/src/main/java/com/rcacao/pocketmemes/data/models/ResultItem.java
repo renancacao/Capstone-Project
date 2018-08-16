@@ -4,14 +4,11 @@ import com.google.gson.annotations.SerializedName;
 
 public class ResultItem {
 
-    @SerializedName("fileFormat")
-    String fileFormat;
-
     @SerializedName("link")
-    String link;
+    private String link;
 
     @SerializedName("image")
-    ItemImage image;
+    private ItemImage image;
 
     public ItemImage getImage() {
         return image;
@@ -22,19 +19,25 @@ public class ResultItem {
     }
 
     public String getImageUrl() {
+        if (isImage(link)) {
+            return link;
+        }
+        return image.getThumbnailLink();
+    }
 
-        if (link != null && link.length() > 4) {
+    public static boolean isImage(String url) {
+        if (url != null && url.length() > 4) {
 
-            String endUrl = link.substring(link.length() - 4, link.length());
+            String endUrl = url.substring(url.length() - 4, url.length());
             switch (endUrl.toLowerCase()) {
                 case ".jpg":
                 case "jpeg":
                 case ".png":
                 case ".gif":
                 case ".bmp":
-                    return link;
+                    return true;
             }
         }
-        return image.getThumbnailLink();
+        return false;
     }
 }

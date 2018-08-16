@@ -1,5 +1,6 @@
 package com.rcacao.pocketmemes.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -8,13 +9,13 @@ import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 
 import com.rcacao.pocketmemes.R;
 import com.rcacao.pocketmemes.adapters.ResultAdapter;
+import com.rcacao.pocketmemes.data.models.ResultItem;
 import com.rcacao.pocketmemes.data.models.SearchResult;
 import com.rcacao.pocketmemes.loaders.GoogleSearchAsyncLoader;
 
@@ -22,7 +23,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class WebSearchActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<SearchResult> {
+public class WebSearchActivity extends AppCompatActivity implements
+        LoaderManager.LoaderCallbacks<SearchResult>, ResultAdapter.ResultClickListener {
 
     private static final int ID_LOADER = 0;
 
@@ -38,6 +40,7 @@ public class WebSearchActivity extends AppCompatActivity implements LoaderManage
     private ResultAdapter adapter;
 
     private LinearLayoutManager glmg;
+    private SearchResult searchResult;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +53,7 @@ public class WebSearchActivity extends AppCompatActivity implements LoaderManage
         adapter = new ResultAdapter(this, null);
         recyclerView.setAdapter(adapter);
 
-        glmg = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
+        glmg = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
 
     }
 
@@ -87,7 +90,7 @@ public class WebSearchActivity extends AppCompatActivity implements LoaderManage
 
     @Override
     public void onLoadFinished(@NonNull Loader<SearchResult> loader, SearchResult data) {
-        SearchResult searchResult = data;
+        searchResult = data;
         if (searchResult != null) {
             adapter.setItems(searchResult.getItems());
             adapter.notifyDataSetChanged();
@@ -99,5 +102,24 @@ public class WebSearchActivity extends AppCompatActivity implements LoaderManage
     @Override
     public void onLoaderReset(@NonNull Loader<SearchResult> loader) {
 
+    }
+
+    @Override
+    public void onClick(int id) {
+
+        ResultItem item = searchResult.getItems().get(id);
+        String url = "";
+
+        if (ResultItem.isImage(item.getLink())) {
+            url = item.getLink();
+        } else if (ResultItem.isImage(item.getImage().getThumbnailLink())) {
+            url = item.getImage().getThumbnailLink();
+        }
+
+        if (!url.isEmpty()) {
+            Intent intent = new Intent(this, EditMemeActivity.class);
+            intent.putExtra(CreatorMemeFragment.ARG_URL_IMAGE, url);
+            startActivity(intent);
+        }
     }
 }
