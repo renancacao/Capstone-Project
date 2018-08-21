@@ -18,26 +18,4 @@ public class ResultItem {
         return link;
     }
 
-    public String getImageUrl() {
-        if (isImage(link)) {
-            return link;
-        }
-        return image.getThumbnailLink();
-    }
-
-    public static boolean isImage(String url) {
-        if (url != null && url.length() > 4) {
-
-            String endUrl = url.substring(url.length() - 4, url.length());
-            switch (endUrl.toLowerCase()) {
-                case ".jpg":
-                case "jpeg":
-                case ".png":
-                case ".gif":
-                case ".bmp":
-                    return true;
-            }
-        }
-        return false;
-    }
 }

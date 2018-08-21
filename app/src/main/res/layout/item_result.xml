@@ -5,7 +5,7 @@
     android:adjustViewBounds="true"
     android:cropToPadding="true"
     xmlns:tools="http://schemas.android.com/tools"
-    android:padding="@dimen/minimum_pad"
+    android:layout_margin="@dimen/minimum_pad"
     android:scaleType="fitCenter"
     tools:src="@drawable/ic_insert_emoticon"
     android:contentDescription="@string/search_result"

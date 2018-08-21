@@ -13,4 +13,7 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="png_file">.png</string>
+    <string name="file_saved">Arquivo %s salvo!</string>
+    <string name="file_not_saved">Falha ao salvar arquivo!</string>
 </resources>

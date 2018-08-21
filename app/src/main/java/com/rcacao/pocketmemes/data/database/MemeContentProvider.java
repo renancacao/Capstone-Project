@@ -13,42 +13,31 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.rcacao.pocketmemes.data.database.DataBaseContract.GroupEntry;
-import com.rcacao.pocketmemes.data.database.DataBaseContract.MemeEntry;
 import com.rcacao.pocketmemes.data.database.DataBaseContract.GroupMemeEntry;
+import com.rcacao.pocketmemes.data.database.DataBaseContract.MemeEntry;
 import com.rcacao.pocketmemes.data.database.DataBaseContract.TagsEntry;
 
 import static com.rcacao.pocketmemes.data.database.DataBaseContract.AUTHORITY;
 import static com.rcacao.pocketmemes.data.database.DataBaseContract.PATH_GROUP;
 import static com.rcacao.pocketmemes.data.database.DataBaseContract.PATH_GROUP_MEMES;
+import static com.rcacao.pocketmemes.data.database.DataBaseContract.PATH_LAST_MEMES;
 import static com.rcacao.pocketmemes.data.database.DataBaseContract.PATH_MEMES;
 import static com.rcacao.pocketmemes.data.database.DataBaseContract.PATH_TAGS;
 
 
 public class MemeContentProvider extends ContentProvider {
 
-    private static final UriMatcher sUriMatcher = buildUriMatcher();
-
     private static final int MEMES = 100;
     private static final int MEME_BY_ID = 101;
-
+    private static final int LAST_MEME = 102;
     private static final int GROUPS = 200;
     private static final int GROUP_BY_ID = 201;
-
     private static final int GROUP_MEMES = 300;
     private static final int GROUP_MEME_BY_IDS = 301;
-
     private static final int TAGS = 400;
     private static final int TAGS_BY_ID = 401;
-
-
+    private static final UriMatcher sUriMatcher = buildUriMatcher();
     private DataBaseHelper dbHelper;
-
-    @Override
-    public boolean onCreate() {
-        Context context =  getContext();
-        dbHelper = new DataBaseHelper(context);
-        return true;
-    }
 
     private static UriMatcher buildUriMatcher() {
 
@@ -56,6 +45,7 @@ public class MemeContentProvider extends ContentProvider {
 
         uriMatcher.addURI(AUTHORITY, PATH_MEMES, MEMES);
         uriMatcher.addURI(AUTHORITY, PATH_MEMES + "/#", MEME_BY_ID);
+        uriMatcher.addURI(AUTHORITY, PATH_LAST_MEMES, LAST_MEME);
 
         uriMatcher.addURI(AUTHORITY, PATH_GROUP, GROUPS);
         uriMatcher.addURI(AUTHORITY, PATH_GROUP + "/#", GROUP_BY_ID);
@@ -69,7 +59,12 @@ public class MemeContentProvider extends ContentProvider {
         return uriMatcher;
     }
 
-
+    @Override
+    public boolean onCreate() {
+        Context context = getContext();
+        dbHelper = new DataBaseHelper(context);
+        return true;
+    }
 
     @Nullable
     @Override
@@ -85,41 +80,46 @@ public class MemeContentProvider extends ContentProvider {
         switch (match) {
 
             case MEMES:
-                retCursor = db.query(MemeEntry.TABLE_NAME,projection,selection,
-                        args,null,null,sortOrder);
+                retCursor = db.query(MemeEntry.TABLE_NAME, projection, selection,
+                        args, null, null, sortOrder);
+                break;
+
+            case LAST_MEME:
+                retCursor = db.rawQuery("SELECT " + MemeEntry._ID + " FROM " +
+                        MemeEntry.TABLE_NAME + " ORDER BY "+ MemeEntry._ID +" DESC LIMIT 1 ",
+                        null);
                 break;
 
             case GROUPS:
-                retCursor = db.query(GroupEntry.TABLE_NAME,projection,selection,
-                        args,null,null,sortOrder);
+                retCursor = db.query(GroupEntry.TABLE_NAME, projection, selection,
+                        args, null, null, sortOrder);
                 break;
 
             case GROUP_MEMES:
-                retCursor = db.query(GroupMemeEntry.TABLE_NAME,projection,selection,
-                        args,null,null,sortOrder);
+                retCursor = db.query(GroupMemeEntry.TABLE_NAME, projection, selection,
+                        args, null, null, sortOrder);
                 break;
-
 
             case GROUP_MEME_BY_IDS:
                 idMeme = uri.getPathSegments().get(1);
                 idGroup = uri.getPathSegments().get(2);
 
-                retCursor = db.query(GroupMemeEntry.TABLE_NAME,projection,
+                retCursor = db.query(GroupMemeEntry.TABLE_NAME, projection,
                         GroupMemeEntry.COLUMN_ID_MEME + "=? and " +
                                 GroupMemeEntry.COLUMN_ID_GROUP + "=?",
-                        new String[]{idMeme, idGroup},null,null,sortOrder);
+                        new String[]{idMeme, idGroup}, null, null, sortOrder);
                 break;
 
             case TAGS:
-                retCursor = db.query(TagsEntry.TABLE_NAME,projection,selection,
-                        args,null,null,sortOrder);
+                retCursor = db.query(TagsEntry.TABLE_NAME, projection, selection,
+                        args, null, null, sortOrder);
                 break;
 
             case TAGS_BY_ID:
                 idMeme = uri.getPathSegments().get(1);
-                retCursor = db.query(TagsEntry.TABLE_NAME,projection,
+                retCursor = db.query(TagsEntry.TABLE_NAME, projection,
                         GroupMemeEntry.COLUMN_ID_MEME + "=?",
-                        new String[]{idMeme},null,null,sortOrder);
+                        new String[]{idMeme}, null, null, sortOrder);
                 break;
 
             default:
@@ -128,7 +128,7 @@ public class MemeContentProvider extends ContentProvider {
         }
 
 
-        retCursor.setNotificationUri(getContext().getContentResolver(),uri);
+        retCursor.setNotificationUri(getContext().getContentResolver(), uri);
         return retCursor;
 
     }
@@ -150,11 +150,11 @@ public class MemeContentProvider extends ContentProvider {
 
         long id;
 
-        switch (match){
+        switch (match) {
 
             case MEMES:
                 id = db.insert(MemeEntry.TABLE_NAME, null, values);
-                if ( id > 0 ) {
+                if (id > 0) {
                     returnUri = ContentUris.withAppendedId(MemeEntry.CONTENT_URI, id);
                 } else {
                     throw new android.database.SQLException("Falha: " + uri);
@@ -163,7 +163,7 @@ public class MemeContentProvider extends ContentProvider {
 
             case GROUPS:
                 id = db.insertOrThrow(GroupEntry.TABLE_NAME, null, values);
-                if ( id > 0 ) {
+                if (id > 0) {
                     returnUri = ContentUris.withAppendedId(GroupEntry.CONTENT_URI, id);
                 } else {
                     throw new android.database.SQLException("Falha: " + uri);
@@ -172,7 +172,7 @@ public class MemeContentProvider extends ContentProvider {
 
             case GROUP_MEMES:
                 id = db.insert(GroupMemeEntry.TABLE_NAME, null, values);
-                if ( id > 0 ) {
+                if (id > 0) {
                     returnUri = ContentUris.withAppendedId(GroupMemeEntry.CONTENT_URI, id);
                 } else {
                     throw new android.database.SQLException("Falha: " + uri);
@@ -181,7 +181,7 @@ public class MemeContentProvider extends ContentProvider {
 
             case TAGS:
                 id = db.insert(TagsEntry.TABLE_NAME, null, values);
-                if ( id > 0 ) {
+                if (id > 0) {
                     returnUri = ContentUris.withAppendedId(TagsEntry.CONTENT_URI, id);
                 } else {
                     throw new android.database.SQLException("Falha: " + uri);
@@ -211,7 +211,7 @@ public class MemeContentProvider extends ContentProvider {
         switch (match) {
 
             case MEMES:
-                deleted = db.delete(MemeEntry.TABLE_NAME, null,null);
+                deleted = db.delete(MemeEntry.TABLE_NAME, null, null);
                 break;
 
             case MEME_BY_ID:
@@ -220,7 +220,7 @@ public class MemeContentProvider extends ContentProvider {
                 break;
 
             case GROUPS:
-                deleted = db.delete(GroupEntry.TABLE_NAME, null,null);
+                deleted = db.delete(GroupEntry.TABLE_NAME, null, null);
                 break;
 
             case GROUP_BY_ID:
@@ -229,7 +229,7 @@ public class MemeContentProvider extends ContentProvider {
                 break;
 
             case GROUP_MEMES:
-                deleted = db.delete(GroupMemeEntry.TABLE_NAME, null,null);
+                deleted = db.delete(GroupMemeEntry.TABLE_NAME, null, null);
                 break;
 
             case GROUP_MEME_BY_IDS:
@@ -242,7 +242,7 @@ public class MemeContentProvider extends ContentProvider {
                 break;
 
             case TAGS:
-                deleted = db.delete(TagsEntry.TABLE_NAME, null,null);
+                deleted = db.delete(TagsEntry.TABLE_NAME, null, null);
                 break;
 
             case TAGS_BY_ID:
@@ -255,7 +255,7 @@ public class MemeContentProvider extends ContentProvider {
 
         }
 
-        if (deleted>0){
+        if (deleted > 0) {
             getContext().getContentResolver().notifyChange(uri, null);
         }
 

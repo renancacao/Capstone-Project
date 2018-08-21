@@ -7,10 +7,11 @@ public class DataBaseContract {
 
     public static final String AUTHORITY = "com.rcacao.pocketmemes";
 
-    public static final String PATH_MEMES = "memes";
-    public static final String PATH_GROUP = "groups";
-    public static final String PATH_GROUP_MEMES = "groupmemes";
-    public static final String PATH_TAGS = "tags";
+    static final String PATH_MEMES = "memes";
+    static final String PATH_LAST_MEMES = "lastmemes";
+    static final String PATH_GROUP = "groups";
+    static final String PATH_GROUP_MEMES = "groupmemes";
+    static final String PATH_TAGS = "tags";
 
     private static final Uri BASE_CONTENT_URI = Uri.parse("content://" + AUTHORITY);
 
@@ -19,6 +20,9 @@ public class DataBaseContract {
 
         public static final Uri CONTENT_URI =
                 BASE_CONTENT_URI.buildUpon().appendPath(PATH_MEMES).build();
+
+        public static final Uri CONTENT_URI_LAST =
+                BASE_CONTENT_URI.buildUpon().appendPath(PATH_LAST_MEMES).build();
 
         public static final String TABLE_NAME = "meme";
 

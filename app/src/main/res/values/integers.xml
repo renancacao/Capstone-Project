@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <integer name="width_resize">400</integer>
+    <integer name="margin_creator">16</integer>
 </resources>

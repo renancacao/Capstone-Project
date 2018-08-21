@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.rcacao.pocketmemes">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
         android:allowBackup="true"
@@ -28,7 +28,7 @@
             android:exported="false" />
 
         <activity android:name=".ui.WebSearchActivity" />
-        <activity android:name=".ui.EditMemeActivity"></activity>
+        <activity android:name=".ui.CreatorMemeActivity" />
     </application>
 
 </manifest>

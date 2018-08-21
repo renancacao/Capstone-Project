@@ -50,7 +50,7 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.ResultHold
     @Override
     public void onBindViewHolder(@NonNull ResultHolder holder, int position) {
 
-        Picasso.get().load(items.get(position).getImageUrl())
+        Picasso.get().load(items.get(position).getLink())
                 .resize(R.integer.width_resize,0)
                 .onlyScaleDown()
                 .into(holder.imageResult);

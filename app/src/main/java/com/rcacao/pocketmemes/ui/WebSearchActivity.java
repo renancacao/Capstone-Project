@@ -23,6 +23,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.rcacao.pocketmemes.ui.CreatorMemeActivity.ARG_URL_IMAGE;
+
 public class WebSearchActivity extends AppCompatActivity implements
         LoaderManager.LoaderCallbacks<SearchResult>, ResultAdapter.ResultClickListener {
 
@@ -108,18 +110,9 @@ public class WebSearchActivity extends AppCompatActivity implements
     public void onClick(int id) {
 
         ResultItem item = searchResult.getItems().get(id);
-        String url = "";
+        Intent intent = new Intent(this, CreatorMemeActivity.class);
+        intent.putExtra(ARG_URL_IMAGE, item.getLink());
+        startActivity(intent);
 
-        if (ResultItem.isImage(item.getLink())) {
-            url = item.getLink();
-        } else if (ResultItem.isImage(item.getImage().getThumbnailLink())) {
-            url = item.getImage().getThumbnailLink();
-        }
-
-        if (!url.isEmpty()) {
-            Intent intent = new Intent(this, EditMemeActivity.class);
-            intent.putExtra(CreatorMemeFragment.ARG_URL_IMAGE, url);
-            startActivity(intent);
-        }
     }
 }
