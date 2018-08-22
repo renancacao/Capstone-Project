@@ -12,9 +12,13 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.rcacao.pocketmemes.Constants;
 import com.rcacao.pocketmemes.R;
 import com.rcacao.pocketmemes.adapters.IconAdapter;
 import com.rcacao.pocketmemes.data.database.DataBaseContract.GroupEntry;
+import com.rcacao.pocketmemes.data.models.GroupIcon;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -32,8 +36,10 @@ public class NewGroupActivity extends AppCompatActivity implements IconAdapter.I
     @BindView(R.id.image_icon)
     ImageView imageIcon;
 
-
     private IconAdapter adapter;
+
+    private List<GroupIcon> icons;
+    private int selected = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +48,9 @@ public class NewGroupActivity extends AppCompatActivity implements IconAdapter.I
 
         ButterKnife.bind(this);
 
-        adapter = new IconAdapter(this);
+        icons = Constants.getIcons();
+
+        adapter = new IconAdapter(this, icons);
         adapter.setHasStableIds(true);
         recyclerViewIcons.setAdapter(adapter);
         recyclerViewIcons.setHasFixedSize(true);
@@ -62,7 +70,7 @@ public class NewGroupActivity extends AppCompatActivity implements IconAdapter.I
     @OnClick(R.id.menu_ok)
     void clickMenuOK() {
 
-        if (adapter.getSelectedId() == -1) {
+        if (selected == -1) {
             Toast.makeText(this, R.string.select_icon, Toast.LENGTH_SHORT).show();
             return;
         }
@@ -74,7 +82,7 @@ public class NewGroupActivity extends AppCompatActivity implements IconAdapter.I
 
         ContentValues values = new ContentValues();
         values.put(GroupEntry.COLUMN_NAME, etNewGroup.getText().toString().trim());
-        values.put(GroupEntry.COLUMN_IMAGE, adapter.getSelectedId());
+        values.put(GroupEntry.COLUMN_IMAGE, icons.get(selected).getImage());
 
         Uri insert;
         try {
@@ -93,6 +101,13 @@ public class NewGroupActivity extends AppCompatActivity implements IconAdapter.I
 
     @Override
     public void onClick(int id) {
-        imageIcon.setImageResource(id);
+        selected = id;
+        for (GroupIcon i : icons) {
+            i.setChecked(false);
+        }
+        icons.get(selected).setChecked(true);
+        adapter.setIcons(icons);
+        adapter.notifyDataSetChanged();
+        imageIcon.setImageResource(icons.get(selected).getImage());
     }
 }

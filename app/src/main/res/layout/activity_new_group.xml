@@ -93,6 +93,8 @@
             android:lines="1"
             android:hint="@string/group_name"
             android:textAllCaps="false"
+            android:maxLines="1"
+            android:inputType="text"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/image_icon"
             app:layout_constraintStart_toStartOf="parent"

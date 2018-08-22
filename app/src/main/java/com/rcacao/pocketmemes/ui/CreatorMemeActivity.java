@@ -1,6 +1,8 @@
 package com.rcacao.pocketmemes.ui;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -10,8 +12,10 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityCompat.OnRequestPermissionsResultCallback;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -24,6 +28,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.rcacao.pocketmemes.Constants;
+import com.rcacao.pocketmemes.MyUtils;
 import com.rcacao.pocketmemes.R;
 import com.rcacao.pocketmemes.data.database.DataBaseContract;
 import com.squareup.picasso.Picasso;
@@ -37,7 +42,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class CreatorMemeActivity extends AppCompatActivity {
+import static android.nfc.NfcAdapter.EXTRA_ID;
+
+public class CreatorMemeActivity extends AppCompatActivity  {
 
     public static final String ARG_URL_IMAGE = "url_image";
 
@@ -300,6 +307,13 @@ public class CreatorMemeActivity extends AppCompatActivity {
     @OnClick(R.id.menu_ok)
     void clickOk() {
 
+        if (hasStoragePermission()) {
+            saveMeme();
+        }
+
+    }
+
+    private void saveMeme() {
         if (newBitmap != null) {
             Cursor result = getContentResolver().query(DataBaseContract.MemeEntry.CONTENT_URI_LAST,
                     null, null, null, null);
@@ -312,10 +326,15 @@ public class CreatorMemeActivity extends AppCompatActivity {
                 result.close();
             }
 
-            String filename = String.valueOf(id) + getString(R.string.png_file);
-            if (saveBitmap(String.valueOf(id) + getString(R.string.png_file))) {
+            String filename = MyUtils.getFileName(id);
+            if (saveBitmap(filename)) {
                 Toast.makeText(this, String.format(getString(R.string.file_saved), filename),
                         Toast.LENGTH_SHORT).show();
+
+                Intent intent = new Intent(this, EditActivity.class);
+                intent.putExtra(EXTRA_ID, id);
+                startActivity(intent);
+
             } else {
                 Toast.makeText(this, R.string.file_not_saved,
                         Toast.LENGTH_SHORT).show();
@@ -331,14 +350,17 @@ public class CreatorMemeActivity extends AppCompatActivity {
             if (!dir.exists()) {
                 dir.mkdirs();
             }
-            File file = new File(Constants.IMAGE_PATH + filename);
+
+            File file = new File(filename);
             if (file.exists()) {
                 file.delete();
             }
+
             file.createNewFile();
-            out = new FileOutputStream(Constants.IMAGE_PATH + filename);
+            out = new FileOutputStream(filename);
             newBitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
             updateImages(file);
+
         } catch (Exception e) {
             result = false;
             e.printStackTrace();
@@ -361,4 +383,26 @@ public class CreatorMemeActivity extends AppCompatActivity {
         this.sendBroadcast(mediaScanIntent);
     }
 
+    private boolean hasStoragePermission() {
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    == PackageManager.PERMISSION_GRANTED) {
+                return true;
+            } else {
+                ActivityCompat.requestPermissions(this, new String[]{
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+                return false;
+            }
+        } else {
+            return true;
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(grantResults[0]== PackageManager.PERMISSION_GRANTED){
+            saveMeme();
+        }
+    }
 }

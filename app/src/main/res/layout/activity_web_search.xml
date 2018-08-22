@@ -39,6 +39,8 @@
                     android:id="@+id/et_search"
                     android:lines="1"
                     android:hint="@string/search_web"
+                    android:maxLines="1"
+                    android:inputType="text"
                     app:layout_constraintEnd_toStartOf="@+id/menu_search_send"
                     app:layout_constraintStart_toEndOf="@+id/menu_back" />
 
