@@ -47,6 +47,7 @@ import static android.nfc.NfcAdapter.EXTRA_ID;
 public class CreatorMemeActivity extends AppCompatActivity  {
 
     public static final String ARG_URL_IMAGE = "url_image";
+    private static final int REQUEST_EDIT = 10;
 
     @BindView(R.id.image_meme)
     ImageView imageMeme;
@@ -301,6 +302,7 @@ public class CreatorMemeActivity extends AppCompatActivity  {
 
     @OnClick(R.id.menu_back)
     void clickBack() {
+        setResult(RESULT_CANCELED);
         finish();
     }
 
@@ -333,7 +335,7 @@ public class CreatorMemeActivity extends AppCompatActivity  {
 
                 Intent intent = new Intent(this, EditActivity.class);
                 intent.putExtra(EXTRA_ID, id);
-                startActivity(intent);
+                startActivityForResult(intent, REQUEST_EDIT);
 
             } else {
                 Toast.makeText(this, R.string.file_not_saved,
@@ -404,5 +406,16 @@ public class CreatorMemeActivity extends AppCompatActivity  {
         if(grantResults[0]== PackageManager.PERMISSION_GRANTED){
             saveMeme();
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_EDIT && resultCode == RESULT_OK){
+            setResult(RESULT_OK);
+            finish();
+        }
+
     }
 }

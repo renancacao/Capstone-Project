@@ -11,7 +11,7 @@ import com.rcacao.pocketmemes.data.database.DataBaseContract.TagsEntry;
 
 class DataBaseHelper extends SQLiteOpenHelper{
 
-    private static final int VERSION = 1;
+    private static final int VERSION = 2;
     private static final String NAME = "db_memes";
 
     DataBaseHelper(Context context){
@@ -25,9 +25,7 @@ class DataBaseHelper extends SQLiteOpenHelper{
         db.execSQL("CREATE TABLE " + MemeEntry.TABLE_NAME + "("  +
                 MemeEntry._ID + " INTEGER PRIMARY KEY," +
                 MemeEntry.COLUMN_NAME + " TEXT," +
-                MemeEntry.COLUMN_PATH + " TEXT," +
-                MemeEntry.COLUMN_CREATION + " TEXT," +
-                MemeEntry.COLUMN_ALTERATION + " TEXT)");
+                MemeEntry.COLUMN_CREATION + " TEXT)");
 
         db.execSQL("CREATE TABLE " + GroupEntry.TABLE_NAME + "("  +
                 GroupEntry._ID + " INTEGER," +

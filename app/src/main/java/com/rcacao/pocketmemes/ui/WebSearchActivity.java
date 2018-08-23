@@ -29,6 +29,7 @@ public class WebSearchActivity extends AppCompatActivity implements
         LoaderManager.LoaderCallbacks<SearchResult>, ResultAdapter.ResultClickListener {
 
     private static final int ID_LOADER = 0;
+    private static final int REQUEST_CREATOR = 10   ;
 
     @BindView(R.id.et_search)
     EditText etSearch;
@@ -72,6 +73,7 @@ public class WebSearchActivity extends AppCompatActivity implements
 
     @OnClick(R.id.menu_back)
     void clickBackMenu() {
+        setResult(RESULT_CANCELED);
         finish();
     }
 
@@ -79,7 +81,6 @@ public class WebSearchActivity extends AppCompatActivity implements
     void clickClearMenu() {
         etSearch.setText("");
     }
-
 
     @NonNull
     @Override
@@ -112,7 +113,17 @@ public class WebSearchActivity extends AppCompatActivity implements
         ResultItem item = searchResult.getItems().get(id);
         Intent intent = new Intent(this, CreatorMemeActivity.class);
         intent.putExtra(ARG_URL_IMAGE, item.getLink());
-        startActivity(intent);
+        startActivityForResult(intent, REQUEST_CREATOR);
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == REQUEST_CREATOR && resultCode == RESULT_OK){
+            setResult(RESULT_OK);
+            finish();
+        }
     }
 }

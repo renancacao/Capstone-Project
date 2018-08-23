@@ -17,7 +17,6 @@ public class DataBaseContract {
 
     public static final class MemeEntry implements BaseColumns {
 
-
         public static final Uri CONTENT_URI =
                 BASE_CONTENT_URI.buildUpon().appendPath(PATH_MEMES).build();
 
@@ -27,15 +26,11 @@ public class DataBaseContract {
         public static final String TABLE_NAME = "meme";
 
         public static final String COLUMN_NAME = "name";
-        public static final String COLUMN_PATH = "path";
         public static final String COLUMN_CREATION = "creationDate";
-        public static final String COLUMN_ALTERATION = "alterationDate";
-
 
     }
 
     public static final class GroupEntry implements BaseColumns {
-
 
         public static final Uri CONTENT_URI =
                 BASE_CONTENT_URI.buildUpon().appendPath(PATH_GROUP).build();
@@ -44,7 +39,6 @@ public class DataBaseContract {
 
         public static final String COLUMN_NAME = "name";
         public static final String COLUMN_IMAGE = "image";
-
 
     }
 
