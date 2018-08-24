@@ -125,7 +125,7 @@ public class EditActivity extends AppCompatActivity implements IconAdapter.IconC
 
         ContentValues values = new ContentValues();
         values.put(MemeEntry.COLUMN_NAME, editTextName.getText().toString());
-        values.put(MemeEntry.COLUMN_CREATION, Calendar.getInstance().toString());
+        values.put(MemeEntry.COLUMN_CREATION, Calendar.getInstance().getTime().toString());
         values.put(MemeEntry._ID, id_meme);
 
         Uri uriResult = getContentResolver().insert(MemeEntry.CONTENT_URI, values);

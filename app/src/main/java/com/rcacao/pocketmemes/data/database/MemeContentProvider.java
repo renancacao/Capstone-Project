@@ -74,19 +74,33 @@ public class MemeContentProvider extends ContentProvider {
 
         int match = sUriMatcher.match(uri);
         Cursor retCursor;
-        String idMeme;
-        String idGroup;
+        String sql;
 
         switch (match) {
 
             case MEMES:
-                retCursor = db.query(MemeEntry.TABLE_NAME, projection, selection,
-                        args, null, null, sortOrder);
+                sql = "SELECT m." + MemeEntry._ID + ",m." +
+                        MemeEntry.COLUMN_NAME + ",m." +
+                        MemeEntry.COLUMN_CREATION + " FROM (" +
+                        MemeEntry.TABLE_NAME + " AS m LEFT JOIN " + TagsEntry.TABLE_NAME + " AS t " +
+                        "ON t." + TagsEntry.COLUMN_ID_MEME + " = m." + MemeEntry._ID + ") LEFT JOIN " +
+                        GroupMemeEntry.TABLE_NAME + " AS g ON  g." + GroupMemeEntry.COLUMN_ID_MEME +
+                        " = m." + MemeEntry._ID + " WHERE (m." + MemeEntry.COLUMN_NAME + " LIKE ? OR " +
+                        "t." + TagsEntry.COLUMN_TAG + " LIKE ?) ";
+
+                if (args != null && args.length > 2) {
+                    sql = sql + " AND g." + GroupMemeEntry.COLUMN_ID_GROUP + "= ? ";
+                }
+
+                sql = sql + "GROUP BY m." + MemeEntry._ID + ",m." + MemeEntry.COLUMN_NAME + ", m." +
+                        MemeEntry.COLUMN_CREATION + " ORDER BY m." + sortOrder;
+
+                retCursor = db.rawQuery(sql, args);
                 break;
 
             case LAST_MEME:
                 retCursor = db.rawQuery("SELECT " + MemeEntry._ID + " FROM " +
-                        MemeEntry.TABLE_NAME + " ORDER BY "+ MemeEntry._ID +" DESC LIMIT 1 ",
+                                MemeEntry.TABLE_NAME + " ORDER BY " + MemeEntry._ID + " DESC LIMIT 1 ",
                         null);
                 break;
 
@@ -96,31 +110,21 @@ public class MemeContentProvider extends ContentProvider {
                 break;
 
             case GROUP_MEMES:
-                retCursor = db.query(GroupMemeEntry.TABLE_NAME, projection, selection,
-                        args, null, null, sortOrder);
+                sql = "SELECT " + GroupEntry._ID + "," + GroupEntry.COLUMN_NAME + "," +
+                        GroupEntry.COLUMN_IMAGE + " FROM " + GroupEntry.TABLE_NAME + " AS g INNER JOIN " +
+                        GroupMemeEntry.TABLE_NAME + " AS gm ON g." + GroupEntry._ID + "= gm."
+                        + GroupMemeEntry.COLUMN_ID_GROUP + " WHERE gm." +
+                        GroupMemeEntry.COLUMN_ID_MEME + "=? ORDER BY " + GroupEntry.COLUMN_NAME;
+                retCursor = db.rawQuery(sql, args);
                 break;
 
-            case GROUP_MEME_BY_IDS:
-                idMeme = uri.getPathSegments().get(1);
-                idGroup = uri.getPathSegments().get(2);
-
-                retCursor = db.query(GroupMemeEntry.TABLE_NAME, projection,
-                        GroupMemeEntry.COLUMN_ID_MEME + "=? and " +
-                                GroupMemeEntry.COLUMN_ID_GROUP + "=?",
-                        new String[]{idMeme, idGroup}, null, null, sortOrder);
-                break;
 
             case TAGS:
-                retCursor = db.query(TagsEntry.TABLE_NAME, projection, selection,
+                retCursor = db.query(TagsEntry.TABLE_NAME, projection,
+                        GroupMemeEntry.COLUMN_ID_MEME + "=?",
                         args, null, null, sortOrder);
                 break;
 
-            case TAGS_BY_ID:
-                idMeme = uri.getPathSegments().get(1);
-                retCursor = db.query(TagsEntry.TABLE_NAME, projection,
-                        GroupMemeEntry.COLUMN_ID_MEME + "=?",
-                        new String[]{idMeme}, null, null, sortOrder);
-                break;
 
             default:
                 throw new UnsupportedOperationException("Falha: " + uri);

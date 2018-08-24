@@ -1,6 +1,6 @@
 package com.rcacao.pocketmemes.data.models;
 
-class Group {
+public class Group {
 
     private int id;
     private int image;
@@ -10,6 +10,10 @@ class Group {
         this.id = id;
         this.image = image;
         this.name = name;
+    }
+
+    public Group() {
+
     }
 
     public int getId() {
