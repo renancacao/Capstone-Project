@@ -11,13 +11,17 @@ import android.support.v4.content.Loader;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 
 import com.rcacao.pocketmemes.R;
+import com.rcacao.pocketmemes.adapters.MemeAdapter;
 import com.rcacao.pocketmemes.data.database.DataBaseContract;
 import com.rcacao.pocketmemes.data.models.Meme;
 import com.rcacao.pocketmemes.loaders.MemesAsyncLoader;
@@ -28,7 +32,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Meme>> {
+public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Meme>>, MemeAdapter.ResultClickListener {
 
     private static final int NEWGROUP_REQUEST = 10;
     private static final int LOADER_MEMES = 1;
@@ -47,8 +51,16 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     @BindView(R.id.et_search)
     EditText etSearch;
-    private int MENU_ADD_ID = -1;
 
+    @BindView(R.id.recyclerView_memes)
+    RecyclerView recyclerViewMemes;
+
+    @BindView(R.id.progressbar)
+    ProgressBar progressBar;
+
+    private int MENU_ADD_ID = -1;
+    private MemeAdapter memeAdapter;
+    private List<Meme> memes = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,15 +69,22 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         ButterKnife.bind(this);
 
+        StaggeredGridLayoutManager lymg = new StaggeredGridLayoutManager(2,
+                StaggeredGridLayoutManager.VERTICAL);
+
+        memeAdapter = new MemeAdapter(this, memes);
+
+        recyclerViewMemes.setLayoutManager(lymg);
+        recyclerViewMemes.setAdapter(memeAdapter);
+
         setupMenuListener();
         loadMenu();
         loadMemes();
     }
 
     private void loadMemes() {
-
         getSupportLoaderManager().restartLoader(LOADER_MEMES, null, this);
-
+        progressBar.setVisibility(View.VISIBLE);
     }
 
     private void setupMenuListener() {
@@ -164,11 +183,19 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     @Override
     public void onLoadFinished(@NonNull Loader<List<Meme>> loader, List<Meme> data) {
-
+        memes = data;
+        memeAdapter.setMemes(memes);
+        memeAdapter.notifyDataSetChanged();
+        progressBar.setVisibility(View.INVISIBLE);
     }
 
     @Override
     public void onLoaderReset(@NonNull Loader<List<Meme>> loader) {
+
+    }
+
+    @Override
+    public void onMemeClick(int id) {
 
     }
 }

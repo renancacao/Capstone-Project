@@ -74,6 +74,8 @@ public class MemesAsyncLoader extends AsyncTaskLoader<List<Meme>> {
         Cursor result = getContext().getContentResolver().query(MemeEntry.CONTENT_URI,
                 null, null, queryArgs, order);
 
+        memes = new ArrayList<>();
+
         if (result != null) {
             if (result.moveToFirst()) {
                 do {

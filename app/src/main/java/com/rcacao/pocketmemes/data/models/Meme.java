@@ -1,5 +1,10 @@
 package com.rcacao.pocketmemes.data.models;
 
+import android.net.Uri;
+
+import com.rcacao.pocketmemes.MyUtils;
+
+import java.io.File;
 import java.util.List;
 
 public class Meme {
@@ -49,4 +54,13 @@ public class Meme {
     public void setGroups(List<Group> groups) {
         this.groups = groups;
     }
+
+    public Uri getImage() {
+        File file = new File(MyUtils.getFileName(id));
+        if (file.exists()){
+            return Uri.fromFile(file);
+        }
+        return null;
+    }
+
 }
