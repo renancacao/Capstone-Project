@@ -9,9 +9,12 @@ import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.rcacao.pocketmemes.R;
 import com.rcacao.pocketmemes.adapters.ResultAdapter;
@@ -58,6 +61,21 @@ public class WebSearchActivity extends AppCompatActivity implements
 
         glmg = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
 
+        setupListeners();
+
+    }
+
+    private void setupListeners() {
+        etSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    clickSearchMenu();
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 
     @OnClick(R.id.menu_search_send)

@@ -38,6 +38,7 @@
                     android:layout_marginEnd="@dimen/menu_margin"
                     android:id="@+id/et_search"
                     android:lines="1"
+                    android:imeOptions="actionSearch"
                     android:hint="@string/search_web"
                     android:maxLines="1"
                     android:inputType="text"
