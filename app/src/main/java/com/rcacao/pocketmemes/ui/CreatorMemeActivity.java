@@ -20,6 +20,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -330,8 +331,7 @@ public class CreatorMemeActivity extends AppCompatActivity  {
 
             String filename = MyUtils.getFileName(id);
             if (saveBitmap(filename)) {
-                Toast.makeText(this, String.format(getString(R.string.file_saved), filename),
-                        Toast.LENGTH_SHORT).show();
+                Log.i(this.getLocalClassName(), String.format(getString(R.string.file_saved), filename));
 
                 Intent intent = new Intent(this, EditActivity.class);
                 intent.putExtra(EXTRA_ID, id);

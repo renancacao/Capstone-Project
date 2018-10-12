@@ -4,28 +4,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:animateLayoutChanges="true"
-    >
+    android:animateLayoutChanges="true">
 
     <ProgressBar
+        android:id="@+id/progressbar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical|center_horizontal"
-        tools:visibility="visible"
         android:visibility="invisible"
-        android:id="@+id/progressbar"/>
+        tools:visibility="visible" />
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fitsSystemWindows="true"
+        android:animateLayoutChanges="true"
         android:elevation="@dimen/menu_elevation"
-        android:animateLayoutChanges="true">
+        android:fitsSystemWindows="true">
 
         <android.support.v7.widget.Toolbar
+            android:id="@+id/search_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?actionBarSize"
-            android:id="@+id/search_toolbar"
             android:background="@color/searchToolbar"
             android:visibility="gone">
 
@@ -39,39 +38,40 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:src="@drawable/ic_arrow_24dp"
-                    app:layout_constraintStart_toStartOf="parent"/>
+                    app:layout_constraintStart_toStartOf="parent" />
 
                 <EditText
+                    android:id="@+id/et_search"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginStart="@dimen/menu_margin"
                     android:layout_marginEnd="@dimen/menu_margin"
-                    android:id="@+id/et_search"
                     android:hint="@string/search_meme"
+                    android:imeOptions="actionSearch"
+                    android:inputType="text"
                     android:lines="1"
                     android:maxLines="1"
-                    android:inputType="text"
                     app:layout_constraintEnd_toStartOf="@+id/menu_search_send"
                     app:layout_constraintStart_toEndOf="@+id/menu_back" />
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/ic_search_24dp"
                     android:id="@+id/menu_search_send"
                     style="@style/IconDark"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_marginEnd="@dimen/menu_margin"
-                    app:layout_constraintEnd_toStartOf="@+id/menu_clear"/>
+                    android:src="@drawable/ic_search_24dp"
+                    app:layout_constraintEnd_toStartOf="@+id/menu_clear" />
 
 
                 <ImageView
+                    android:id="@+id/menu_clear"
+                    style="@style/IconDark"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:src="@drawable/ic_clear_24dp"
-                    style="@style/IconDark"
-                    android:id="@+id/menu_clear"
                     android:layout_marginEnd="@dimen/menu_margin_end"
-                    app:layout_constraintEnd_toEndOf="parent"/>
+                    android:src="@drawable/ic_clear_24dp"
+                    app:layout_constraintEnd_toEndOf="parent" />
 
 
             </android.support.constraint.ConstraintLayout>
@@ -79,9 +79,9 @@
         </android.support.v7.widget.Toolbar>
 
         <android.support.v7.widget.Toolbar
+            android:id="@+id/main_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?actionBarSize"
-            android:id="@+id/main_toolbar"
             android:visibility="visible">
 
             <android.support.constraint.ConstraintLayout
@@ -93,7 +93,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:src="@drawable/ic_menu_24dp"
-                    app:layout_constraintStart_toStartOf="parent"/>
+                    app:layout_constraintStart_toStartOf="parent" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -107,21 +107,21 @@
                     app:layout_constraintStart_toEndOf="@+id/menu_slide" />
 
                 <ImageView
+                    android:id="@+id/menu_search"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:src="@drawable/ic_search_24dp"
-                    android:id="@+id/menu_search"
                     android:layout_marginEnd="@dimen/menu_margin"
-                    app:layout_constraintEnd_toStartOf="@+id/menu_reorder"/>
+                    android:src="@drawable/ic_search_24dp"
+                    app:layout_constraintEnd_toStartOf="@+id/menu_reorder" />
 
 
                 <ImageView
+                    android:id="@+id/menu_reorder"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:src="@drawable/ic_filter_list_24dp"
-                    android:id="@+id/menu_reorder"
                     android:layout_marginEnd="@dimen/menu_margin_end"
-                    app:layout_constraintEnd_toEndOf="parent"/>
+                    android:src="@drawable/ic_filter_list_24dp"
+                    app:layout_constraintEnd_toEndOf="parent" />
 
 
             </android.support.constraint.ConstraintLayout>
@@ -131,21 +131,90 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.v7.widget.RecyclerView
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/recyclerView_memes"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:padding="@dimen/minimum_pad" />
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <android.support.constraint.Group
+            android:layout_width="match_parent"
+            android:layout_height="10dp" />
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/minimum_pad"
+            android:layout_marginTop="@dimen/minimum_pad"
+            android:layout_marginEnd="@dimen/minimum_pad"
+            android:background="@color/colorPrimaryLight"
+            android:padding="@dimen/minimum_pad"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="visible">
+
+            <ImageView
+                android:id="@+id/image_group"
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_size"
+                android:tint="@color/icon"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/ic_help" />
+
+            <TextView
+                android:id="@+id/textview_group"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/minimum_pad"
+                android:layout_marginEnd="@dimen/minimum_pad"
+                android:gravity="center_vertical"
+                android:textColor="@color/icon"
+                app:layout_constraintBottom_toBottomOf="@+id/image_group"
+                app:layout_constraintEnd_toStartOf="@+id/image_clear_group"
+                app:layout_constraintStart_toEndOf="@+id/image_group"
+                app:layout_constraintTop_toTopOf="@+id/image_group"
+                tools:text="Grupo selecionado" />
+
+            <ImageView
+                android:id="@+id/image_clear_group"
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_size"
+                android:tint="@color/icon"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:src="@drawable/ic_clear_24dp" />
+
+
+        </android.support.constraint.ConstraintLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView_memes"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/minimum_pad"
+            android:layout_marginTop="@dimen/minimum_pad"
+            android:layout_marginEnd="@dimen/minimum_pad"
+            android:layout_marginBottom="@dimen/minimum_pad"
+            android:padding="@dimen/minimum_pad"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+    </android.support.constraint.ConstraintLayout>
+
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fabNewMeme"
         android:layout_width="@dimen/fab_size"
         android:layout_height="@dimen/fab_size"
-        android:src="@drawable/ic_add_24dp"
-        android:elevation="@dimen/fab_elevation"
         android:layout_gravity="end|bottom"
-        android:layout_margin="@dimen/fab_margin"/>
+        android:layout_margin="@dimen/fab_margin"
+        android:elevation="@dimen/fab_elevation"
+        android:src="@drawable/ic_add_24dp" />
 
 
 </android.support.design.widget.CoordinatorLayout>

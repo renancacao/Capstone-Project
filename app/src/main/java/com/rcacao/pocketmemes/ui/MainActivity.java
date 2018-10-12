@@ -1,5 +1,6 @@
 package com.rcacao.pocketmemes.ui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -14,11 +15,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.rcacao.pocketmemes.R;
 import com.rcacao.pocketmemes.adapters.MemeAdapter;
@@ -35,6 +40,8 @@ import butterknife.OnClick;
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Meme>>, MemeAdapter.ResultClickListener {
 
     private static final int NEWGROUP_REQUEST = 10;
+    private static final int NEWMEME_REQUEST = 15;
+
     private static final int LOADER_MEMES = 1;
 
     @BindView(R.id.nav_view)
@@ -62,6 +69,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private MemeAdapter memeAdapter;
     private List<Meme> memes = null;
 
+    private String selectedGroup = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,11 +88,34 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         setupMenuListener();
         loadMenu();
-        loadMemes();
+        loadMemes("", "");
+
+        setupListeners();
     }
 
-    private void loadMemes() {
-        getSupportLoaderManager().restartLoader(LOADER_MEMES, null, this);
+    private void setupListeners() {
+        etSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    clickSearchMenu();
+                    return true;
+                }
+                return false;
+            }
+        });
+    }
+
+    @OnClick(R.id.et_search)
+    void clickSearchMenu() {
+        loadMemes(etSearch.getText().toString(), selectedGroup);
+    }
+
+    private void loadMemes(String search, String idGroup) {
+        Bundle args = new Bundle();
+        args.putString(MemesAsyncLoader.ARG_SEARCH, search);
+        args.putString(MemesAsyncLoader.ARG_GROUP, idGroup);
+        getSupportLoaderManager().restartLoader(LOADER_MEMES, args, this);
         progressBar.setVisibility(View.VISIBLE);
     }
 
@@ -93,6 +125,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 if (item.getItemId() == MENU_ADD_ID) {
                     openNewGroup();
+                } else {
+                    selectedGroup = String.valueOf(item.getItemId());
+                    loadMemes(etSearch.getText().toString(), selectedGroup);
                 }
                 return true;
             }
@@ -114,12 +149,19 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         searchToolbar.setVisibility(View.VISIBLE);
         mainToolbar.setVisibility(View.GONE);
         etSearch.requestFocus();
+        final InputMethodManager inputMethodManager =
+                (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (inputMethodManager != null) {
+            inputMethodManager.showSoftInput(etSearch, InputMethodManager.SHOW_IMPLICIT);
+        }
     }
 
     @OnClick(R.id.menu_back)
     void clickMenuBack() {
         mainToolbar.setVisibility(View.VISIBLE);
         searchToolbar.setVisibility(View.GONE);
+        etSearch.setText("");
+        loadMemes("", selectedGroup);
     }
 
     @OnClick(R.id.menu_clear)
@@ -135,9 +177,11 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == NEWGROUP_REQUEST) {
-            if (resultCode == RESULT_OK) {
+        if (resultCode == RESULT_OK) {
+            if (requestCode == NEWGROUP_REQUEST) {
                 loadMenu();
+            } else if (requestCode == NEWMEME_REQUEST) {
+                loadMemes(etSearch.getText().toString(), selectedGroup);
             }
         }
     }
@@ -145,7 +189,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @OnClick(R.id.fabNewMeme)
     void clickFabNew() {
         Intent intent = new Intent(this, WebSearchActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent, NEWMEME_REQUEST);
     }
 
     private void loadMenu() {
