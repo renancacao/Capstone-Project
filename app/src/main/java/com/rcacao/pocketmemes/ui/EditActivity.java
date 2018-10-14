@@ -12,7 +12,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.rcacao.pocketmemes.MyUtils;
+import com.rcacao.pocketmemes.FileUtils;
 import com.rcacao.pocketmemes.R;
 import com.rcacao.pocketmemes.adapters.IconAdapter;
 import com.rcacao.pocketmemes.data.database.DataBaseContract;
@@ -29,13 +29,13 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static android.nfc.NfcAdapter.EXTRA_ID;
 import static com.rcacao.pocketmemes.data.database.DataBaseContract.GroupEntry;
 import static com.rcacao.pocketmemes.data.database.DataBaseContract.MemeEntry;
 import static com.rcacao.pocketmemes.data.database.DataBaseContract.TagsEntry;
 
 public class EditActivity extends AppCompatActivity implements IconAdapter.IconClickListener {
 
+    public static final String EXTRA_FILE_NAME = "filename";
     @BindView(R.id.image_meme)
     ImageView imageMeme;
 
@@ -48,10 +48,9 @@ public class EditActivity extends AppCompatActivity implements IconAdapter.IconC
     @BindView(R.id.editText_tags)
     EditText editTextTags;
 
-    private int id_meme = -1;
-
     private IconAdapter adapter;
     private List<GroupIcon> groups;
+    private String fileName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,13 +60,12 @@ public class EditActivity extends AppCompatActivity implements IconAdapter.IconC
         ButterKnife.bind(this);
 
         if (getIntent() != null) {
-            id_meme = getIntent().getIntExtra(EXTRA_ID, -1);
+            fileName = getIntent().getStringExtra(EXTRA_FILE_NAME);
         }
-        if (id_meme == -1) {
+        if (fileName == null || fileName.isEmpty()) {
             finish();
         }
-
-        openImage(id_meme);
+        openImage(fileName);
 
         groups = getGroupsIcons();
         adapter = new IconAdapter(this, groups);
@@ -81,8 +79,8 @@ public class EditActivity extends AppCompatActivity implements IconAdapter.IconC
         recyclerViewGroups.setLayoutManager(layoutManager);
     }
 
-    private void openImage(int id) {
-        String filename = MyUtils.getFileName(id);
+    private void openImage(String file) {
+        String filename = FileUtils.getFileNameWithPath(file);
         Uri uri = Uri.fromFile(new File(filename));
         Picasso.get().load(uri).memoryPolicy(MemoryPolicy.NO_CACHE).into(imageMeme);
     }
@@ -92,13 +90,13 @@ public class EditActivity extends AppCompatActivity implements IconAdapter.IconC
         List<GroupIcon> list = new ArrayList<>();
 
         Cursor result = getContentResolver().query(GroupEntry.CONTENT_URI,
-                null, null, null, GroupEntry.ROWID);
+                null, null, null, GroupEntry._ID);
 
         if (result != null && result.moveToFirst()) {
             do {
                 GroupIcon icon = new GroupIcon(
                         result.getInt(result.getColumnIndex(GroupEntry.COLUMN_IMAGE)));
-                icon.setId(result.getInt(result.getColumnIndex(GroupEntry.ROWID)));
+                icon.setId(result.getInt(result.getColumnIndex(GroupEntry._ID)));
                 list.add(icon);
             }
             while (result.moveToNext());
@@ -125,11 +123,12 @@ public class EditActivity extends AppCompatActivity implements IconAdapter.IconC
 
         ContentValues values = new ContentValues();
         values.put(MemeEntry.COLUMN_NAME, editTextName.getText().toString());
+        values.put(MemeEntry.COLUMN_IMAGE, fileName);
         values.put(MemeEntry.COLUMN_CREATION, Calendar.getInstance().getTime().toString());
-        values.put(MemeEntry._ID, id_meme);
 
         Uri uriResult = getContentResolver().insert(MemeEntry.CONTENT_URI, values);
         if (uriResult != null) {
+            int id = Integer.parseInt(uriResult.getLastPathSegment());
             if (!editTextTags.getText().toString().trim().isEmpty()) {
 
                 String[] tags = editTextTags.getText().toString().split(",");
@@ -137,7 +136,7 @@ public class EditActivity extends AppCompatActivity implements IconAdapter.IconC
                 for (String tag : tags) {
                     if (!tag.trim().isEmpty()) {
                         valuesTags = new ContentValues();
-                        valuesTags.put(TagsEntry.COLUMN_ID_MEME, id_meme);
+                        valuesTags.put(TagsEntry.COLUMN_ID_MEME, id);
                         valuesTags.put(TagsEntry.COLUMN_TAG, tag.trim());
                         getContentResolver().insert(TagsEntry.CONTENT_URI, valuesTags);
                     }
@@ -149,7 +148,7 @@ public class EditActivity extends AppCompatActivity implements IconAdapter.IconC
             for (GroupIcon group : groups) {
                 if (group.isChecked()) {
                     valuesGroups = new ContentValues();
-                    valuesGroups.put(DataBaseContract.GroupMemeEntry.COLUMN_ID_MEME, id_meme);
+                    valuesGroups.put(DataBaseContract.GroupMemeEntry.COLUMN_ID_MEME, id);
                     valuesGroups.put(DataBaseContract.GroupMemeEntry.COLUMN_ID_GROUP, group.getId());
                     getContentResolver().insert(DataBaseContract.GroupMemeEntry.CONTENT_URI, valuesGroups);
                 }

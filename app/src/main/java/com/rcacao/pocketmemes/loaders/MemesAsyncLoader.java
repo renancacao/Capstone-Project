@@ -57,7 +57,7 @@ public class MemesAsyncLoader extends AsyncTaskLoader<List<Meme>> {
             }
 
             if (args.containsKey(ARG_GROUP)) {
-                group = String.valueOf(args.getInt(ARG_GROUP));
+                group = args.getString(ARG_GROUP);
             }
 
             if (args.containsKey(ARG_ORDER)) {
@@ -84,6 +84,7 @@ public class MemesAsyncLoader extends AsyncTaskLoader<List<Meme>> {
                     meme.setId(result.getInt(result.getColumnIndex(MemeEntry._ID)));
                     meme.setName(result.getString(result.getColumnIndex(MemeEntry.COLUMN_NAME)));
                     meme.setCreationDate(result.getString(result.getColumnIndex(MemeEntry.COLUMN_CREATION)));
+                    meme.setImage(result.getString(result.getColumnIndex(MemeEntry.COLUMN_IMAGE)));
 
                     meme.setTags(getMemeTags(meme.getId()));
                     meme.setGroups(getMemeGroups(meme.getId()));
@@ -109,7 +110,7 @@ public class MemesAsyncLoader extends AsyncTaskLoader<List<Meme>> {
             if (result.moveToFirst()) {
                 do {
                     Group group = new Group();
-                    group.setId(result.getInt(result.getColumnIndex(GroupEntry.ROWID)));
+                    group.setId(result.getInt(result.getColumnIndex(GroupEntry._ID)));
                     group.setName(result.getString(result.getColumnIndex(GroupEntry.COLUMN_NAME)));
                     group.setImage(result.getInt(result.getColumnIndex(GroupEntry.COLUMN_IMAGE)));
                     groups.add(group);

@@ -8,7 +8,6 @@ import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteException;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -82,6 +81,7 @@ public class MemeContentProvider extends ContentProvider {
             case MEMES:
                 sql = "SELECT m." + MemeEntry._ID + ",m." +
                         MemeEntry.COLUMN_NAME + ",m." +
+                        MemeEntry.COLUMN_IMAGE + ",m." +
                         MemeEntry.COLUMN_CREATION + " FROM (" +
                         MemeEntry.TABLE_NAME + " AS m LEFT JOIN " + TagsEntry.TABLE_NAME + " AS t " +
                         "ON t." + TagsEntry.COLUMN_ID_MEME + " = m." + MemeEntry._ID + ") LEFT JOIN " +
@@ -111,9 +111,9 @@ public class MemeContentProvider extends ContentProvider {
                 break;
 
             case GROUP_MEMES:
-                sql = "SELECT " + GroupEntry.ROWID + "," + GroupEntry.COLUMN_NAME + "," +
+                sql = "SELECT " + GroupEntry._ID + "," + GroupEntry.COLUMN_NAME + "," +
                         GroupEntry.COLUMN_IMAGE + " FROM " + GroupEntry.TABLE_NAME + " AS g INNER JOIN " +
-                        GroupMemeEntry.TABLE_NAME + " AS gm ON g." + GroupEntry.ROWID + "= gm."
+                        GroupMemeEntry.TABLE_NAME + " AS gm ON g." + GroupEntry._ID + "= gm."
                         + GroupMemeEntry.COLUMN_ID_GROUP + " WHERE gm." +
                         GroupMemeEntry.COLUMN_ID_MEME + "=? ORDER BY " + GroupEntry.COLUMN_NAME;
                 retCursor = db.rawQuery(sql, args);

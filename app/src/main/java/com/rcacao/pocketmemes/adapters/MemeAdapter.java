@@ -48,7 +48,7 @@ public class MemeAdapter extends RecyclerView.Adapter<MemeAdapter.ResultHolder> 
     @Override
     public void onBindViewHolder(@NonNull ResultHolder holder, int position) {
 
-        Picasso.get().load(memes.get(position).getImage())
+        Picasso.get().load(memes.get(position).getImageUri())
                 .into(holder.imageResult);
 
     }

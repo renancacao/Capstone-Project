@@ -198,7 +198,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         Menu menu = navigationView.getMenu();
         menu.clear();
         String[] project = new String[]{
-                DataBaseContract.GroupEntry.ROWID,
+                DataBaseContract.GroupEntry._ID,
                 DataBaseContract.GroupEntry.COLUMN_NAME,
                 DataBaseContract.GroupEntry.COLUMN_IMAGE};
 

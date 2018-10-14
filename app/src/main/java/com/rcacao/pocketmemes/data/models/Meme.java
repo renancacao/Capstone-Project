@@ -2,7 +2,7 @@ package com.rcacao.pocketmemes.data.models;
 
 import android.net.Uri;
 
-import com.rcacao.pocketmemes.MyUtils;
+import com.rcacao.pocketmemes.FileUtils;
 
 import java.io.File;
 import java.util.List;
@@ -14,6 +14,7 @@ public class Meme {
     private String creationDate;
     private List<String> tags;
     private List<Group> groups;
+    private String image;
 
     public int getId() {
         return id;
@@ -55,8 +56,17 @@ public class Meme {
         this.groups = groups;
     }
 
-    public Uri getImage() {
-        File file = new File(MyUtils.getFileName(id));
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public Uri getImageUri() {
+        File file = new File(FileUtils.getFileNameWithPath(image));
         if (file.exists()){
             return Uri.fromFile(file);
         }
