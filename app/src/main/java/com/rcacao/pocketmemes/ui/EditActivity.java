@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.rcacao.pocketmemes.MyUtils;
 import com.rcacao.pocketmemes.R;
 import com.rcacao.pocketmemes.adapters.IconAdapter;
+import com.rcacao.pocketmemes.data.database.DataBaseContract;
 import com.rcacao.pocketmemes.data.models.GroupIcon;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
@@ -30,7 +31,6 @@ import butterknife.OnClick;
 
 import static android.nfc.NfcAdapter.EXTRA_ID;
 import static com.rcacao.pocketmemes.data.database.DataBaseContract.GroupEntry;
-import static com.rcacao.pocketmemes.data.database.DataBaseContract.GroupMemeEntry;
 import static com.rcacao.pocketmemes.data.database.DataBaseContract.MemeEntry;
 import static com.rcacao.pocketmemes.data.database.DataBaseContract.TagsEntry;
 
@@ -92,13 +92,13 @@ public class EditActivity extends AppCompatActivity implements IconAdapter.IconC
         List<GroupIcon> list = new ArrayList<>();
 
         Cursor result = getContentResolver().query(GroupEntry.CONTENT_URI,
-                null, null, null, GroupEntry._ID);
+                null, null, null, GroupEntry.ROWID);
 
         if (result != null && result.moveToFirst()) {
             do {
                 GroupIcon icon = new GroupIcon(
                         result.getInt(result.getColumnIndex(GroupEntry.COLUMN_IMAGE)));
-                icon.setId(result.getInt(result.getColumnIndex(GroupEntry._ID)));
+                icon.setId(result.getInt(result.getColumnIndex(GroupEntry.ROWID)));
                 list.add(icon);
             }
             while (result.moveToNext());
@@ -143,16 +143,18 @@ public class EditActivity extends AppCompatActivity implements IconAdapter.IconC
                     }
                 }
 
-                ContentValues valuesGroups;
-                for (GroupIcon group : groups) {
-                    if (group.isChecked()) {
-                        valuesGroups = new ContentValues();
-                        valuesGroups.put(GroupMemeEntry.COLUMN_ID_MEME, id_meme);
-                        valuesGroups.put(GroupMemeEntry.COLUMN_ID_GROUP, group.getId());
-                        getContentResolver().insert(GroupMemeEntry.CONTENT_URI, valuesGroups);
-                    }
+            }
+
+            ContentValues valuesGroups;
+            for (GroupIcon group : groups) {
+                if (group.isChecked()) {
+                    valuesGroups = new ContentValues();
+                    valuesGroups.put(DataBaseContract.GroupMemeEntry.COLUMN_ID_MEME, id_meme);
+                    valuesGroups.put(DataBaseContract.GroupMemeEntry.COLUMN_ID_GROUP, group.getId());
+                    getContentResolver().insert(DataBaseContract.GroupMemeEntry.CONTENT_URI, valuesGroups);
                 }
             }
+
             Toast.makeText(this, R.string.meme_saved, Toast.LENGTH_SHORT).show();
             this.setResult(RESULT_OK);
             finish();

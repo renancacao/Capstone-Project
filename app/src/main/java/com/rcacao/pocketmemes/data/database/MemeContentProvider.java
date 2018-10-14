@@ -8,6 +8,7 @@ import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -110,9 +111,9 @@ public class MemeContentProvider extends ContentProvider {
                 break;
 
             case GROUP_MEMES:
-                sql = "SELECT " + GroupEntry._ID + "," + GroupEntry.COLUMN_NAME + "," +
+                sql = "SELECT " + GroupEntry.ROWID + "," + GroupEntry.COLUMN_NAME + "," +
                         GroupEntry.COLUMN_IMAGE + " FROM " + GroupEntry.TABLE_NAME + " AS g INNER JOIN " +
-                        GroupMemeEntry.TABLE_NAME + " AS gm ON g." + GroupEntry._ID + "= gm."
+                        GroupMemeEntry.TABLE_NAME + " AS gm ON g." + GroupEntry.ROWID + "= gm."
                         + GroupMemeEntry.COLUMN_ID_GROUP + " WHERE gm." +
                         GroupMemeEntry.COLUMN_ID_MEME + "=? ORDER BY " + GroupEntry.COLUMN_NAME;
                 retCursor = db.rawQuery(sql, args);
@@ -175,13 +176,18 @@ public class MemeContentProvider extends ContentProvider {
                 break;
 
             case GROUP_MEMES:
-                id = db.insert(GroupMemeEntry.TABLE_NAME, null, values);
-                if (id > 0) {
-                    returnUri = ContentUris.withAppendedId(GroupMemeEntry.CONTENT_URI, id);
-                } else {
+                try{
+                    id = db.insert(GroupMemeEntry.TABLE_NAME, null, values);
+                    if (id > 0) {
+                        returnUri = ContentUris.withAppendedId(GroupMemeEntry.CONTENT_URI, id);
+                    } else {
+                        throw new android.database.SQLException("Falha: " + uri);
+                    }
+                    break;
+                }
+                catch (SQLiteConstraintException e){
                     throw new android.database.SQLException("Falha: " + uri);
                 }
-                break;
 
             case TAGS:
                 id = db.insert(TagsEntry.TABLE_NAME, null, values);

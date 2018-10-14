@@ -109,7 +109,7 @@ public class MemesAsyncLoader extends AsyncTaskLoader<List<Meme>> {
             if (result.moveToFirst()) {
                 do {
                     Group group = new Group();
-                    group.setId(result.getInt(result.getColumnIndex(GroupEntry._ID)));
+                    group.setId(result.getInt(result.getColumnIndex(GroupEntry.ROWID)));
                     group.setName(result.getString(result.getColumnIndex(GroupEntry.COLUMN_NAME)));
                     group.setImage(result.getInt(result.getColumnIndex(GroupEntry.COLUMN_IMAGE)));
                     groups.add(group);

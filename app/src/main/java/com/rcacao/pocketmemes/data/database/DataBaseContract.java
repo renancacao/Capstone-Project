@@ -29,7 +29,7 @@ public class DataBaseContract {
 
     }
 
-    public static final class GroupEntry implements BaseColumns {
+    public static final class GroupEntry  {
 
         public static final Uri CONTENT_URI =
                 BASE_CONTENT_URI.buildUpon().appendPath(PATH_GROUP).build();
@@ -38,6 +38,7 @@ public class DataBaseContract {
         public static final String COLUMN_NAME = "name";
         public static final String COLUMN_IMAGE = "image";
 
+        public static final String ROWID = "rowid";
     }
 
     public static final class GroupMemeEntry implements BaseColumns {

@@ -108,6 +108,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     @OnClick(R.id.et_search)
     void clickSearchMenu() {
+
         loadMemes(etSearch.getText().toString(), selectedGroup);
     }
 
@@ -168,6 +169,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     void clickMenuClear() {
         etSearch.setText("");
         etSearch.requestFocus();
+        loadMemes(etSearch.getText().toString(), selectedGroup);
     }
 
     @OnClick(R.id.menu_search_send)
@@ -196,7 +198,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         Menu menu = navigationView.getMenu();
         menu.clear();
         String[] project = new String[]{
-                DataBaseContract.GroupEntry._ID,
+                DataBaseContract.GroupEntry.ROWID,
                 DataBaseContract.GroupEntry.COLUMN_NAME,
                 DataBaseContract.GroupEntry.COLUMN_IMAGE};
 
