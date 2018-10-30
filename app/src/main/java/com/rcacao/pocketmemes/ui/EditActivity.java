@@ -33,7 +33,7 @@ import static com.rcacao.pocketmemes.data.database.DataBaseContract.GroupEntry;
 import static com.rcacao.pocketmemes.data.database.DataBaseContract.MemeEntry;
 import static com.rcacao.pocketmemes.data.database.DataBaseContract.TagsEntry;
 
-public class EditActivity extends AppCompatActivity implements IconAdapter.IconClickListener {
+public class EditActivity extends BaseActivity implements IconAdapter.IconClickListener {
 
     public static final String EXTRA_FILE_NAME = "filename";
     @BindView(R.id.image_meme)
@@ -56,7 +56,7 @@ public class EditActivity extends AppCompatActivity implements IconAdapter.IconC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit);
-
+        setBarColor(R.color.webSearchToolbarDark);
         ButterKnife.bind(this);
 
         if (getIntent() != null) {

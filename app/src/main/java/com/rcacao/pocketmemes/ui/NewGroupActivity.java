@@ -24,7 +24,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class NewGroupActivity extends AppCompatActivity implements IconAdapter.IconClickListener {
+public class NewGroupActivity extends BaseActivity implements IconAdapter.IconClickListener {
 
 
     @BindView(R.id.recyclerView_icons)
@@ -45,7 +45,7 @@ public class NewGroupActivity extends AppCompatActivity implements IconAdapter.I
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_group);
-
+        setBarColor(R.color.colorPrimaryDark);
         ButterKnife.bind(this);
 
         icons = Constants.getIcons();

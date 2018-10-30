@@ -28,7 +28,7 @@ import butterknife.OnClick;
 
 import static com.rcacao.pocketmemes.ui.CreatorMemeActivity.ARG_URL_IMAGE;
 
-public class WebSearchActivity extends AppCompatActivity implements
+public class WebSearchActivity extends BaseActivity implements
         LoaderManager.LoaderCallbacks<SearchResult>, ResultAdapter.ResultClickListener {
 
     private static final int ID_LOADER = 0;
@@ -52,7 +52,7 @@ public class WebSearchActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web_search);
-
+        setBarColor(R.color.webSearchToolbarDark);
         ButterKnife.bind(this);
 
 

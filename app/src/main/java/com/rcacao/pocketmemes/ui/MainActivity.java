@@ -6,12 +6,13 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
@@ -22,6 +23,7 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -37,7 +39,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Meme>>, MemeAdapter.ResultClickListener {
+public class MainActivity extends BaseActivity implements LoaderManager.LoaderCallbacks<List<Meme>>, MemeAdapter.ResultClickListener {
 
     private static final int NEWGROUP_REQUEST = 10;
     private static final int NEWMEME_REQUEST = 15;
@@ -65,6 +67,18 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @BindView(R.id.progressbar)
     ProgressBar progressBar;
 
+    @BindView(R.id.group_layout)
+    ConstraintLayout groupLayout;
+
+    @BindView(R.id.image_group)
+    ImageView imageGroup;
+
+    @BindView(R.id.textview_group)
+    TextView textViewGroup;
+
+    @BindView(R.id.fabNewMeme)
+    FloatingActionButton fabNewMeme;
+
     private int MENU_ADD_ID = -1;
     private MemeAdapter memeAdapter;
     private List<Meme> memes = null;
@@ -75,6 +89,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        setBarColor(R.color.colorPrimaryDark);
 
         ButterKnife.bind(this);
 
@@ -106,9 +121,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         });
     }
 
-    @OnClick(R.id.et_search)
+    @OnClick(R.id.menu_search_send)
     void clickSearchMenu() {
-
         loadMemes(etSearch.getText().toString(), selectedGroup);
     }
 
@@ -127,17 +141,36 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 if (item.getItemId() == MENU_ADD_ID) {
                     openNewGroup();
                 } else {
-                    selectedGroup = String.valueOf(item.getItemId());
-                    loadMemes(etSearch.getText().toString(), selectedGroup);
+                    selectGroup(item);
+
                 }
                 return true;
             }
         });
     }
 
+    private void selectGroup(@NonNull MenuItem item) {
+        selectedGroup = String.valueOf(item.getItemId());
+        groupLayout.setVisibility(View.VISIBLE);
+        imageGroup.setImageDrawable(item.getIcon());
+        textViewGroup.setText(item.getTitle());
+        loadMemes(etSearch.getText().toString(), selectedGroup);
+        drawerLayout.closeDrawer(GravityCompat.START);
+    }
+
+    @OnClick(R.id.image_clear_group)
+    void clickClearGroup() {
+        selectedGroup = "";
+        groupLayout.setVisibility(View.GONE);
+        loadMemes(etSearch.getText().toString(), selectedGroup);
+    }
+
+
     private void openNewGroup() {
         Intent intent = new Intent(this, NewGroupActivity.class);
         startActivityForResult(intent, NEWGROUP_REQUEST);
+        drawerLayout.closeDrawer(GravityCompat.START);
+
     }
 
     @OnClick(R.id.menu_slide)
@@ -147,21 +180,22 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     @OnClick(R.id.menu_search)
     void clickMenuSearch() {
+        setBarColor(R.color.searchToolbarDark);
         searchToolbar.setVisibility(View.VISIBLE);
         mainToolbar.setVisibility(View.GONE);
-        etSearch.requestFocus();
-        final InputMethodManager inputMethodManager =
-                (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
-        if (inputMethodManager != null) {
-            inputMethodManager.showSoftInput(etSearch, InputMethodManager.SHOW_IMPLICIT);
-        }
+        fabNewMeme.setVisibility(View.INVISIBLE);
+        showInput(etSearch);
     }
+
 
     @OnClick(R.id.menu_back)
     void clickMenuBack() {
+        setBarColor(R.color.colorPrimaryDark);
         mainToolbar.setVisibility(View.VISIBLE);
         searchToolbar.setVisibility(View.GONE);
         etSearch.setText("");
+        fabNewMeme.setVisibility(View.VISIBLE);
+        closeInput();
         loadMemes("", selectedGroup);
     }
 
@@ -172,10 +206,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         loadMemes(etSearch.getText().toString(), selectedGroup);
     }
 
-    @OnClick(R.id.menu_search_send)
-    void clickSearchSend() {
-
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

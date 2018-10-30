@@ -5,7 +5,7 @@
     <color name="colorPrimaryDark">#e47451</color>
     <color name="colorAccent">#1976d2</color>
     <color name="searchToolbar">#d7ccc8</color>
-    <color name="searchToolbarDark">#bcaaa4</color>
+    <color name="searchToolbarDark">#a1887f</color>
     <color name="webSearchToolbar">#4fc3f7</color>
     <color name="webSearchToolbarDark">#0288d1</color>
     <color name="icon">#ffffff</color>
