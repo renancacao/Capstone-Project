@@ -134,14 +134,12 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <android.support.constraint.Group
-            android:layout_width="match_parent"
-            android:layout_height="10dp" />
 
         <android.support.constraint.ConstraintLayout
-            android:id="@+id/linearLayout"
+            android:id="@+id/group_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/minimum_pad"
@@ -160,6 +158,7 @@
                 android:layout_width="@dimen/icon_size"
                 android:layout_height="@dimen/icon_size"
                 android:tint="@color/icon"
+                android:layout_margin="@dimen/minimum_pad"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:src="@drawable/ic_help" />
@@ -202,7 +201,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+            app:layout_constraintTop_toBottomOf="@+id/group_layout" />
 
     </android.support.constraint.ConstraintLayout>
 

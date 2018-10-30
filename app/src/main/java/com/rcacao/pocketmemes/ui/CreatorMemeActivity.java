@@ -32,7 +32,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class CreatorMemeActivity extends AppCompatActivity {
+public class CreatorMemeActivity extends BaseActivity {
 
     public static final String ARG_URL_IMAGE = "url_image";
     private static final int REQUEST_EDIT = 10;
@@ -95,6 +95,7 @@ public class CreatorMemeActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_creator_meme);
+        setBarColor(R.color.webSearchToolbarDark);
         ButterKnife.bind(this);
 
         if (getIntent() != null) {
