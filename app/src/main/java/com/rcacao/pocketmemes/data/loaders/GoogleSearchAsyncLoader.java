@@ -1,4 +1,4 @@
-package com.rcacao.pocketmemes.loaders;
+package com.rcacao.pocketmemes.data.loaders;
 
 import android.content.Context;
 import android.os.Bundle;

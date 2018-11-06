@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
@@ -20,7 +19,7 @@ import com.rcacao.pocketmemes.R;
 import com.rcacao.pocketmemes.adapters.ResultAdapter;
 import com.rcacao.pocketmemes.data.models.ResultItem;
 import com.rcacao.pocketmemes.data.models.SearchResult;
-import com.rcacao.pocketmemes.loaders.GoogleSearchAsyncLoader;
+import com.rcacao.pocketmemes.data.loaders.GoogleSearchAsyncLoader;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

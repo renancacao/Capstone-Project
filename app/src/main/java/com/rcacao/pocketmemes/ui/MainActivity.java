@@ -1,7 +1,7 @@
 package com.rcacao.pocketmemes.ui;
 
-import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -18,20 +18,22 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.rcacao.pocketmemes.R;
 import com.rcacao.pocketmemes.adapters.MemeAdapter;
 import com.rcacao.pocketmemes.data.database.DataBaseContract;
+import com.rcacao.pocketmemes.data.loaders.MemesAsyncLoader;
 import com.rcacao.pocketmemes.data.models.Meme;
-import com.rcacao.pocketmemes.loaders.MemesAsyncLoader;
 
 import java.util.List;
 
@@ -45,6 +47,7 @@ public class MainActivity extends BaseActivity implements LoaderManager.LoaderCa
     private static final int NEWMEME_REQUEST = 15;
 
     private static final int LOADER_MEMES = 1;
+    private static final String PREF_ORDER = "pref_order";
 
     @BindView(R.id.nav_view)
     NavigationView navigationView;
@@ -79,11 +82,15 @@ public class MainActivity extends BaseActivity implements LoaderManager.LoaderCa
     @BindView(R.id.fabNewMeme)
     FloatingActionButton fabNewMeme;
 
+    @BindView(R.id.adView)
+    AdView adView;
+
     private int MENU_ADD_ID = -1;
     private MemeAdapter memeAdapter;
     private List<Meme> memes = null;
 
     private String selectedGroup = "";
+    private String order = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +100,27 @@ public class MainActivity extends BaseActivity implements LoaderManager.LoaderCa
 
         ButterKnife.bind(this);
 
+        initSetup();
+
+    }
+
+    private void initSetup() {
+        getOrderFromPreferences();
+        setupRecyclerView();
+        setupMenuListener();
+        loadMenu();
+        loadMemes("", "", order);
+        setupListeners();
+        setSupportActionBar(mainToolbar);
+        setupAds();
+    }
+
+    private void getOrderFromPreferences() {
+        SharedPreferences preferences = getPreferences(MODE_PRIVATE);
+        order = preferences.getString(PREF_ORDER, MemesAsyncLoader.ORDER_NAME);
+    }
+
+    private void setupRecyclerView() {
         StaggeredGridLayoutManager lymg = new StaggeredGridLayoutManager(2,
                 StaggeredGridLayoutManager.VERTICAL);
 
@@ -100,38 +128,6 @@ public class MainActivity extends BaseActivity implements LoaderManager.LoaderCa
 
         recyclerViewMemes.setLayoutManager(lymg);
         recyclerViewMemes.setAdapter(memeAdapter);
-
-        setupMenuListener();
-        loadMenu();
-        loadMemes("", "");
-
-        setupListeners();
-    }
-
-    private void setupListeners() {
-        etSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    clickSearchMenu();
-                    return true;
-                }
-                return false;
-            }
-        });
-    }
-
-    @OnClick(R.id.menu_search_send)
-    void clickSearchMenu() {
-        loadMemes(etSearch.getText().toString(), selectedGroup);
-    }
-
-    private void loadMemes(String search, String idGroup) {
-        Bundle args = new Bundle();
-        args.putString(MemesAsyncLoader.ARG_SEARCH, search);
-        args.putString(MemesAsyncLoader.ARG_GROUP, idGroup);
-        getSupportLoaderManager().restartLoader(LOADER_MEMES, args, this);
-        progressBar.setVisibility(View.VISIBLE);
     }
 
     private void setupMenuListener() {
@@ -147,81 +143,6 @@ public class MainActivity extends BaseActivity implements LoaderManager.LoaderCa
                 return true;
             }
         });
-    }
-
-    private void selectGroup(@NonNull MenuItem item) {
-        selectedGroup = String.valueOf(item.getItemId());
-        groupLayout.setVisibility(View.VISIBLE);
-        imageGroup.setImageDrawable(item.getIcon());
-        textViewGroup.setText(item.getTitle());
-        loadMemes(etSearch.getText().toString(), selectedGroup);
-        drawerLayout.closeDrawer(GravityCompat.START);
-    }
-
-    @OnClick(R.id.image_clear_group)
-    void clickClearGroup() {
-        selectedGroup = "";
-        groupLayout.setVisibility(View.GONE);
-        loadMemes(etSearch.getText().toString(), selectedGroup);
-    }
-
-
-    private void openNewGroup() {
-        Intent intent = new Intent(this, NewGroupActivity.class);
-        startActivityForResult(intent, NEWGROUP_REQUEST);
-        drawerLayout.closeDrawer(GravityCompat.START);
-
-    }
-
-    @OnClick(R.id.menu_slide)
-    void clickMenuSlide() {
-        drawerLayout.openDrawer(GravityCompat.START);
-    }
-
-    @OnClick(R.id.menu_search)
-    void clickMenuSearch() {
-        setBarColor(R.color.searchToolbarDark);
-        searchToolbar.setVisibility(View.VISIBLE);
-        mainToolbar.setVisibility(View.GONE);
-        fabNewMeme.setVisibility(View.INVISIBLE);
-        showInput(etSearch);
-    }
-
-
-    @OnClick(R.id.menu_back)
-    void clickMenuBack() {
-        setBarColor(R.color.colorPrimaryDark);
-        mainToolbar.setVisibility(View.VISIBLE);
-        searchToolbar.setVisibility(View.GONE);
-        etSearch.setText("");
-        fabNewMeme.setVisibility(View.VISIBLE);
-        closeInput();
-        loadMemes("", selectedGroup);
-    }
-
-    @OnClick(R.id.menu_clear)
-    void clickMenuClear() {
-        etSearch.setText("");
-        etSearch.requestFocus();
-        loadMemes(etSearch.getText().toString(), selectedGroup);
-    }
-
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == RESULT_OK) {
-            if (requestCode == NEWGROUP_REQUEST) {
-                loadMenu();
-            } else if (requestCode == NEWMEME_REQUEST) {
-                loadMemes(etSearch.getText().toString(), selectedGroup);
-            }
-        }
-    }
-
-    @OnClick(R.id.fabNewMeme)
-    void clickFabNew() {
-        Intent intent = new Intent(this, WebSearchActivity.class);
-        startActivityForResult(intent, NEWMEME_REQUEST);
     }
 
     private void loadMenu() {
@@ -249,6 +170,139 @@ public class MainActivity extends BaseActivity implements LoaderManager.LoaderCa
 
         item = menu.add(group, MENU_ADD_ID, order, R.string.new_group);
         item.setIcon(R.drawable.ic_add_group_24dp);
+    }
+
+    private void loadMemes(String search, String idGroup, String order) {
+        Bundle args = new Bundle();
+        args.putString(MemesAsyncLoader.ARG_SEARCH, search);
+        args.putString(MemesAsyncLoader.ARG_GROUP, idGroup);
+        args.putString(MemesAsyncLoader.ARG_ORDER, order);
+
+        getSupportLoaderManager().restartLoader(LOADER_MEMES, args, this);
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    private void setupListeners() {
+        etSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    clickSearchMenu();
+                    return true;
+                }
+                return false;
+            }
+        });
+    }
+
+    private void setupAds() {
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .build();
+        adView.loadAd(adRequest);
+    }
+
+    private void openNewGroup() {
+        Intent intent = new Intent(this, NewGroupActivity.class);
+        startActivityForResult(intent, NEWGROUP_REQUEST);
+        drawerLayout.closeDrawer(GravityCompat.START);
+
+    }
+
+    private void selectGroup(@NonNull MenuItem item) {
+        selectedGroup = String.valueOf(item.getItemId());
+        groupLayout.setVisibility(View.VISIBLE);
+        imageGroup.setImageDrawable(item.getIcon());
+        textViewGroup.setText(item.getTitle());
+        loadMemes(etSearch.getText().toString(), selectedGroup, order);
+        drawerLayout.closeDrawer(GravityCompat.START);
+    }
+
+    @OnClick(R.id.menu_search_send)
+    void clickSearchMenu() {
+        loadMemes(etSearch.getText().toString(), selectedGroup, order);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.activity_main_order_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.mnuName:
+                order = MemesAsyncLoader.ORDER_NAME;
+                loadMemes(etSearch.getText().toString(), selectedGroup, order);
+                return true;
+            case R.id.mnuDate:
+                order = MemesAsyncLoader.ORDER_DATE;
+                loadMemes(etSearch.getText().toString(), selectedGroup, order);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+
+        }
+    }
+
+    @OnClick(R.id.image_clear_group)
+    void clickClearGroup() {
+        selectedGroup = "";
+        groupLayout.setVisibility(View.GONE);
+        loadMemes(etSearch.getText().toString(), selectedGroup, order);
+    }
+
+    @OnClick(R.id.menu_slide)
+    void clickMenuSlide() {
+        drawerLayout.openDrawer(GravityCompat.START);
+    }
+
+    @OnClick(R.id.menu_search)
+    void clickMenuSearch() {
+        setBarColor(R.color.searchToolbarDark);
+        searchToolbar.setVisibility(View.VISIBLE);
+        mainToolbar.setVisibility(View.GONE);
+        fabNewMeme.setVisibility(View.INVISIBLE);
+        adView.setVisibility(View.VISIBLE);
+        showInput(etSearch);
+    }
+
+    @OnClick(R.id.menu_back)
+    void clickMenuBack() {
+        setBarColor(R.color.colorPrimaryDark);
+        mainToolbar.setVisibility(View.VISIBLE);
+        searchToolbar.setVisibility(View.GONE);
+        etSearch.setText("");
+        fabNewMeme.setVisibility(View.VISIBLE);
+        adView.setVisibility(View.GONE);
+        closeInput();
+        loadMemes("", selectedGroup, order);
+    }
+
+    @OnClick(R.id.menu_clear)
+    void clickMenuClear() {
+        etSearch.setText("");
+        etSearch.requestFocus();
+        loadMemes(etSearch.getText().toString(), selectedGroup, order);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            if (requestCode == NEWGROUP_REQUEST) {
+                loadMenu();
+            } else if (requestCode == NEWMEME_REQUEST) {
+                loadMemes(etSearch.getText().toString(), selectedGroup, order);
+            }
+        }
+    }
+
+    @OnClick(R.id.fabNewMeme)
+    void clickFabNew() {
+        Intent intent = new Intent(this, WebSearchActivity.class);
+        startActivityForResult(intent, NEWMEME_REQUEST);
     }
 
     @NonNull

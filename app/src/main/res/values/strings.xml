@@ -11,7 +11,6 @@
     <string name="search_result">resultado da pesquisa</string>
     <string name="new_meme">Novo Meme</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="file_saved">Arquivo %s salvo!</string>
     <string name="file_not_saved">Falha ao salvar arquivo!</string>
@@ -21,4 +20,9 @@
     <string name="middle_text">Texto central</string>
     <string name="bottom_text">Texto inferior</string>
     <string name="meme_saved">Novo meme salvo!</string>
+    <string name="order_name">Ordenar por nome</string>
+    <string name="order_date">Ordenar por data</string>
+
+    <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
+
 </resources>

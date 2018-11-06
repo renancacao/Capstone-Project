@@ -119,19 +119,16 @@ public class MemeContentProvider extends ContentProvider {
                 retCursor = db.rawQuery(sql, args);
                 break;
 
-
             case TAGS:
                 retCursor = db.query(TagsEntry.TABLE_NAME, projection,
                         GroupMemeEntry.COLUMN_ID_MEME + "=?",
                         args, null, null, sortOrder);
                 break;
 
-
             default:
                 throw new UnsupportedOperationException("Falha: " + uri);
 
         }
-
 
         retCursor.setNotificationUri(getContext().getContentResolver(), uri);
         return retCursor;
@@ -176,7 +173,7 @@ public class MemeContentProvider extends ContentProvider {
                 break;
 
             case GROUP_MEMES:
-                try{
+                try {
                     id = db.insert(GroupMemeEntry.TABLE_NAME, null, values);
                     if (id > 0) {
                         returnUri = ContentUris.withAppendedId(GroupMemeEntry.CONTENT_URI, id);
@@ -184,8 +181,7 @@ public class MemeContentProvider extends ContentProvider {
                         throw new android.database.SQLException("Falha: " + uri);
                     }
                     break;
-                }
-                catch (SQLiteConstraintException e){
+                } catch (SQLiteConstraintException e) {
                     throw new android.database.SQLException("Falha: " + uri);
                 }
 

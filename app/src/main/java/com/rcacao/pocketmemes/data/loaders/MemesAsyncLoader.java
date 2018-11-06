@@ -1,4 +1,4 @@
-package com.rcacao.pocketmemes.loaders;
+package com.rcacao.pocketmemes.data.loaders;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -23,6 +23,9 @@ public class MemesAsyncLoader extends AsyncTaskLoader<List<Meme>> {
     public static final String ARG_SEARCH = "search";
     public static final String ARG_ORDER = "order";
     public static final String ARG_GROUP = "group";
+
+    public static final String ORDER_NAME = MemeEntry.COLUMN_NAME;
+    public static final String ORDER_DATE = MemeEntry.COLUMN_CREATION;
 
     private Bundle args;
     private List<Meme> memes;
@@ -65,7 +68,7 @@ public class MemesAsyncLoader extends AsyncTaskLoader<List<Meme>> {
             }
         }
 
-        if (!group.isEmpty()) {
+        if (group != null && !group.isEmpty()) {
             queryArgs = new String[]{search, search, group};
         } else {
             queryArgs = new String[]{search, search};
@@ -101,6 +104,24 @@ public class MemesAsyncLoader extends AsyncTaskLoader<List<Meme>> {
 
     }
 
+    private List<String> getMemeTags(int id) {
+
+        Cursor result = getContext().getContentResolver().query(TagsEntry.CONTENT_URI,
+                null, null, new String[]{String.valueOf(id)}, TagsEntry.COLUMN_TAG);
+        List<String> tags = new ArrayList<>();
+
+        if (result != null) {
+            if (result.moveToFirst()) {
+                do {
+                    tags.add(result.getString(result.getColumnIndex(TagsEntry.COLUMN_TAG)));
+                }
+                while (result.moveToNext());
+            }
+            result.close();
+        }
+        return tags;
+    }
+
     private List<Group> getMemeGroups(int id) {
         Cursor result = getContext().getContentResolver().query(GroupMemeEntry.CONTENT_URI,
                 null, null, new String[]{String.valueOf(id)}, null);
@@ -120,24 +141,6 @@ public class MemesAsyncLoader extends AsyncTaskLoader<List<Meme>> {
             result.close();
         }
         return groups;
-    }
-
-    private List<String> getMemeTags(int id) {
-
-        Cursor result = getContext().getContentResolver().query(TagsEntry.CONTENT_URI,
-                null, null, new String[]{String.valueOf(id)}, TagsEntry.COLUMN_TAG);
-        List<String> tags = new ArrayList<>();
-
-        if (result != null) {
-            if (result.moveToFirst()) {
-                do {
-                    tags.add(result.getString(result.getColumnIndex(TagsEntry.COLUMN_TAG)));
-                }
-                while (result.moveToNext());
-            }
-            result.close();
-        }
-        return tags;
     }
 
 
