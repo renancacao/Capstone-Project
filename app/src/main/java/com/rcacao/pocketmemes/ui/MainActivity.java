@@ -170,6 +170,7 @@ public class MainActivity extends BaseActivity implements LoaderManager.LoaderCa
 
         item = menu.add(group, MENU_ADD_ID, order, R.string.new_group);
         item.setIcon(R.drawable.ic_add_group_24dp);
+
     }
 
     private void loadMemes(String search, String idGroup, String order) {
@@ -189,6 +190,7 @@ public class MainActivity extends BaseActivity implements LoaderManager.LoaderCa
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     clickSearchMenu();
                     return true;
+
                 }
                 return false;
             }
@@ -252,6 +254,7 @@ public class MainActivity extends BaseActivity implements LoaderManager.LoaderCa
         selectedGroup = "";
         groupLayout.setVisibility(View.GONE);
         loadMemes(etSearch.getText().toString(), selectedGroup, order);
+
     }
 
     @OnClick(R.id.menu_slide)
@@ -268,6 +271,7 @@ public class MainActivity extends BaseActivity implements LoaderManager.LoaderCa
         adView.setVisibility(View.VISIBLE);
         showInput(etSearch);
     }
+
 
     @OnClick(R.id.menu_back)
     void clickMenuBack() {
