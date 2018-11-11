@@ -7,11 +7,12 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/icon"
         android:label="@string/app_name"
         android:largeHeap="true"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/icon"
         android:supportsRtl="true"
+        android:launchMode="singleTask"
         android:theme="@style/AppTheme">
         <activity android:name=".ui.MainActivity">
             <intent-filter>
@@ -28,8 +29,15 @@
             android:exported="false" />
 
         <activity android:name=".ui.WebSearchActivity" />
-        <activity android:name=".ui.CreatorMemeActivity" />
-        <activity android:name=".ui.EditActivity"></activity>
+        <activity android:name=".ui.CreatorMemeActivity" android:parentActivityName=".ui.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="image/*" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".ui.EditActivity" />
+
     </application>
 
 </manifest>

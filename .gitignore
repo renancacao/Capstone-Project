@@ -6,8 +6,10 @@
 /.idea/workspace.xml
 .DS_Store
 /build
+/.idea
 .idea
 /captures
 .externalNativeBuild
 /.secret.txt
 /secret.txt
+/.idea/assetWizardSettings.xml

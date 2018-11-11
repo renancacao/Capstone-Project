@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:contentDescription="@string/meme"
     android:cropToPadding="true"
-    tools:src="@mipmap/ic_launcher"
+    tools:src="@drawable/ic_directions_railway"
     android:scaleType="centerCrop"
     android:layout_margin="@dimen/minimum_pad">
 

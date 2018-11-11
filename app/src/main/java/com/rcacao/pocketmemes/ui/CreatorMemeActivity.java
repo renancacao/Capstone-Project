@@ -7,11 +7,11 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -70,7 +70,6 @@ public class CreatorMemeActivity extends BaseActivity {
     @BindView(R.id.progressbar)
     ProgressBar progressBar;
 
-    private String urlImage;
     private Target target;
 
     private int colorTopIndex = 0;
@@ -98,16 +97,30 @@ public class CreatorMemeActivity extends BaseActivity {
         setBarColor(R.color.webSearchToolbarDark);
         ButterKnife.bind(this);
 
-        if (getIntent() != null) {
-            urlImage = getIntent().getStringExtra(ARG_URL_IMAGE);
-        }
-
         createTargetImage();
-        Picasso.get().load(urlImage).into(target);
+
+        Intent intent = getIntent();
+        if (intent != null) {
+            String action = intent.getAction();
+            if (Intent.ACTION_SEND.equals(action) && intent.getType() != null) {
+                loadImage((Uri) getIntent().getParcelableExtra(Intent.EXTRA_STREAM));
+            } else {
+                loadImage(getIntent().getStringExtra(ARG_URL_IMAGE));
+            }
+        }
 
         setupButtons();
         setupTextWatcher();
     }
+
+    private void loadImage(String imageUrl) {
+        Picasso.get().load(imageUrl).into(target);
+    }
+
+    private void loadImage(Uri imageUri) {
+        Picasso.get().load(imageUri).into(target);
+    }
+
 
     private void setupTextWatcher() {
         TextWatcher textWatcher = new TextWatcher() {
@@ -145,47 +158,9 @@ public class CreatorMemeActivity extends BaseActivity {
 
     }
 
-    private void setupColorButtom(Button button, int index) {
-        button.setBackgroundResource(Constants.COLORS[index].getDrawable());
-    }
-
-    private void setupSizeButtom(Button button, int index) {
-        button.setText(String.valueOf(Constants.FONT_SIZE[index]));
-    }
-
     @OnClick(R.id.button_color_top)
     void clickButtonColorTop() {
         colorTopIndex = changeColor(buttonColorTop, colorTopIndex);
-        drawText(original);
-    }
-
-    @OnClick(R.id.button_color_middle)
-    void clickButtonColorMidle() {
-        colorMiddleIndex = changeColor(buttonColorMiddle, colorMiddleIndex);
-        drawText(original);
-    }
-
-    @OnClick(R.id.button_color_bottom)
-    void clickButtonColorBottom() {
-        colorBottomIndex = changeColor(buttonColorBottom, colorBottomIndex);
-        drawText(original);
-    }
-
-    @OnClick(R.id.button_size_top)
-    void clickButtonSizeTop() {
-        sizeTopIndex = changeSize(buttonSizeTop, sizeTopIndex);
-        drawText(original);
-    }
-
-    @OnClick(R.id.button_size_middle)
-    void clickButtonSizeMiddle() {
-        sizeMiddleIndex = changeSize(buttonSizeMiddle, sizeMiddleIndex);
-        drawText(original);
-    }
-
-    @OnClick(R.id.button_size_bottom)
-    void clickButtonSizeBottom() {
-        sizeBottomIndex = changeSize(buttonSizeBottom, sizeBottomIndex);
         drawText(original);
     }
 
@@ -196,55 +171,6 @@ public class CreatorMemeActivity extends BaseActivity {
         }
         setupColorButtom(button, index);
         return index;
-    }
-
-    private int changeSize(Button button, int index) {
-        index += 1;
-        if (index >= Constants.FONT_SIZE.length) {
-            index = 0;
-        }
-        setupSizeButtom(button, index);
-        return index;
-    }
-
-    private void createTargetImage() {
-        target = new Target() {
-            @Override
-            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-
-                if (bitmap != null) {
-                    original = bitmap;
-                    drawText(original);
-                    progressBar.setVisibility(View.INVISIBLE);
-                }
-
-            }
-
-            @Override
-            public void onBitmapFailed(Exception e, Drawable errorDrawable) {
-
-            }
-
-            @Override
-            public void onPrepareLoad(Drawable placeHolderDrawable) {
-
-            }
-        };
-    }
-
-    private void setupDrawObjects(Bitmap bitmap) {
-
-        paintTop = new Paint();
-        paintMiddle = new Paint();
-        paintBottom = new Paint();
-
-        yMiddle = bitmap.getHeight() / 2;
-        xText = bitmap.getWidth() / 2;
-
-        rectBottom = new Rect();
-        rectTop = new Rect();
-
-
     }
 
     private void drawText(Bitmap bitmap) {
@@ -289,6 +215,93 @@ public class CreatorMemeActivity extends BaseActivity {
         imageMeme.setImageBitmap(newBitmap);
     }
 
+    private void setupColorButtom(Button button, int index) {
+        button.setBackgroundResource(Constants.COLORS[index].getDrawable());
+    }
+
+    private void setupDrawObjects(Bitmap bitmap) {
+
+        paintTop = new Paint();
+        paintMiddle = new Paint();
+        paintBottom = new Paint();
+
+        yMiddle = bitmap.getHeight() / 2;
+        xText = bitmap.getWidth() / 2;
+
+        rectBottom = new Rect();
+        rectTop = new Rect();
+
+
+    }
+
+    @OnClick(R.id.button_color_middle)
+    void clickButtonColorMidle() {
+        colorMiddleIndex = changeColor(buttonColorMiddle, colorMiddleIndex);
+        drawText(original);
+    }
+
+    @OnClick(R.id.button_color_bottom)
+    void clickButtonColorBottom() {
+        colorBottomIndex = changeColor(buttonColorBottom, colorBottomIndex);
+        drawText(original);
+    }
+
+    @OnClick(R.id.button_size_top)
+    void clickButtonSizeTop() {
+        sizeTopIndex = changeSize(buttonSizeTop, sizeTopIndex);
+        drawText(original);
+    }
+
+    private int changeSize(Button button, int index) {
+        index += 1;
+        if (index >= Constants.FONT_SIZE.length) {
+            index = 0;
+        }
+        setupSizeButtom(button, index);
+        return index;
+    }
+
+    private void setupSizeButtom(Button button, int index) {
+        button.setText(String.valueOf(Constants.FONT_SIZE[index]));
+    }
+
+    @OnClick(R.id.button_size_middle)
+    void clickButtonSizeMiddle() {
+        sizeMiddleIndex = changeSize(buttonSizeMiddle, sizeMiddleIndex);
+        drawText(original);
+    }
+
+    @OnClick(R.id.button_size_bottom)
+    void clickButtonSizeBottom() {
+        sizeBottomIndex = changeSize(buttonSizeBottom, sizeBottomIndex);
+        drawText(original);
+    }
+
+    private void createTargetImage() {
+        target = new Target() {
+            @Override
+            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+
+                if (bitmap != null) {
+                    original = bitmap;
+                    drawText(original);
+                    progressBar.setVisibility(View.INVISIBLE);
+                }
+
+            }
+
+            @Override
+            public void onBitmapFailed(Exception e, Drawable errorDrawable) {
+
+            }
+
+            @Override
+            public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+            }
+        };
+    }
+
     @OnClick(R.id.menu_back)
     void clickBack() {
         setResult(RESULT_CANCELED);
@@ -320,6 +333,20 @@ public class CreatorMemeActivity extends BaseActivity {
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_EDIT && resultCode == RESULT_OK) {
+            setResult(RESULT_OK);
+            if (isTaskRoot()) {
+              Intent intent = new Intent(this, MainActivity.class);
+              startActivity(intent);
+            }
+            finish();
+        }
+
+    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -327,17 +354,5 @@ public class CreatorMemeActivity extends BaseActivity {
         if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             saveMeme();
         }
-    }
-
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == REQUEST_EDIT && resultCode == RESULT_OK) {
-            setResult(RESULT_OK);
-            finish();
-        }
-
     }
 }

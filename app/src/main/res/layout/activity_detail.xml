@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.EditActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:animateLayoutChanges="true"
+        android:elevation="@dimen/menu_elevation"
+        android:fitsSystemWindows="true">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/search_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            android:background="@color/webSearchToolbar"
+            android:visibility="visible">
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/menu_back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_arrow_24dp"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/menu_margin"
+                    android:gravity="center_vertical"
+                    android:text="@string/see_meme"
+                    android:textColor="@android:color/white"
+                    app:layout_constraintStart_toEndOf="@+id/menu_back" />
+
+
+                <ImageView
+                    android:id="@+id/menu_edit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="@dimen/menu_margin_end"
+                    android:src="@drawable/ic_edit"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+
+            </android.support.constraint.ConstraintLayout>
+
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageButton
+                android:id="@+id/button_share"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginEnd="@dimen/minimum_pad"
+                android:layout_marginBottom="@dimen/minimum_pad"
+                android:background="@drawable/button_share"
+                android:src="@drawable/ic_share"
+                app:layout_constraintBottom_toBottomOf="@+id/image_meme"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <ImageView
+                android:id="@+id/image_meme"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/image_creater_size"
+                android:layout_marginEnd="@dimen/normal_pad"
+                android:layout_marginStart="@dimen/normal_pad"
+                android:layout_marginTop="@dimen/normal_pad"
+                android:scaleType="fitCenter"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textView_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/normal_pad"
+                android:layout_marginStart="@dimen/normal_pad"
+                android:layout_marginTop="@dimen/normal_pad"
+                tools:text="Nome do meme"
+                android:textSize="@dimen/meme_name_font_size"
+                android:maxLines="1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/image_meme" />
+
+            <TextView
+                android:id="@+id/textView_tags"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/normal_pad"
+                android:layout_marginStart="@dimen/normal_pad"
+                android:layout_marginTop="8dp"
+                tools:text="palavras, chaves"
+                android:maxLines="4"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView_name" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerView_groups"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/normal_pad"
+                app:layout_constraintTop_toBottomOf="@+id/textView_tags" />
+
+        </android.support.constraint.ConstraintLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+♦
+</android.support.design.widget.CoordinatorLayout>

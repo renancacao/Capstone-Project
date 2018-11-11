@@ -17,4 +17,5 @@
     <dimen name="web_item_height">200dp</dimen>
     <dimen name="image_creater_size">230dp</dimen>
     <dimen name="editor_button_size">50dp</dimen>
+    <dimen name="meme_name_font_size">20sp</dimen>
 </resources>
