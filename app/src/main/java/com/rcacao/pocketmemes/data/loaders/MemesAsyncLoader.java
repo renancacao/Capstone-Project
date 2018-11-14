@@ -54,7 +54,7 @@ public class MemesAsyncLoader extends AsyncTaskLoader<List<Meme>> {
 
         String[] queryArgs;
 
-        search = getParam(search, ARG_SEARCH) + "%";
+        search = "%" + getParam(search, ARG_SEARCH) + "%";
         group = getParam(group, ARG_GROUP);
         order = getParam(order, ARG_ORDER);
 
@@ -94,9 +94,9 @@ public class MemesAsyncLoader extends AsyncTaskLoader<List<Meme>> {
 
     }
 
-    private String getParam(String value, String argGroup) {
-        if (args != null && args.containsKey(argGroup)) {
-            return args.getString(argGroup);
+    private String getParam(String value, String arg) {
+        if (args != null && args.containsKey(arg)) {
+            return args.getString(arg);
         }
         return value;
     }

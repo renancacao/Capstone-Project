@@ -25,6 +25,7 @@ public class Meme implements Parcelable {
         name = in.readString();
         creationDate = in.readString();
         tags = in.createStringArrayList();
+        groups = in.createTypedArrayList(Group.CREATOR);
         image = in.readString();
     }
 
@@ -103,11 +104,12 @@ public class Meme implements Parcelable {
     }
 
     @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeInt(id);
-        parcel.writeString(name);
-        parcel.writeString(creationDate);
-        parcel.writeStringList(tags);
-        parcel.writeString(image);
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeString(name);
+        dest.writeString(creationDate);
+        dest.writeStringList(tags);
+        dest.writeTypedList(groups);
+        dest.writeString(image);
     }
 }

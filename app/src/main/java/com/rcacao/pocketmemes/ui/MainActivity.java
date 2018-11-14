@@ -166,8 +166,7 @@ public class MainActivity extends BaseActivity implements LoaderManager.LoaderCa
         args.putString(MemesAsyncLoader.ARG_GROUP, idGroup);
         args.putString(MemesAsyncLoader.ARG_ORDER, order);
 
-        android.support.v4.app.LoaderManager.getInstance(this)
-                .initLoader(LOADER_MEMES, args, this).forceLoad();
+        LoaderManager.getInstance(this).restartLoader(LOADER_MEMES, args, this);
         progressBar.setVisibility(View.VISIBLE);
     }
 
