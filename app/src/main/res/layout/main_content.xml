@@ -39,7 +39,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:src="@drawable/ic_arrow_24dp"
-                    app:layout_constraintStart_toStartOf="parent" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:contentDescription="@string/back" />
 
                 <EditText
                     android:id="@+id/et_search"
@@ -62,7 +63,8 @@
                     android:layout_height="match_parent"
                     android:layout_marginEnd="@dimen/menu_margin"
                     android:src="@drawable/ic_search_24dp"
-                    app:layout_constraintEnd_toStartOf="@+id/menu_clear" />
+                    app:layout_constraintEnd_toStartOf="@+id/menu_clear"
+                    android:contentDescription="@string/search" />
 
 
                 <ImageView
@@ -72,7 +74,8 @@
                     android:layout_height="match_parent"
                     android:layout_marginEnd="@dimen/menu_margin_end"
                     android:src="@drawable/ic_clear_24dp"
-                    app:layout_constraintEnd_toEndOf="parent" />
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:contentDescription="@string/clear" />
 
 
             </android.support.constraint.ConstraintLayout>
@@ -94,14 +97,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:src="@drawable/ic_menu_24dp"
-                    app:layout_constraintStart_toStartOf="parent" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:contentDescription="@string/groups" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginStart="@dimen/menu_margin"
                     android:gravity="center_vertical"
-                    android:text="Pocket Memes"
+                    android:text="@string/app_name"
                     android:textColor="@android:color/white"
                     android:textSize="26sp"
                     android:textStyle="bold"
@@ -113,7 +117,8 @@
                     android:layout_height="match_parent"
                     android:layout_marginEnd="@dimen/menu_margin"
                     android:src="@drawable/ic_search_24dp"
-                    app:layout_constraintEnd_toEndOf="parent" />
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:contentDescription="@string/search" />
 
 
 
@@ -156,7 +161,8 @@
                 android:layout_margin="@dimen/minimum_pad"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:src="@drawable/ic_help" />
+                tools:src="@drawable/ic_help"
+                android:contentDescription="@string/selected_group" />
 
             <TextView
                 android:id="@+id/textview_group"
@@ -179,7 +185,8 @@
                 android:tint="@color/icon"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:src="@drawable/ic_clear_24dp" />
+                android:src="@drawable/ic_clear_24dp"
+                android:contentDescription="@string/clear_group" />
 
 
         </android.support.constraint.ConstraintLayout>

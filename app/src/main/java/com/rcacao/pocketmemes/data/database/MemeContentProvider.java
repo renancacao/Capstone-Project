@@ -37,6 +37,7 @@ public class MemeContentProvider extends ContentProvider {
     private static final int TAGS = 400;
     private static final int TAGS_BY_ID = 401;
     private static final UriMatcher sUriMatcher = buildUriMatcher();
+    private static final String FAIL = "Falha: ";
     private DataBaseHelper dbHelper;
 
     private static UriMatcher buildUriMatcher() {
@@ -126,7 +127,7 @@ public class MemeContentProvider extends ContentProvider {
                 break;
 
             default:
-                throw new UnsupportedOperationException("Falha: " + uri);
+                throw new UnsupportedOperationException(FAIL + uri);
 
         }
 
@@ -159,7 +160,7 @@ public class MemeContentProvider extends ContentProvider {
                 if (id > 0) {
                     returnUri = ContentUris.withAppendedId(MemeEntry.CONTENT_URI, id);
                 } else {
-                    throw new android.database.SQLException("Falha: " + uri);
+                    throw new android.database.SQLException(FAIL + uri);
                 }
                 break;
 
@@ -168,7 +169,7 @@ public class MemeContentProvider extends ContentProvider {
                 if (id > 0) {
                     returnUri = ContentUris.withAppendedId(GroupEntry.CONTENT_URI, id);
                 } else {
-                    throw new android.database.SQLException("Falha: " + uri);
+                    throw new android.database.SQLException(FAIL + uri);
                 }
                 break;
 
@@ -178,11 +179,11 @@ public class MemeContentProvider extends ContentProvider {
                     if (id > 0) {
                         returnUri = ContentUris.withAppendedId(GroupMemeEntry.CONTENT_URI, id);
                     } else {
-                        throw new android.database.SQLException("Falha: " + uri);
+                        throw new android.database.SQLException(FAIL + uri);
                     }
                     break;
                 } catch (SQLiteConstraintException e) {
-                    throw new android.database.SQLException("Falha: " + uri);
+                    throw new android.database.SQLException(FAIL + uri);
                 }
 
             case TAGS:
@@ -190,7 +191,7 @@ public class MemeContentProvider extends ContentProvider {
                 if (id > 0) {
                     returnUri = ContentUris.withAppendedId(TagsEntry.CONTENT_URI, id);
                 } else {
-                    throw new android.database.SQLException("Falha: " + uri);
+                    throw new android.database.SQLException(FAIL + uri);
                 }
                 break;
 

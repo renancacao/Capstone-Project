@@ -83,7 +83,8 @@ public class WebSearchActivity extends BaseActivity implements
         if (!etSearch.getText().toString().trim().isEmpty()) {
             Bundle args = new Bundle();
             args.putString(GoogleSearchAsyncLoader.ARG_SEARCH, etSearch.getText().toString().trim());
-            getSupportLoaderManager().restartLoader(ID_LOADER, args, this);
+            android.support.v4.app.LoaderManager.getInstance(this)
+                    .initLoader(ID_LOADER, args, this).forceLoad();
         }
 
     }
@@ -121,7 +122,7 @@ public class WebSearchActivity extends BaseActivity implements
 
     @Override
     public void onLoaderReset(@NonNull Loader<SearchResult> loader) {
-
+        //unused
     }
 
     @Override

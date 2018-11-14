@@ -27,7 +27,7 @@ public class MemesAsyncLoader extends AsyncTaskLoader<List<Meme>> {
     public static final String ORDER_NAME = MemeEntry.COLUMN_NAME;
     public static final String ORDER_DATE = MemeEntry.COLUMN_CREATION;
 
-    private Bundle args;
+    private final Bundle args;
     private List<Meme> memes;
 
     public MemesAsyncLoader(@NonNull Context context, Bundle args) {
@@ -54,21 +54,11 @@ public class MemesAsyncLoader extends AsyncTaskLoader<List<Meme>> {
 
         String[] queryArgs;
 
-        if (args != null) {
-            if (args.containsKey(ARG_SEARCH)) {
-                search = args.getString(ARG_SEARCH) + "%";
-            }
+        search = getParam(search, ARG_SEARCH) + "%";
+        group = getParam(group, ARG_GROUP);
+        order = getParam(order, ARG_ORDER);
 
-            if (args.containsKey(ARG_GROUP)) {
-                group = args.getString(ARG_GROUP);
-            }
-
-            if (args.containsKey(ARG_ORDER)) {
-                order = args.getString(ARG_ORDER);
-            }
-        }
-
-        if (group != null && !group.isEmpty()) {
+        if (!group.isEmpty()) {
             queryArgs = new String[]{search, search, group};
         } else {
             queryArgs = new String[]{search, search};
@@ -102,6 +92,13 @@ public class MemesAsyncLoader extends AsyncTaskLoader<List<Meme>> {
 
         return memes;
 
+    }
+
+    private String getParam(String value, String argGroup) {
+        if (args != null && args.containsKey(argGroup)) {
+            return args.getString(argGroup);
+        }
+        return value;
     }
 
     private List<String> getMemeTags(int id) {

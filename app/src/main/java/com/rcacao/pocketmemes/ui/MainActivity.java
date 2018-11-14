@@ -48,44 +48,31 @@ public class MainActivity extends BaseActivity implements LoaderManager.LoaderCa
 
     private static final int LOADER_MEMES = 1;
     private static final String PREF_ORDER = "pref_order";
-
+    private static final int MENU_ADD_ID = -1;
     @BindView(R.id.nav_view)
     NavigationView navigationView;
-
     @BindView(R.id.drawer_layout)
     DrawerLayout drawerLayout;
-
     @BindView(R.id.main_toolbar)
     Toolbar mainToolbar;
-
     @BindView(R.id.search_toolbar)
     Toolbar searchToolbar;
-
     @BindView(R.id.et_search)
     EditText etSearch;
-
     @BindView(R.id.recyclerView_memes)
     RecyclerView recyclerViewMemes;
-
     @BindView(R.id.progressbar)
     ProgressBar progressBar;
-
     @BindView(R.id.group_layout)
     ConstraintLayout groupLayout;
-
     @BindView(R.id.image_group)
     ImageView imageGroup;
-
     @BindView(R.id.textview_group)
     TextView textViewGroup;
-
     @BindView(R.id.fabNewMeme)
     FloatingActionButton fabNewMeme;
-
     @BindView(R.id.adView)
     AdView adView;
-
-    private int MENU_ADD_ID = -1;
     private MemeAdapter memeAdapter;
     private List<Meme> memes = null;
 
@@ -157,18 +144,18 @@ public class MainActivity extends BaseActivity implements LoaderManager.LoaderCa
                 project, "", null, DataBaseContract.GroupEntry.COLUMN_NAME);
 
         int group = 0;
-        int order = 0;
+        int menuOrder = 0;
         MenuItem item;
         if (cursor != null) {
             while (cursor.moveToNext()) {
-                item = menu.add(group, cursor.getInt(0), order, cursor.getString(1));
+                item = menu.add(group, cursor.getInt(0), menuOrder, cursor.getString(1));
                 item.setIcon(cursor.getInt(2));
-                order += 1;
+                menuOrder += 1;
             }
             cursor.close();
         }
 
-        item = menu.add(group, MENU_ADD_ID, order, R.string.new_group);
+        item = menu.add(group, MENU_ADD_ID, menuOrder, R.string.new_group_item);
         item.setIcon(R.drawable.ic_add_group_24dp);
 
     }
@@ -179,7 +166,8 @@ public class MainActivity extends BaseActivity implements LoaderManager.LoaderCa
         args.putString(MemesAsyncLoader.ARG_GROUP, idGroup);
         args.putString(MemesAsyncLoader.ARG_ORDER, order);
 
-        getSupportLoaderManager().restartLoader(LOADER_MEMES, args, this);
+        android.support.v4.app.LoaderManager.getInstance(this)
+                .initLoader(LOADER_MEMES, args, this).forceLoad();
         progressBar.setVisibility(View.VISIBLE);
     }
 
@@ -267,7 +255,7 @@ public class MainActivity extends BaseActivity implements LoaderManager.LoaderCa
         setBarColor(R.color.searchToolbarDark);
         searchToolbar.setVisibility(View.VISIBLE);
         mainToolbar.setVisibility(View.GONE);
-        fabNewMeme.setVisibility(View.INVISIBLE);
+        fabNewMeme.hide();
         adView.setVisibility(View.VISIBLE);
         showInput(etSearch);
     }
@@ -279,7 +267,7 @@ public class MainActivity extends BaseActivity implements LoaderManager.LoaderCa
         mainToolbar.setVisibility(View.VISIBLE);
         searchToolbar.setVisibility(View.GONE);
         etSearch.setText("");
-        fabNewMeme.setVisibility(View.VISIBLE);
+        fabNewMeme.show();
         adView.setVisibility(View.GONE);
         closeInput();
         loadMemes("", selectedGroup, order);
@@ -325,11 +313,14 @@ public class MainActivity extends BaseActivity implements LoaderManager.LoaderCa
 
     @Override
     public void onLoaderReset(@NonNull Loader<List<Meme>> loader) {
-
+        //unused
     }
 
     @Override
     public void onMemeClick(int id) {
-
+        Meme meme = memes.get(id);
+        Intent intent = new Intent(this, DetailsActivity.class);
+        intent.putExtra(DetailsActivity.EXTRA_MEME, meme);
+        startActivity(intent);
     }
 }

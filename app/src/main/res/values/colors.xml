@@ -10,6 +10,8 @@
     <color name="webSearchToolbarDark">#0288d1</color>
     <color name="icon">#ffffff</color>
     <color name="iconDark">#a1887f</color>
+    <color name="colorShareDark">#880e4f</color>
+    <color name="colorSharePrimary">#c2185b</color>
 
     <color name="font_creator_red">#ff0004</color>
     <color name="font_creator_blue">#0062ff</color>
@@ -20,5 +22,6 @@
     <color name="font_creator_black">#000000</color>
     <color name="font_creator_gray">#969494</color>
     <color name="font_creator_white">#ffffff</color>
+
 
 </resources>

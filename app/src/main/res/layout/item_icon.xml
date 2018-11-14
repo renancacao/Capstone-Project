@@ -8,6 +8,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:src="@drawable/ic_help"
     android:tint="@color/iconDark"
-    android:id="@+id/image_icon">
+    android:id="@+id/image_icon"
+    android:contentDescription="@string/icon">
 
 </ImageView>

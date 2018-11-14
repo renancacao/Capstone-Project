@@ -126,12 +126,12 @@ public class CreatorMemeActivity extends BaseActivity {
         TextWatcher textWatcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+                //unused
             }
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+                //unused
             }
 
             @Override
@@ -292,12 +292,12 @@ public class CreatorMemeActivity extends BaseActivity {
 
             @Override
             public void onBitmapFailed(Exception e, Drawable errorDrawable) {
-
+                //unused
             }
 
             @Override
             public void onPrepareLoad(Drawable placeHolderDrawable) {
-
+                //unused
             }
         };
     }

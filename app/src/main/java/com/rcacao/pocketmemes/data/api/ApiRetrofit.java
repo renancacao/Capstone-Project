@@ -11,6 +11,8 @@ public class ApiRetrofit {
 
     private static Retrofit retrofit = null;
 
+    private ApiRetrofit() {}
+
     public static Retrofit getRetrofit(){
 
         if (retrofit==null){

@@ -1,7 +1,6 @@
 package com.rcacao.pocketmemes.adapters;
 
 import android.content.Context;
-import android.net.TrafficStats;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,7 +11,6 @@ import android.widget.ImageView;
 import com.rcacao.pocketmemes.R;
 import com.rcacao.pocketmemes.data.models.ResultItem;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Transformation;
 
 import java.util.List;
 
@@ -25,7 +23,7 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.ResultHold
 
     private final Context context;
     private List<ResultItem> items;
-    private ResultClickListener listener;
+    private final ResultClickListener listener;
 
     public ResultAdapter(Context context, List<ResultItem> items) {
         this.context = context;

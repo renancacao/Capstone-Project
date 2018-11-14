@@ -18,7 +18,9 @@ public class Meme implements Parcelable {
     private List<Group> groups;
     private String image;
 
-    protected Meme(Parcel in) {
+    public Meme(){}
+
+    private Meme(Parcel in) {
         id = in.readInt();
         name = in.readString();
         creationDate = in.readString();

@@ -13,7 +13,8 @@
         android:roundIcon="@mipmap/icon"
         android:supportsRtl="true"
         android:launchMode="singleTask"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:fullBackupContent="@xml/backup_descriptor">
         <activity android:name=".ui.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -37,6 +38,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.EditActivity" />
+        <activity android:name=".ui.DetailsActivity" />
 
     </application>
 

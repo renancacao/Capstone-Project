@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="menu_image_width">40dp</dimen>
     <dimen name="menu_margin">24dp</dimen>
     <dimen name="menu_margin_end">16dp</dimen>
     <dimen name="minimum_pad">4dp</dimen>
@@ -11,10 +10,7 @@
     <dimen name="fab_elevation">6dp</dimen>
     <dimen name="menu_elevation">4dp</dimen>
     <dimen name="nav_header_height">100dp</dimen>
-    <dimen name="iconrecycler_height">120dp</dimen>
     <dimen name="icon_size">40dp</dimen>
-    <dimen name="globe_size">80dp</dimen>
-    <dimen name="web_item_height">200dp</dimen>
     <dimen name="image_creater_size">230dp</dimen>
     <dimen name="editor_button_size">50dp</dimen>
     <dimen name="meme_name_font_size">20sp</dimen>

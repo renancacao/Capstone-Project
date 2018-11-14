@@ -12,6 +12,8 @@ import static android.os.Environment.DIRECTORY_PICTURES;
 
 public class Constants {
 
+    private Constants() {
+    }
 
     public static final ColorItem[] COLORS = new ColorItem[]{
             new ColorItem(R.drawable.color_white, R.color.font_creator_white),
@@ -27,7 +29,7 @@ public class Constants {
 
     public static final int[] FONT_SIZE = new int[]{25, 50, 75, 100, 125, 150};
 
-    public static final String IMAGE_PATH
+    static final String IMAGE_PATH
             = Environment.getExternalStoragePublicDirectory(DIRECTORY_PICTURES).getPath() + "/pocketMemes/";
 
     public static List<GroupIcon> getIcons() {

@@ -1,17 +1,15 @@
 <resources>
     <string name="app_name">Pocket Memes</string>
-    <string name="meme">Meme</string>
     <string name="search_meme">Pesquisar memes</string>
     <string name="search_web">Pesquisar na web</string>
     <string name="group_name">Nome do grupo</string>
-    <string name="new_group">novo grupo</string>
+    <string name="new_group_item">novo grupo</string>
     <string name="group_exists">Já existe um grupo com este nome!</string>
     <string name="select_icon">Selecione um ícone!</string>
     <string name="enter_group_name">Informe o nome do grupo!</string>
     <string name="search_result">resultado da pesquisa</string>
     <string name="new_meme">Novo Meme</string>
 
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="file_saved">Arquivo %s salvo!</string>
     <string name="file_not_saved">Falha ao salvar arquivo!</string>
     <string name="meme_name">Nome do meme</string>
@@ -25,5 +23,19 @@
 
     <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
     <string name="see_meme">Ver meme</string>
+    <string name="sharing_title">Compartilhe seu meme</string>
+    <string name="back">Voltar</string>
+    <string name="ok">OK</string>
+    <string name="meme_image">Imagem do meme</string>
+    <string name="edit">Editar</string>
+    <string name="share">Compartilhar</string>
+    <string name="new_group">Novo Grupo</string>
+    <string name="selected_icon">Ícone selecionado</string>
+    <string name="search">Procurar</string>
+    <string name="clear">Limpar</string>
+    <string name="icon">ícone</string>
+    <string name="groups">Grupos</string>
+    <string name="selected_group">Grupo selecionado</string>
+    <string name="clear_group">Limpar grupo selecionado</string>
 
 </resources>

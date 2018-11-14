@@ -26,14 +26,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:src="@drawable/ic_arrow_24dp"
-                    app:layout_constraintStart_toStartOf="parent"/>
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:contentDescription="@string/back" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginStart="@dimen/menu_margin"
                     android:gravity="center_vertical"
-                    android:text="Novo Grupo"
+                    android:text="@string/new_group"
                     android:textColor="@android:color/white"
                     app:layout_constraintStart_toEndOf="@+id/menu_back" />
 
@@ -44,7 +45,8 @@
                     android:src="@drawable/ic_check_24dp"
                     android:id="@+id/menu_ok"
                     android:layout_marginEnd="@dimen/menu_margin_end"
-                    app:layout_constraintEnd_toEndOf="parent"/>
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:contentDescription="@string/ok" />
 
 
             </android.support.constraint.ConstraintLayout>
@@ -80,7 +82,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/et_newgroup"
             app:layout_constraintVertical_bias="1.0"
-            tools:src="@drawable/ic_whatshot" />
+            tools:src="@drawable/ic_whatshot"
+            android:contentDescription="@string/selected_icon" />
 
         <EditText
             android:id="@+id/et_newgroup"

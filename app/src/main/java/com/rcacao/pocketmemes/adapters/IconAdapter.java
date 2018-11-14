@@ -22,7 +22,7 @@ public class IconAdapter extends RecyclerView.Adapter<IconAdapter.IconViewHolder
 
     private final Context context;
     private List<GroupIcon> icons;
-    private IconClickListener listener;
+    private final IconClickListener listener;
 
     public IconAdapter(Context context, List<GroupIcon> icons) {
         this.context = context;

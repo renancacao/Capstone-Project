@@ -14,15 +14,8 @@ public class ColorItem {
         return drawable;
     }
 
-    public void setDrawable(int drawable) {
-        this.drawable = drawable;
-    }
-
     public int getColor() {
         return color;
     }
 
-    public void setColor(int color) {
-        this.color = color;
-    }
 }

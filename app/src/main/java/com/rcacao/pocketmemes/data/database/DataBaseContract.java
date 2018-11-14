@@ -13,9 +13,13 @@ public class DataBaseContract {
     static final String PATH_GROUP_MEMES = "groupmemes";
     static final String PATH_TAGS = "tags";
 
+    private DataBaseContract(){}
+
     private static final Uri BASE_CONTENT_URI = Uri.parse("content://" + AUTHORITY);
 
     public static final class MemeEntry implements BaseColumns {
+
+        private MemeEntry(){}
 
         public static final Uri CONTENT_URI =
                 BASE_CONTENT_URI.buildUpon().appendPath(PATH_MEMES).build();
@@ -29,6 +33,8 @@ public class DataBaseContract {
 
     public static final class GroupEntry implements BaseColumns {
 
+        private GroupEntry(){}
+
         public static final Uri CONTENT_URI =
                 BASE_CONTENT_URI.buildUpon().appendPath(PATH_GROUP).build();
 
@@ -40,6 +46,8 @@ public class DataBaseContract {
 
     public static final class GroupMemeEntry implements BaseColumns {
 
+        private GroupMemeEntry(){}
+
         public static final Uri CONTENT_URI =
                 BASE_CONTENT_URI.buildUpon().appendPath(PATH_GROUP_MEMES).build();
 
@@ -50,6 +58,8 @@ public class DataBaseContract {
     }
 
     public static final class TagsEntry implements BaseColumns {
+
+        private TagsEntry(){}
 
         public static final Uri CONTENT_URI =
                 BASE_CONTENT_URI.buildUpon().appendPath(PATH_TAGS).build();

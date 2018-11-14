@@ -1,8 +1,7 @@
 package com.rcacao.pocketmemes.ui;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -10,8 +9,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 
-import com.rcacao.pocketmemes.R;
-
+@SuppressLint("Registered")
 public class BaseActivity extends AppCompatActivity {
 
 

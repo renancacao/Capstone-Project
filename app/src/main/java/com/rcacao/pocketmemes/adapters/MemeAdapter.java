@@ -23,7 +23,7 @@ public class MemeAdapter extends RecyclerView.Adapter<MemeAdapter.ResultHolder> 
 
     private final Context context;
     private List<Meme> memes;
-    private ResultClickListener listener;
+    private final ResultClickListener listener;
 
     public MemeAdapter(Context context, List<Meme> memes) {
         this.context = context;

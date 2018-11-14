@@ -19,7 +19,7 @@ import retrofit2.Retrofit;
 public class GoogleSearchAsyncLoader extends AsyncTaskLoader<SearchResult> {
 
     public static final String ARG_SEARCH = "search";
-    private Bundle args;
+    private final Bundle args;
     private SearchResult result;
 
     public GoogleSearchAsyncLoader(@NonNull Context context, Bundle args) {
@@ -58,10 +58,8 @@ public class GoogleSearchAsyncLoader extends AsyncTaskLoader<SearchResult> {
 
         try {
             Response<SearchResult> response = call.execute();
-            if (response != null){
-                if (response.body() != null) {
+            if (response != null && response.body() != null) {
                     result = response.body();
-                }
             }
 
         } catch (IOException e) {

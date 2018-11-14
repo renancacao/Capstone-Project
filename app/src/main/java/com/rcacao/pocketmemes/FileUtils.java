@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -19,9 +20,26 @@ public class FileUtils {
 
     private static final String PNG_FILE = ".png";
     private static final String POCKET_MEMES_SUFIX = "pocketmemes_";
+    private static Random r = new Random();
 
-    public static String getFileNameWithPath(String fileName) {
-        return Constants.IMAGE_PATH + POCKET_MEMES_SUFIX + String.valueOf(fileName) + PNG_FILE;
+    private FileUtils() {
+    }
+
+    public static String getFileName() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(getRandomChar());
+        while (fileAlredyExists(stringBuilder.toString())) {
+            stringBuilder.append(getRandomChar());
+        }
+        return stringBuilder.toString();
+    }
+
+    private static String getRandomChar() {
+        if (r == null) {
+            r = new Random();
+        }
+        int ascii = r.nextInt(90 - 65 + 1) + 65;
+        return String.valueOf((char) ascii);
     }
 
     private static boolean fileAlredyExists(String filename) {
@@ -29,21 +47,11 @@ public class FileUtils {
         return f.exists();
     }
 
-    public static String getFileName() {
-        String fileName = getRandomChar();
-        while (fileAlredyExists(fileName)) {
-            fileName += getRandomChar();
-        }
-        return fileName;
+    public static String getFileNameWithPath(String fileName) {
+        return Constants.IMAGE_PATH + POCKET_MEMES_SUFIX + String.valueOf(fileName) + PNG_FILE;
     }
 
-    private static String getRandomChar() {
-        Random r = new Random();
-        int ascii = r.nextInt(90 - 65 + 1) + 65;
-        return String.valueOf((char) ascii);
-    }
-
-    public static boolean saveBitmap(String file, Bitmap image, Context ctx) {
+    public static boolean saveBitmap(String file, Bitmap image, Context ctx)  {
         String filename = getFileNameWithPath(file);
         boolean result = true;
         FileOutputStream out = null;
@@ -65,14 +73,14 @@ public class FileUtils {
 
         } catch (Exception e) {
             result = false;
-            e.printStackTrace();
+            Log.e(FileUtils.class.getName(), e.getMessage());
         } finally {
             try {
                 if (out != null) {
                     out.close();
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                Log.e(FileUtils.class.getName(), e.getMessage());
             }
         }
         return result;

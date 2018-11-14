@@ -4,7 +4,6 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -85,7 +84,7 @@ public class EditActivity extends BaseActivity implements IconAdapter.IconClickL
         Picasso.get().load(uri).memoryPolicy(MemoryPolicy.NO_CACHE).into(imageMeme);
     }
 
-    public List<GroupIcon> getGroupsIcons() {
+    private List<GroupIcon> getGroupsIcons() {
 
         List<GroupIcon> list = new ArrayList<>();
 
