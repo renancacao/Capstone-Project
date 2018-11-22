@@ -58,65 +58,67 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.v4.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <ImageView
                 android:id="@+id/image_meme"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/image_creater_size"
-                android:layout_marginEnd="@dimen/normal_pad"
+                android:layout_height="0dp"
                 android:layout_marginStart="@dimen/normal_pad"
                 android:layout_marginTop="@dimen/normal_pad"
+                android:layout_marginEnd="@dimen/normal_pad"
+                android:layout_marginBottom="@dimen/normal_pad"
+                android:contentDescription="@string/meme_image"
                 android:scaleType="fitCenter"
+                app:layout_constraintBottom_toTopOf="@+id/editText_name"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:contentDescription="@string/meme_image" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <EditText
                 android:id="@+id/editText_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/normal_pad"
                 android:layout_marginStart="@dimen/normal_pad"
-                android:layout_marginTop="@dimen/normal_pad"
+                android:layout_marginEnd="@dimen/normal_pad"
+                android:layout_marginBottom="@dimen/normal_pad"
                 android:hint="@string/meme_name"
-                android:maxLines="1"
                 android:inputType="text"
+                android:maxLines="1"
+                app:layout_constraintBottom_toTopOf="@+id/editText_tags"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/image_meme" />
+                app:layout_constraintStart_toStartOf="parent" />
 
             <EditText
                 android:id="@+id/editText_tags"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/normal_pad"
                 android:layout_marginStart="@dimen/normal_pad"
-                android:layout_marginTop="8dp"
+                android:layout_marginEnd="@dimen/normal_pad"
+                android:layout_marginBottom="@dimen/normal_pad"
                 android:hint="@string/tags_hint"
-                android:maxLines="1"
                 android:inputType="text"
+                android:maxLines="1"
+                app:layout_constraintBottom_toTopOf="@+id/recyclerView_groups"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editText_name" />
+                app:layout_constraintStart_toStartOf="parent" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerView_groups"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/normal_pad"
-                app:layout_constraintTop_toBottomOf="@+id/editText_tags" />
+                android:layout_marginStart="@dimen/normal_pad"
+                android:layout_marginEnd="@dimen/normal_pad"
+                android:layout_marginBottom="@dimen/normal_pad"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
         </android.support.constraint.ConstraintLayout>
 
-    </android.support.v4.widget.NestedScrollView>
 
 </android.support.design.widget.CoordinatorLayout>

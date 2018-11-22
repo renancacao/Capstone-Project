@@ -58,25 +58,24 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.v4.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
 
             <ImageView
                 android:id="@+id/image_meme"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/image_creater_size"
+                android:layout_height="0dp"
                 android:layout_marginStart="@dimen/normal_pad"
                 android:layout_marginTop="@dimen/normal_pad"
                 android:layout_marginEnd="@dimen/normal_pad"
+                android:layout_marginBottom="8dp"
                 android:contentDescription="@string/meme_image"
                 android:scaleType="fitCenter"
+                app:layout_constraintBottom_toTopOf="@+id/textView_name"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -97,37 +96,37 @@
                 android:id="@+id/textView_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/normal_pad"
-                android:layout_marginTop="@dimen/normal_pad"
-                android:layout_marginEnd="@dimen/normal_pad"
+                android:layout_marginStart="@dimen/extra_pad"
+                android:layout_marginEnd="@dimen/extra_pad"
+                android:layout_marginBottom="8dp"
                 android:maxLines="1"
                 android:textSize="@dimen/meme_name_font_size"
+                app:layout_constraintBottom_toTopOf="@+id/textView_tags"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/image_meme"
                 tools:text="Nome do meme" />
 
             <TextView
                 android:id="@+id/textView_tags"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/normal_pad"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="@dimen/normal_pad"
+                android:layout_marginBottom="8dp"
                 android:maxLines="4"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView_name"
+                app:layout_constraintBottom_toTopOf="@+id/recyclerView_groups"
+                app:layout_constraintEnd_toEndOf="@+id/textView_name"
+                app:layout_constraintStart_toStartOf="@+id/textView_name"
                 tools:text="palavras, chaves" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerView_groups"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/normal_pad"
-                app:layout_constraintTop_toBottomOf="@+id/textView_tags" />
+                android:layout_margin="@dimen/extra_pad"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/textView_tags"
+                app:layout_constraintStart_toStartOf="@+id/textView_tags" />
 
         </android.support.constraint.ConstraintLayout>
 
-    </android.support.v4.widget.NestedScrollView>
 </android.support.design.widget.CoordinatorLayout>
