@@ -3,12 +3,15 @@ package com.rcacao.pocketmemes.ui;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.FileUriExposedException;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.rcacao.pocketmemes.FileUtils;
 import com.rcacao.pocketmemes.R;
 import com.rcacao.pocketmemes.adapters.GroupAdapter;
 import com.rcacao.pocketmemes.data.models.Group;
@@ -16,6 +19,7 @@ import com.rcacao.pocketmemes.data.models.Meme;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
 import java.util.List;
 
 import butterknife.BindView;
@@ -105,10 +109,15 @@ public class DetailsActivity extends BaseActivity {
         intent.setAction(Intent.ACTION_SEND);
         intent.setType("image/*");
 
-        Uri uri = meme.getImageUri();
-        intent.putExtra(Intent.EXTRA_STREAM, uri);
-        startActivity(Intent.createChooser(intent, getString(R.string.sharing_title)));
-
+        File file = new File(FileUtils.getFileNameWithPath(meme.getImage()));
+        if (file.exists()) {
+            Uri uri = meme.getImageUri();
+            intent.putExtra(Intent.EXTRA_STREAM, uri);
+            startActivity(Intent.createChooser(intent, getString(R.string.sharing_title)));
+        }
+        else{
+            Toast.makeText(this, getString(R.string.file_not_found), Toast.LENGTH_SHORT).show();
+        }
     }
 
 

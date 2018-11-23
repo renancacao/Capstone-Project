@@ -92,10 +92,7 @@ public class Meme implements Parcelable {
 
     public Uri getImageUri() {
         File file = new File(FileUtils.getFileNameWithPath(image));
-        if (file.exists()){
-            return Uri.fromFile(file);
-        }
-        return null;
+        return Uri.fromFile(file);
     }
 
     @Override
