@@ -51,6 +51,7 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.ResultHold
         Picasso.get().load(items.get(position).getLink())
                 .resize(R.integer.width_resize,0)
                 .onlyScaleDown()
+                .error(R.drawable.notfound)
                 .into(holder.imageResult);
 
     }

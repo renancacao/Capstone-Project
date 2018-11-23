@@ -49,7 +49,7 @@ public class MemeAdapter extends RecyclerView.Adapter<MemeAdapter.ResultHolder> 
     public void onBindViewHolder(@NonNull ResultHolder holder, int position) {
 
         Picasso.get().load(memes.get(position).getImageUri())
-                .into(holder.imageResult);
+                .error(R.drawable.notfound).into(holder.imageResult);
 
     }
 

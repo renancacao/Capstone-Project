@@ -2,4 +2,6 @@
 <resources>
     <integer name="width_resize">400</integer>
     <integer name="margin_creator">16</integer>
+    <integer name="main_collumns">2</integer>
+
 </resources>

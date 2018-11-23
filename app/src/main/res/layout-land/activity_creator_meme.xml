@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:animateLayoutChanges="true"
+        android:elevation="@dimen/menu_elevation"
+        android:fitsSystemWindows="true">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/search_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            android:background="@color/webSearchToolbar"
+            android:visibility="visible">
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/menu_back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_arrow_24dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:contentDescription="@string/back" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/menu_margin"
+                    android:gravity="center_vertical"
+                    android:text="@string/new_meme"
+                    android:textColor="@android:color/white"
+                    app:layout_constraintStart_toEndOf="@+id/menu_back" />
+
+
+                <ImageView
+                    android:id="@+id/menu_ok"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="@dimen/menu_margin_end"
+                    android:src="@drawable/ic_check_24dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:contentDescription="@string/ok" />
+
+
+            </android.support.constraint.ConstraintLayout>
+
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.AppBarLayout>
+
+
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <ImageView
+                android:id="@+id/image_meme"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="@dimen/extra_pad"
+                android:layout_marginTop="@dimen/extra_pad"
+                android:layout_marginEnd="@dimen/extra_pad"
+                android:layout_marginBottom="@dimen/extra_pad"
+                android:contentDescription="@string/meme_image"
+                android:scaleType="fitCenter"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/guideline"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ProgressBar
+                android:id="@+id/progressbar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="@+id/image_meme"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/image_meme"
+                app:layout_constraintTop_toTopOf="@+id/image_meme" />
+
+            <EditText
+                android:id="@+id/editText_top"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/normal_pad"
+                android:layout_marginEnd="@dimen/normal_pad"
+                android:hint="@string/top_text"
+                android:inputType="text"
+                android:maxLines="1"
+                app:layout_constraintBottom_toBottomOf="@+id/button_size_top"
+                app:layout_constraintEnd_toStartOf="@+id/button_size_top"
+                app:layout_constraintStart_toStartOf="@+id/guideline"
+                app:layout_constraintTop_toTopOf="@+id/button_size_top" />
+
+            <Button
+                android:id="@+id/button_color_top"
+                android:layout_width="@dimen/editor_button_size"
+                android:layout_height="@dimen/editor_button_size"
+                android:layout_marginTop="@dimen/extra_pad"
+                android:layout_marginEnd="@dimen/extra_pad"
+                android:background="@drawable/color_white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/image_meme"
+                tools:background="@drawable/color_black" />
+
+            <Button
+                android:id="@+id/button_size_top"
+                android:layout_width="@dimen/editor_button_size"
+                android:layout_height="@dimen/editor_button_size"
+                android:layout_marginEnd="@dimen/normal_pad"
+                app:layout_constraintBottom_toBottomOf="@+id/button_color_top"
+                app:layout_constraintEnd_toStartOf="@+id/button_color_top"
+                app:layout_constraintTop_toTopOf="@+id/button_color_top"
+                tools:text="10" />
+
+
+            <EditText
+                android:id="@+id/editText_middle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/normal_pad"
+                android:layout_marginEnd="@dimen/normal_pad"
+                android:hint="@string/middle_text"
+                android:inputType="text"
+                android:maxLines="1"
+                app:layout_constraintBottom_toBottomOf="@+id/button_size_middle"
+                app:layout_constraintEnd_toStartOf="@+id/button_size_middle"
+                app:layout_constraintStart_toStartOf="@+id/guideline"
+                app:layout_constraintTop_toTopOf="@+id/button_size_middle" />
+
+            <Button
+                android:id="@+id/button_color_middle"
+                android:layout_width="@dimen/editor_button_size"
+                android:layout_height="@dimen/editor_button_size"
+                android:layout_marginTop="@dimen/normal_pad"
+                android:layout_marginEnd="@dimen/extra_pad"
+                android:layout_marginBottom="@dimen/normal_pad"
+                android:background="@drawable/color_white"
+                app:layout_constraintBottom_toTopOf="@+id/button_color_bottom"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/button_color_top"
+                tools:background="@drawable/color_red" />
+
+            <Button
+                android:id="@+id/button_size_middle"
+                android:layout_width="@dimen/editor_button_size"
+                android:layout_height="@dimen/editor_button_size"
+                android:layout_marginEnd="@dimen/normal_pad"
+                app:layout_constraintBottom_toBottomOf="@+id/button_color_middle"
+                app:layout_constraintEnd_toStartOf="@+id/button_color_middle"
+                app:layout_constraintTop_toTopOf="@+id/button_color_middle"
+                tools:text="10" />
+
+            <EditText
+                android:id="@+id/editText_bottom"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/normal_pad"
+                android:layout_marginEnd="@dimen/normal_pad"
+                android:hint="@string/bottom_text"
+                android:inputType="text"
+                android:maxLines="1"
+                app:layout_constraintBottom_toBottomOf="@+id/button_size_bottom"
+                app:layout_constraintEnd_toStartOf="@+id/button_size_bottom"
+                app:layout_constraintStart_toStartOf="@+id/guideline"
+                app:layout_constraintTop_toTopOf="@+id/button_size_bottom" />
+
+            <Button
+                android:id="@+id/button_color_bottom"
+                android:layout_width="@dimen/editor_button_size"
+                android:layout_height="@dimen/editor_button_size"
+                android:layout_marginEnd="@dimen/extra_pad"
+                android:layout_marginBottom="@dimen/extra_pad"
+                android:background="@drawable/color_white"
+                app:layout_constraintBottom_toBottomOf="@+id/image_meme"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:background="@drawable/color_white" />
+
+            <Button
+                android:id="@+id/button_size_bottom"
+                android:layout_width="@dimen/editor_button_size"
+                android:layout_height="@dimen/editor_button_size"
+                android:layout_marginEnd="@dimen/normal_pad"
+                app:layout_constraintBottom_toBottomOf="@+id/button_color_bottom"
+                app:layout_constraintEnd_toStartOf="@+id/button_color_bottom"
+                app:layout_constraintTop_toTopOf="@+id/button_color_bottom"
+                tools:text="10" />
+
+            <android.support.constraint.Guideline
+                android:id="@+id/guideline"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintGuide_percent=".4"
+                app:layout_constraintStart_toStartOf="parent" />
+
+        </android.support.constraint.ConstraintLayout>
+</android.support.design.widget.CoordinatorLayout>

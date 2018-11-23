@@ -34,6 +34,8 @@ import butterknife.OnClick;
 
 public class CreatorMemeActivity extends BaseActivity {
 
+    private static final String ANALYTIC_NAME = "meme_creator";
+
     public static final String ARG_URL_IMAGE = "url_image";
     private static final int REQUEST_EDIT = 10;
 
@@ -94,7 +96,7 @@ public class CreatorMemeActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_creator_meme);
-        setBarColor(R.color.webSearchToolbarDark);
+        setupActivity(R.color.webSearchToolbarDark, ANALYTIC_NAME);
         ButterKnife.bind(this);
 
         createTargetImage();
@@ -114,11 +116,11 @@ public class CreatorMemeActivity extends BaseActivity {
     }
 
     private void loadImage(String imageUrl) {
-        Picasso.get().load(imageUrl).into(target);
+        Picasso.get().load(imageUrl).error(R.drawable.notfound).into(target);
     }
 
     private void loadImage(Uri imageUri) {
-        Picasso.get().load(imageUri).into(target);
+        Picasso.get().load(imageUri).error(R.drawable.notfound).into(target);
     }
 
 

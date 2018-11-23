@@ -40,11 +40,14 @@ public class NewGroupActivity extends BaseActivity implements IconAdapter.IconCl
     private List<GroupIcon> icons;
     private int selected = -1;
 
+    private static final String ANALYTIC_NAME = "new_group";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_group);
-        setBarColor(R.color.colorPrimaryDark);
+        setupActivity(R.color.colorPrimaryDark, ANALYTIC_NAME);
+
         ButterKnife.bind(this);
 
         icons = Constants.getIcons();

@@ -34,6 +34,8 @@ import static com.rcacao.pocketmemes.data.database.DataBaseContract.TagsEntry;
 
 public class EditActivity extends BaseActivity implements IconAdapter.IconClickListener {
 
+    private static final String ANALYTIC_NAME = "edit";
+
     public static final String EXTRA_FILE_NAME = "filename";
     @BindView(R.id.image_meme)
     ImageView imageMeme;
@@ -55,7 +57,7 @@ public class EditActivity extends BaseActivity implements IconAdapter.IconClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit);
-        setBarColor(R.color.webSearchToolbarDark);
+        setupActivity(R.color.webSearchToolbarDark, ANALYTIC_NAME);
         ButterKnife.bind(this);
 
         if (getIntent() != null) {
@@ -81,7 +83,7 @@ public class EditActivity extends BaseActivity implements IconAdapter.IconClickL
     private void openImage(String file) {
         String filename = FileUtils.getFileNameWithPath(file);
         Uri uri = Uri.fromFile(new File(filename));
-        Picasso.get().load(uri).memoryPolicy(MemoryPolicy.NO_CACHE).into(imageMeme);
+        Picasso.get().load(uri).memoryPolicy(MemoryPolicy.NO_CACHE).error(R.drawable.notfound).into(imageMeme);
     }
 
     private List<GroupIcon> getGroupsIcons() {

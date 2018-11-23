@@ -25,7 +25,7 @@ import butterknife.OnClick;
 public class DetailsActivity extends BaseActivity {
 
     public static final String EXTRA_MEME = "meme";
-
+    private static final String ANALYTIC_NAME = "details";
     @BindView(R.id.image_meme)
     ImageView imageMeme;
 
@@ -44,7 +44,7 @@ public class DetailsActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
-        setBarColor(R.color.colorShareDark);
+        setupActivity(R.color.colorShareDark, ANALYTIC_NAME);
         ButterKnife.bind(this);
 
         if (getIntent() != null) {
@@ -89,7 +89,7 @@ public class DetailsActivity extends BaseActivity {
     }
 
     private void openImage(Uri uri) {
-        Picasso.get().load(uri).memoryPolicy(MemoryPolicy.NO_CACHE).into(imageMeme);
+        Picasso.get().load(uri).memoryPolicy(MemoryPolicy.NO_CACHE).error(R.drawable.notfound).into(imageMeme);
     }
 
 

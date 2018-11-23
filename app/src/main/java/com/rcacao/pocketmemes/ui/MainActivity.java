@@ -43,6 +43,8 @@ import butterknife.OnClick;
 
 public class MainActivity extends BaseActivity implements LoaderManager.LoaderCallbacks<List<Meme>>, MemeAdapter.ResultClickListener {
 
+    private static final String ANALYTIC_NAME = "main";
+
     private static final int NEWGROUP_REQUEST = 10;
     private static final int NEWMEME_REQUEST = 15;
 
@@ -83,7 +85,7 @@ public class MainActivity extends BaseActivity implements LoaderManager.LoaderCa
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setBarColor(R.color.colorPrimaryDark);
+        setupActivity(R.color.colorPrimaryDark, ANALYTIC_NAME);
 
         ButterKnife.bind(this);
 
@@ -108,7 +110,8 @@ public class MainActivity extends BaseActivity implements LoaderManager.LoaderCa
     }
 
     private void setupRecyclerView() {
-        StaggeredGridLayoutManager lymg = new StaggeredGridLayoutManager(2,
+        StaggeredGridLayoutManager lymg = new StaggeredGridLayoutManager(
+                getResources().getInteger(R.integer.main_collumns),
                 StaggeredGridLayoutManager.VERTICAL);
 
         memeAdapter = new MemeAdapter(this, memes);

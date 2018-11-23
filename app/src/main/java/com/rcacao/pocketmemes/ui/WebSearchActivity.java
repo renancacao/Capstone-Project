@@ -32,6 +32,7 @@ public class WebSearchActivity extends BaseActivity implements
 
     private static final int ID_LOADER = 0;
     private static final int REQUEST_CREATOR = 10   ;
+    private static final String ANALYTIC_NAME = "web_search";
 
     @BindView(R.id.et_search)
     EditText etSearch;
@@ -51,7 +52,8 @@ public class WebSearchActivity extends BaseActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web_search);
-        setBarColor(R.color.webSearchToolbarDark);
+        setupActivity(R.color.webSearchToolbarDark, ANALYTIC_NAME);
+
         ButterKnife.bind(this);
 
 
