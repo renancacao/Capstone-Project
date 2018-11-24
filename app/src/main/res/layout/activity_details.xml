@@ -73,60 +73,98 @@
                 android:layout_marginStart="@dimen/normal_pad"
                 android:layout_marginTop="@dimen/normal_pad"
                 android:layout_marginEnd="@dimen/normal_pad"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="@dimen/normal_pad"
                 android:contentDescription="@string/meme_image"
                 android:scaleType="fitCenter"
-                app:layout_constraintBottom_toTopOf="@+id/textView_name"
+                app:layout_constraintBottom_toTopOf="@+id/guideline3"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
 
-            <ImageButton
-                android:id="@+id/button_share"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginEnd="@dimen/minimum_pad"
-                android:layout_marginBottom="@dimen/minimum_pad"
-                android:background="@drawable/button_share"
-                android:contentDescription="@string/share"
-                android:src="@drawable/ic_share"
-                app:layout_constraintBottom_toBottomOf="@+id/image_meme"
-                app:layout_constraintEnd_toEndOf="parent" />
 
             <TextView
                 android:id="@+id/textView_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/extra_pad"
-                android:layout_marginEnd="@dimen/extra_pad"
-                android:layout_marginBottom="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
                 android:maxLines="1"
                 android:textSize="@dimen/meme_name_font_size"
-                app:layout_constraintBottom_toTopOf="@+id/textView_tags"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView3"
                 tools:text="Nome do meme" />
 
             <TextView
                 android:id="@+id/textView_tags"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:maxLines="4"
-                app:layout_constraintBottom_toTopOf="@+id/recyclerView_groups"
+                android:maxLines="3"
                 app:layout_constraintEnd_toEndOf="@+id/textView_name"
+                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="@+id/textView_name"
+                app:layout_constraintTop_toBottomOf="@+id/textView4"
                 tools:text="palavras, chaves" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerView_groups"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/extra_pad"
-                android:layout_marginBottom="8dp"
+                android:layout_margin="@dimen/normal_pad"
+                android:layout_marginTop="@dimen/normal_pad"
+                android:layout_marginEnd="@dimen/normal_pad"
+                android:layout_marginBottom="@dimen/normal_pad"
+                android:foregroundGravity="top"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/textView_tags"
-                app:layout_constraintStart_toStartOf="@+id/textView_tags" />
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/textView_tags"
+                app:layout_constraintTop_toBottomOf="@+id/textView_tags"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <android.support.constraint.Guideline
+                android:id="@+id/guideline3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent=".45" />
+
+            <ImageButton
+                android:id="@+id/button_share"
+                android:layout_width="@dimen/fab_size"
+                android:layout_height="@dimen/fab_size"
+                android:layout_marginEnd="@dimen/fab_margin"
+                android:layout_marginBottom="@dimen/fab_margin"
+                android:background="@drawable/button_share"
+                android:contentDescription="@string/share"
+                android:src="@drawable/ic_share"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:text="@string/meme_name"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/guideline3" />
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/tags_labrl"
+                app:layout_constraintEnd_toEndOf="@+id/textView_name"
+                app:layout_constraintStart_toStartOf="@+id/textView_name"
+                app:layout_constraintTop_toBottomOf="@+id/textView_name" />
 
         </android.support.constraint.ConstraintLayout>
 

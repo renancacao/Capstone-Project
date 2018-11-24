@@ -73,7 +73,7 @@
                 android:layout_marginBottom="@dimen/normal_pad"
                 android:contentDescription="@string/meme_image"
                 android:scaleType="fitCenter"
-                app:layout_constraintBottom_toTopOf="@+id/editText_name"
+                app:layout_constraintBottom_toTopOf="@+id/guideline4"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -86,27 +86,26 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/normal_pad"
                 android:layout_marginEnd="@dimen/normal_pad"
-                android:layout_marginBottom="@dimen/normal_pad"
                 android:hint="@string/meme_name"
                 android:inputType="text"
                 android:maxLines="1"
-                app:layout_constraintBottom_toTopOf="@+id/editText_tags"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/guideline4" />
 
             <EditText
                 android:id="@+id/editText_tags"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/normal_pad"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="@dimen/normal_pad"
-                android:layout_marginBottom="@dimen/normal_pad"
                 android:hint="@string/tags_hint"
                 android:inputType="text"
                 android:maxLines="1"
-                app:layout_constraintBottom_toTopOf="@+id/recyclerView_groups"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editText_name" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerView_groups"
@@ -114,11 +113,20 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/normal_pad"
                 android:layout_marginStart="@dimen/normal_pad"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="@dimen/normal_pad"
-                android:layout_marginBottom="@dimen/normal_pad"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editText_tags"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <android.support.constraint.Guideline
+                android:id="@+id/guideline4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent=".5" />
 
         </android.support.constraint.ConstraintLayout>
 

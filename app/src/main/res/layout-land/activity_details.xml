@@ -82,17 +82,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageButton
-            android:id="@+id/button_share"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            android:background="@drawable/button_share"
-            android:contentDescription="@string/share"
-            android:src="@drawable/ic_share"
-            app:layout_constraintBottom_toBottomOf="@+id/image_meme"
-            app:layout_constraintEnd_toEndOf="@+id/image_meme" />
+
 
         <android.support.constraint.Guideline
             android:id="@+id/guideline2"
@@ -100,22 +90,34 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintGuide_begin="237dp"
+            app:layout_constraintGuide_percent=".5"
             app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/normal_pad"
+            android:layout_marginTop="@dimen/normal_pad"
+            android:layout_marginEnd="@dimen/normal_pad"
+            android:text="@string/meme_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guideline2"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/textView_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/normal_pad"
-            android:layout_marginTop="@dimen/normal_pad"
             android:layout_marginEnd="@dimen/normal_pad"
             android:maxLines="1"
-            android:textAlignment="center"
+            android:textAlignment="textStart"
             android:textSize="@dimen/meme_name_font_size"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="@+id/guideline2"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView"
             tools:text="Nome do Meme" />
 
         <TextView
@@ -123,28 +125,54 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/normal_pad"
-            android:layout_marginTop="@dimen/normal_pad"
             android:layout_marginEnd="@dimen/normal_pad"
-            android:maxLines="1"
-            android:textAlignment="center"
+            android:maxLines="3"
+            android:textAlignment="textStart"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/guideline2"
-            app:layout_constraintTop_toBottomOf="@+id/textView_name"
+            app:layout_constraintTop_toBottomOf="@+id/textView2"
             tools:text="@string/tags_hint" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerView_groups"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_margin="@dimen/normal_pad"
             android:layout_marginStart="@dimen/normal_pad"
             android:layout_marginTop="@dimen/normal_pad"
             android:layout_marginEnd="@dimen/normal_pad"
             android:layout_marginBottom="@dimen/normal_pad"
+            android:foregroundGravity="top"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/guideline2"
-            app:layout_constraintTop_toBottomOf="@+id/textView_tags" />
+            app:layout_constraintTop_toBottomOf="@+id/textView_tags"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/normal_pad"
+            android:layout_marginTop="@dimen/normal_pad"
+            android:layout_marginEnd="@dimen/normal_pad"
+            android:text="@string/tags_labrl"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guideline2"
+            app:layout_constraintTop_toBottomOf="@+id/textView_name" />
+
+        <ImageButton
+            android:id="@+id/button_share"
+            android:layout_width="@dimen/fab_size"
+            android:layout_height="@dimen/fab_size"
+            android:layout_marginEnd="@dimen/fab_margin"
+            android:layout_marginBottom="@dimen/fab_margin"
+            android:background="@drawable/button_share"
+            android:contentDescription="@string/share"
+            android:src="@drawable/ic_share"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
     </android.support.constraint.ConstraintLayout>
 

@@ -39,5 +39,6 @@
     <string name="selected_group">Grupo selecionado</string>
     <string name="clear_group">Limpar grupo selecionado</string>
     <string name="file_not_found">Arquivo não encontrado!</string>
+    <string name="tags_labrl">Palavras chave</string>
 
 </resources>
