@@ -3,7 +3,7 @@ package com.rcacao.pocketmemes.ui;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.FileUriExposedException;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -30,6 +30,7 @@ public class DetailsActivity extends BaseActivity {
 
     public static final String EXTRA_MEME = "meme";
     private static final String ANALYTIC_NAME = "details";
+    private static final int REQUEST_EDIT = 0;
     @BindView(R.id.image_meme)
     ImageView imageMeme;
 
@@ -65,7 +66,7 @@ public class DetailsActivity extends BaseActivity {
     private void loadMeme() {
 
         textViewName.setText(meme.getName());
-        textViewTags.setText(getTags(meme.getTags()));
+        textViewTags.setText(meme.getTagsText());
 
         openImage(meme.getImageUri());
 
@@ -81,26 +82,31 @@ public class DetailsActivity extends BaseActivity {
         recyclerViewGroups.setLayoutManager(layoutManager);
     }
 
-    private String getTags(List<String> tags) {
-        StringBuilder stringBuilderTag = new StringBuilder();
-        for (String tag : tags) {
-            if (stringBuilderTag.length() > 0) {
-                stringBuilderTag.append(", ");
-            }
-            stringBuilderTag.append(tag);
-        }
-        return stringBuilderTag.toString();
-    }
 
     private void openImage(Uri uri) {
         Picasso.get().load(uri).memoryPolicy(MemoryPolicy.NO_CACHE).error(R.drawable.notfound).into(imageMeme);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (requestCode == REQUEST_EDIT && resultCode == RESULT_OK && data != null) {
+            meme = data.getParcelableExtra(EXTRA_MEME);
+            loadMeme();
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 
     @OnClick(R.id.menu_back)
     void clickBack() {
         this.setResult(RESULT_CANCELED);
         finish();
+    }
+
+    @OnClick(R.id.button_edit)
+    void clickEdit() {
+        Intent intent = new Intent(this, EditActivity.class);
+        intent.putExtra(EditActivity.EXTRA_EDIT_MEME, meme);
+        startActivityForResult(intent, REQUEST_EDIT);
     }
 
     @OnClick(R.id.button_share)
@@ -114,8 +120,7 @@ public class DetailsActivity extends BaseActivity {
             Uri uri = meme.getImageUri();
             intent.putExtra(Intent.EXTRA_STREAM, uri);
             startActivity(Intent.createChooser(intent, getString(R.string.sharing_title)));
-        }
-        else{
+        } else {
             Toast.makeText(this, getString(R.string.file_not_found), Toast.LENGTH_SHORT).show();
         }
     }

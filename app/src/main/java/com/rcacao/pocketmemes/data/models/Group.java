@@ -13,6 +13,12 @@ public class Group implements Parcelable {
 
     }
 
+    public Group(int id, int image, String name) {
+        this.id = id;
+        this.image = image;
+        this.name = name;
+    }
+
     private Group(Parcel in) {
         id = in.readInt();
         image = in.readInt();
@@ -65,5 +71,19 @@ public class Group implements Parcelable {
         dest.writeInt(id);
         dest.writeInt(image);
         dest.writeString(name);
+    }
+
+    @Override
+    public int hashCode() {
+        return id;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj != null && obj.getClass() == GroupIcon.class) {
+            return ((GroupIcon) obj).getId() == id;
+        } else {
+            return this == obj;
+        }
     }
 }

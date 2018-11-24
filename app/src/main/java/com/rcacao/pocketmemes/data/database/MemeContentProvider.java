@@ -38,6 +38,7 @@ public class MemeContentProvider extends ContentProvider {
     private static final int TAGS_BY_ID = 401;
     private static final UriMatcher sUriMatcher = buildUriMatcher();
     private static final String FAIL = "Falha: ";
+    public static final String WHERE_CLAUSE_ID = "_id=?";
     private DataBaseHelper dbHelper;
 
     private static UriMatcher buildUriMatcher() {
@@ -223,7 +224,7 @@ public class MemeContentProvider extends ContentProvider {
 
             case MEME_BY_ID:
                 idMeme = uri.getPathSegments().get(1);
-                deleted = db.delete(MemeEntry.TABLE_NAME, "_id=?", new String[]{idMeme});
+                deleted = db.delete(MemeEntry.TABLE_NAME, WHERE_CLAUSE_ID, new String[]{idMeme});
                 break;
 
             case GROUPS:
@@ -232,7 +233,7 @@ public class MemeContentProvider extends ContentProvider {
 
             case GROUP_BY_ID:
                 idGroup = uri.getPathSegments().get(1);
-                deleted = db.delete(GroupEntry.TABLE_NAME, "_id=?", new String[]{idGroup});
+                deleted = db.delete(GroupEntry.TABLE_NAME, WHERE_CLAUSE_ID, new String[]{idGroup});
                 break;
 
             case GROUP_MEMES:
@@ -254,7 +255,7 @@ public class MemeContentProvider extends ContentProvider {
 
             case TAGS_BY_ID:
                 idMeme = uri.getPathSegments().get(1);
-                deleted = db.delete(TagsEntry.TABLE_NAME, "_id=?", new String[]{idMeme});
+                deleted = db.delete(TagsEntry.TABLE_NAME, WHERE_CLAUSE_ID, new String[]{idMeme});
                 break;
 
             default:
@@ -271,8 +272,19 @@ public class MemeContentProvider extends ContentProvider {
     }
 
     @Override
-    public int update(@NonNull Uri uri, @Nullable ContentValues contentValues, @Nullable String s, @Nullable String[] strings) {
-        throw new UnsupportedOperationException("Not yet implemented");
+    public int update(@NonNull Uri uri, @Nullable ContentValues contentValues, @Nullable String whereClause, @Nullable String[] selectValues) {
+
+        final SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        int result = 0;
+
+        int match = sUriMatcher.match(uri);
+        if (match == MEMES) {
+            result = db.update(MemeEntry.TABLE_NAME, contentValues, whereClause, selectValues);
+        }
+
+        return result;
+
 
     }
 }

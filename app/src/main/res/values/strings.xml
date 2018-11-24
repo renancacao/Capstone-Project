@@ -17,7 +17,8 @@
     <string name="top_text">Texto superior</string>
     <string name="middle_text">Texto central</string>
     <string name="bottom_text">Texto inferior</string>
-    <string name="meme_saved">Novo meme salvo!</string>
+    <string name="new_meme_saved">Novo meme salvo!</string>
+    <string name="meme_saved">Meme salvo!</string>
     <string name="order_name">Ordenar por nome</string>
     <string name="order_date">Ordenar por data</string>
 

@@ -109,4 +109,15 @@ public class Meme implements Parcelable {
         dest.writeTypedList(groups);
         dest.writeString(image);
     }
+
+    public String getTagsText() {
+        StringBuilder stringBuilderTag = new StringBuilder();
+        for (String tag : tags) {
+            if (stringBuilderTag.length() > 0) {
+                stringBuilderTag.append(", ");
+            }
+            stringBuilderTag.append(tag);
+        }
+        return stringBuilderTag.toString();
+    }
 }
