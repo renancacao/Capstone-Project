@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
@@ -15,6 +16,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Random;
+
+import static com.rcacao.pocketmemes.Constants.PROVIDER_AUTH;
 
 public class FileUtils {
 
@@ -51,7 +54,7 @@ public class FileUtils {
         return Constants.IMAGE_PATH + POCKET_MEMES_SUFIX + String.valueOf(fileName) + PNG_FILE;
     }
 
-    public static boolean saveBitmap(String file, Bitmap image, Context ctx)  {
+    public static boolean saveBitmap(String file, Bitmap image, Context ctx) {
         String filename = getFileNameWithPath(file);
         boolean result = true;
         FileOutputStream out = null;
@@ -88,7 +91,7 @@ public class FileUtils {
 
     private static void updateImages(File file, Context ctx) {
         Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-        Uri contentUri = Uri.fromFile(file);
+        Uri contentUri = FileProvider.getUriForFile(ctx, PROVIDER_AUTH, file);
         mediaScanIntent.setData(contentUri);
         ctx.sendBroadcast(mediaScanIntent);
     }

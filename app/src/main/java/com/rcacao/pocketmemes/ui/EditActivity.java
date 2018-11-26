@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.content.FileProvider;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -31,6 +32,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.rcacao.pocketmemes.Constants.PROVIDER_AUTH;
 import static com.rcacao.pocketmemes.data.database.DataBaseContract.GroupEntry;
 import static com.rcacao.pocketmemes.data.database.DataBaseContract.GroupMemeEntry;
 import static com.rcacao.pocketmemes.data.database.DataBaseContract.MemeEntry;
@@ -100,7 +102,7 @@ public class EditActivity extends BaseActivity implements IconAdapter.IconClickL
 
     private void openImage(String file) {
         String filename = FileUtils.getFileNameWithPath(file);
-        Uri uri = Uri.fromFile(new File(filename));
+        Uri uri = FileProvider.getUriForFile(this, PROVIDER_AUTH,new File(filename));
         Picasso.get().load(uri).memoryPolicy(MemoryPolicy.NO_CACHE)
                 .error(R.drawable.notfound).into(imageMeme);
     }

@@ -7,66 +7,68 @@ public class DataBaseContract {
 
     static final String AUTHORITY = "com.rcacao.pocketmemes";
 
+    static final String PATH_RANDOM = "random";
     static final String PATH_MEMES = "memes";
     static final String PATH_LAST_MEMES = "lastmemes";
     static final String PATH_GROUP = "groups";
     static final String PATH_GROUP_MEMES = "groupmemes";
     static final String PATH_TAGS = "tags";
-
-    private DataBaseContract(){}
-
     private static final Uri BASE_CONTENT_URI = Uri.parse("content://" + AUTHORITY);
+
+    private DataBaseContract() {
+    }
+
+    public static final class RandomEntry {
+        public static final Uri CONTENT_URI =
+                BASE_CONTENT_URI.buildUpon().appendPath(PATH_RANDOM).build();
+    }
 
     public static final class MemeEntry implements BaseColumns {
 
-        private MemeEntry(){}
-
         public static final Uri CONTENT_URI =
                 BASE_CONTENT_URI.buildUpon().appendPath(PATH_MEMES).build();
-
-        static final String TABLE_NAME = "meme";
         public static final String COLUMN_NAME = "name";
         public static final String COLUMN_CREATION = "creationDate";
         public static final String COLUMN_IMAGE = "imagefile";
+        static final String TABLE_NAME = "meme";
+        private MemeEntry() {
+        }
 
     }
 
     public static final class GroupEntry implements BaseColumns {
 
-        private GroupEntry(){}
-
         public static final Uri CONTENT_URI =
                 BASE_CONTENT_URI.buildUpon().appendPath(PATH_GROUP).build();
-
-        static final String TABLE_NAME = "groups";
         public static final String COLUMN_NAME = "name";
         public static final String COLUMN_IMAGE = "image";
+        static final String TABLE_NAME = "groups";
+        private GroupEntry() {
+        }
 
     }
 
     public static final class GroupMemeEntry implements BaseColumns {
 
-        private GroupMemeEntry(){}
-
         public static final Uri CONTENT_URI =
                 BASE_CONTENT_URI.buildUpon().appendPath(PATH_GROUP_MEMES).build();
-
-        static final String TABLE_NAME = "groupmemes";
         public static final String COLUMN_ID_MEME = "id_meme";
         public static final String COLUMN_ID_GROUP = "id_group";
+        static final String TABLE_NAME = "groupmemes";
+        private GroupMemeEntry() {
+        }
 
     }
 
     public static final class TagsEntry implements BaseColumns {
 
-        private TagsEntry(){}
-
         public static final Uri CONTENT_URI =
                 BASE_CONTENT_URI.buildUpon().appendPath(PATH_TAGS).build();
-
-        static final String TABLE_NAME = "tags";
         public static final String COLUMN_ID_MEME = "id_meme";
         public static final String COLUMN_TAG = "tag";
+        static final String TABLE_NAME = "tags";
+        private TagsEntry() {
+        }
 
     }
 

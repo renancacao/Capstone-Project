@@ -40,5 +40,7 @@
     <string name="clear_group">Limpar grupo selecionado</string>
     <string name="file_not_found">Arquivo não encontrado!</string>
     <string name="tags_labrl">Palavras chave</string>
+    <string name="pocket_meme_widget">Pocket Meme Widget</string>
+    <string name="no_meme_saved">Nenhum Meme salvo!</string>
 
 </resources>

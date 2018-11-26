@@ -12,9 +12,7 @@ import static android.os.Environment.DIRECTORY_PICTURES;
 
 public class Constants {
 
-    private Constants() {
-    }
-
+    public static final String PROVIDER_AUTH = "com.rcacao.pocketmemes.fileprovider";
     public static final ColorItem[] COLORS = new ColorItem[]{
             new ColorItem(R.drawable.color_white, R.color.font_creator_white),
             new ColorItem(R.drawable.color_gray, R.color.font_creator_gray),
@@ -26,11 +24,12 @@ public class Constants {
             new ColorItem(R.drawable.color_red, R.color.font_creator_red),
             new ColorItem(R.drawable.color_yellow, R.color.font_creator_yellow)
     };
-
     public static final int[] FONT_SIZE = new int[]{25, 50, 75, 100, 125, 150};
-
     static final String IMAGE_PATH
             = Environment.getExternalStoragePublicDirectory(DIRECTORY_PICTURES).getPath() + "/pocketMemes/";
+
+    private Constants() {
+    }
 
     public static List<GroupIcon> getIcons() {
 

@@ -29,6 +29,7 @@ import butterknife.OnClick;
 public class DetailsActivity extends BaseActivity {
 
     public static final String EXTRA_MEME = "meme";
+    public static final String EXTRA_MEME_ID = "meme_id";
     private static final String ANALYTIC_NAME = "details";
     private static final int REQUEST_EDIT = 0;
     @BindView(R.id.image_meme)
@@ -68,7 +69,7 @@ public class DetailsActivity extends BaseActivity {
         textViewName.setText(meme.getName());
         textViewTags.setText(meme.getTagsText());
 
-        openImage(meme.getImageUri());
+        openImage(meme.getImageUri(this));
 
         List<Group> groups = meme.getGroups();
         GroupAdapter adapter = new GroupAdapter(this, groups);
@@ -117,7 +118,7 @@ public class DetailsActivity extends BaseActivity {
 
         File file = new File(FileUtils.getFileNameWithPath(meme.getImage()));
         if (file.exists()) {
-            Uri uri = meme.getImageUri();
+            Uri uri = meme.getImageUri(this);
             intent.putExtra(Intent.EXTRA_STREAM, uri);
             startActivity(Intent.createChooser(intent, getString(R.string.sharing_title)));
         } else {

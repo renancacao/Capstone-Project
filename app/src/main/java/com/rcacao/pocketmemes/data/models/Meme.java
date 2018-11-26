@@ -1,13 +1,17 @@
 package com.rcacao.pocketmemes.data.models;
 
+import android.content.Context;
 import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.v4.content.FileProvider;
 
 import com.rcacao.pocketmemes.FileUtils;
 
 import java.io.File;
 import java.util.List;
+
+import static com.rcacao.pocketmemes.Constants.PROVIDER_AUTH;
 
 public class Meme implements Parcelable {
 
@@ -90,9 +94,9 @@ public class Meme implements Parcelable {
         this.image = image;
     }
 
-    public Uri getImageUri() {
+    public Uri getImageUri(Context context) {
         File file = new File(FileUtils.getFileNameWithPath(image));
-        return Uri.fromFile(file);
+        return FileProvider.getUriForFile(context, PROVIDER_AUTH,file);
     }
 
     @Override

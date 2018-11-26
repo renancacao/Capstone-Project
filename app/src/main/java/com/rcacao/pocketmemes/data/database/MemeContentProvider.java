@@ -22,11 +22,13 @@ import static com.rcacao.pocketmemes.data.database.DataBaseContract.PATH_GROUP;
 import static com.rcacao.pocketmemes.data.database.DataBaseContract.PATH_GROUP_MEMES;
 import static com.rcacao.pocketmemes.data.database.DataBaseContract.PATH_LAST_MEMES;
 import static com.rcacao.pocketmemes.data.database.DataBaseContract.PATH_MEMES;
+import static com.rcacao.pocketmemes.data.database.DataBaseContract.PATH_RANDOM;
 import static com.rcacao.pocketmemes.data.database.DataBaseContract.PATH_TAGS;
 
 
 public class MemeContentProvider extends ContentProvider {
 
+    private static final int RANDOM = 50;
     private static final int MEMES = 100;
     private static final int MEME_BY_ID = 101;
     private static final int LAST_MEME = 102;
@@ -44,6 +46,8 @@ public class MemeContentProvider extends ContentProvider {
     private static UriMatcher buildUriMatcher() {
 
         UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
+
+        uriMatcher.addURI(AUTHORITY, PATH_RANDOM, RANDOM);
 
         uriMatcher.addURI(AUTHORITY, PATH_MEMES, MEMES);
         uriMatcher.addURI(AUTHORITY, PATH_MEMES + "/#", MEME_BY_ID);
@@ -79,6 +83,12 @@ public class MemeContentProvider extends ContentProvider {
         String sql;
 
         switch (match) {
+
+            case RANDOM:
+                sql = "SELECT " + MemeEntry._ID + ", " + MemeEntry.COLUMN_IMAGE + " FROM " +
+                        MemeEntry.TABLE_NAME + " ORDER BY RANDOM() LIMIT 1";
+                retCursor = db.rawQuery(sql, args);
+                break;
 
             case MEMES:
                 sql = "SELECT m." + MemeEntry._ID + ",m." +
