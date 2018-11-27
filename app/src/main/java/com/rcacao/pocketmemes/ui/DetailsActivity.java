@@ -1,6 +1,7 @@
 package com.rcacao.pocketmemes.ui;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 import com.rcacao.pocketmemes.FileUtils;
 import com.rcacao.pocketmemes.R;
 import com.rcacao.pocketmemes.adapters.GroupAdapter;
+import com.rcacao.pocketmemes.data.database.DataBaseContract;
 import com.rcacao.pocketmemes.data.models.Group;
 import com.rcacao.pocketmemes.data.models.Meme;
 import com.squareup.picasso.MemoryPolicy;
@@ -25,6 +27,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static com.rcacao.pocketmemes.data.util.DataUtils.getMemeFromCursor;
 
 public class DetailsActivity extends BaseActivity {
 
@@ -52,9 +56,20 @@ public class DetailsActivity extends BaseActivity {
         setContentView(R.layout.activity_details);
         setupActivity(R.color.colorShareDark, ANALYTIC_NAME);
         ButterKnife.bind(this);
+        Intent intent = getIntent();
+        setupView(intent);
+    }
 
-        if (getIntent() != null) {
-            meme = getIntent().getParcelableExtra(EXTRA_MEME);
+
+    private void setupView(Intent intent) {
+
+        if (intent != null) {
+            if (intent.hasExtra(EXTRA_MEME)) {
+                meme = getIntent().getParcelableExtra(EXTRA_MEME);
+            } else if (intent.hasExtra(EXTRA_MEME_ID)){
+                meme = getMemeFromID(intent.getIntExtra(EXTRA_MEME_ID,0));
+                setResult(RESULT_OK);
+            }
         }
 
         if (meme == null) {
@@ -62,6 +77,30 @@ public class DetailsActivity extends BaseActivity {
         }
 
         loadMeme();
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setupView(intent);
+    }
+
+    private Meme getMemeFromID(int memeId) {
+
+        Meme memeFromId = null;
+        Cursor cursor = getContentResolver().query(
+                Uri.parse(DataBaseContract.MemeEntry.CONTENT_URI.toString() + "/" + memeId),
+                null, null, null, null);
+
+        if (cursor != null){
+            if (cursor.moveToFirst()){
+                memeFromId = getMemeFromCursor(cursor,this);
+            }
+            cursor.close();
+        }
+
+        return memeFromId;
+
     }
 
     private void loadMeme() {
@@ -92,6 +131,7 @@ public class DetailsActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (requestCode == REQUEST_EDIT && resultCode == RESULT_OK && data != null) {
             meme = data.getParcelableExtra(EXTRA_MEME);
+            setResult(RESULT_OK);
             loadMeme();
         }
         super.onActivityResult(requestCode, resultCode, data);
@@ -99,7 +139,6 @@ public class DetailsActivity extends BaseActivity {
 
     @OnClick(R.id.menu_back)
     void clickBack() {
-        this.setResult(RESULT_CANCELED);
         finish();
     }
 

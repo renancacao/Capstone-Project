@@ -47,6 +47,7 @@ public class MainActivity extends BaseActivity implements LoaderManager.LoaderCa
 
     private static final int NEWGROUP_REQUEST = 10;
     private static final int NEWMEME_REQUEST = 15;
+    private static final int DETAILS_REQUEST = 20;
 
     private static final int LOADER_MEMES = 1;
     private static final String PREF_ORDER = "pref_order";
@@ -229,8 +230,12 @@ public class MainActivity extends BaseActivity implements LoaderManager.LoaderCa
                 order = MemesAsyncLoader.ORDER_NAME;
                 loadMemes(etSearch.getText().toString(), selectedGroup, order);
                 return true;
-            case R.id.mnuDate:
-                order = MemesAsyncLoader.ORDER_DATE;
+            case R.id.mnuNewest:
+                order = MemesAsyncLoader.ORDER_NEWEST;
+                loadMemes(etSearch.getText().toString(), selectedGroup, order);
+                return true;
+            case R.id.mnuOldest:
+                order = MemesAsyncLoader.ORDER_OLDEST;
                 loadMemes(etSearch.getText().toString(), selectedGroup, order);
                 return true;
             default:
@@ -287,7 +292,7 @@ public class MainActivity extends BaseActivity implements LoaderManager.LoaderCa
         if (resultCode == RESULT_OK) {
             if (requestCode == NEWGROUP_REQUEST) {
                 loadMenu();
-            } else if (requestCode == NEWMEME_REQUEST) {
+            } else if (requestCode == NEWMEME_REQUEST || requestCode ==  DETAILS_REQUEST) {
                 loadMemes(etSearch.getText().toString(), selectedGroup, order);
             }
         }
@@ -323,6 +328,6 @@ public class MainActivity extends BaseActivity implements LoaderManager.LoaderCa
         Meme meme = memes.get(id);
         Intent intent = new Intent(this, DetailsActivity.class);
         intent.putExtra(DetailsActivity.EXTRA_MEME, meme);
-        startActivity(intent);
+        startActivityForResult(intent, DETAILS_REQUEST);
     }
 }

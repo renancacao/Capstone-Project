@@ -6,8 +6,6 @@ import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.net.Uri;
-import android.support.v4.content.FileProvider;
 import android.view.View;
 import android.widget.RemoteViews;
 
@@ -20,8 +18,6 @@ import com.squareup.picasso.Picasso;
 
 import java.io.File;
 
-import static com.rcacao.pocketmemes.Constants.PROVIDER_AUTH;
-
 public class WidgetProvider extends AppWidgetProvider {
 
 
@@ -32,11 +28,10 @@ public class WidgetProvider extends AppWidgetProvider {
 
             RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
 
-            Cursor cursor;
-            int idMeme = -1;
-
+            int idMeme;
             views.setViewVisibility(R.id.widget_empty_view,View.VISIBLE);
 
+            Cursor cursor;
             cursor = context.getContentResolver().query(RandomEntry.CONTENT_URI, null, null, null, null);
             if (cursor != null) {
                 if (cursor.moveToNext()) {
@@ -46,7 +41,8 @@ public class WidgetProvider extends AppWidgetProvider {
                     idMeme = cursor.getInt(cursor.getColumnIndex(DataBaseContract.MemeEntry._ID));
                     Intent intent = new Intent(context, DetailsActivity.class);
                     intent.putExtra(DetailsActivity.EXTRA_MEME_ID, idMeme);
-                    PendingIntent appPendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                    PendingIntent appPendingIntent = PendingIntent.getActivity(context, appWidgetId, intent, 0);
                     views.setOnClickPendingIntent(R.id.image_widget, appPendingIntent);
 
                     File file = new File(

@@ -3,6 +3,9 @@
     <item
         android:id="@+id/mnuName"
         android:title="@string/order_name" />
-    <item android:id="@+id/mnuDate"
-        android:title="@string/order_date"/>
+    <item android:id="@+id/mnuNewest"
+        android:title="@string/order_newest"/>
+    <item android:id="@+id/mnuOldest"
+        android:title="@string/order_oldest"/>
+
 </menu>

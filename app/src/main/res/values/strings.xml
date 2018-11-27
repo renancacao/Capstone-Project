@@ -20,7 +20,8 @@
     <string name="new_meme_saved">Novo meme salvo!</string>
     <string name="meme_saved">Meme salvo!</string>
     <string name="order_name">Ordenar por nome</string>
-    <string name="order_date">Ordenar por data</string>
+    <string name="order_newest">Mais novo</string>
+    <string name="order_oldest">Mais velho</string>
 
     <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
     <string name="see_meme">Ver meme</string>

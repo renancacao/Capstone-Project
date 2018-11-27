@@ -40,7 +40,6 @@ public class MemeContentProvider extends ContentProvider {
     private static final int TAGS_BY_ID = 401;
     private static final UriMatcher sUriMatcher = buildUriMatcher();
     private static final String FAIL = "Falha: ";
-    public static final String WHERE_CLAUSE_ID = "_id=?";
     private DataBaseHelper dbHelper;
 
     private static UriMatcher buildUriMatcher() {
@@ -107,6 +106,23 @@ public class MemeContentProvider extends ContentProvider {
 
                 sql = sql + "GROUP BY m." + MemeEntry._ID + ",m." + MemeEntry.COLUMN_NAME + ", m." +
                         MemeEntry.COLUMN_CREATION + " ORDER BY m." + sortOrder;
+
+                retCursor = db.rawQuery(sql, args);
+                break;
+
+            case MEME_BY_ID:
+                String idMeme = uri.getPathSegments().get(1);
+                sql = "SELECT m." + MemeEntry._ID + ",m." +
+                        MemeEntry.COLUMN_NAME + ",m." +
+                        MemeEntry.COLUMN_IMAGE + ",m." +
+                        MemeEntry.COLUMN_CREATION + " FROM (" +
+                        MemeEntry.TABLE_NAME + " AS m LEFT JOIN " + TagsEntry.TABLE_NAME + " AS t " +
+                        "ON t." + TagsEntry.COLUMN_ID_MEME + " = m." + MemeEntry._ID + ") LEFT JOIN " +
+                        GroupMemeEntry.TABLE_NAME + " AS g ON  g." + GroupMemeEntry.COLUMN_ID_MEME +
+                        " = m." + MemeEntry._ID + " WHERE (m." + MemeEntry._ID + "=" + idMeme + ") ";
+
+                sql = sql + "GROUP BY m." + MemeEntry._ID + ",m." + MemeEntry.COLUMN_NAME + ", m." +
+                        MemeEntry.COLUMN_CREATION;
 
                 retCursor = db.rawQuery(sql, args);
                 break;
@@ -217,56 +233,30 @@ public class MemeContentProvider extends ContentProvider {
     }
 
     @Override
-    public int delete(@NonNull Uri uri, @Nullable String s, @Nullable String[] strings) {
+    public int delete(@NonNull Uri uri, @Nullable String whereClause, @Nullable String[] whereArgs) {
         final SQLiteDatabase db = dbHelper.getWritableDatabase();
 
         int match = sUriMatcher.match(uri);
         int deleted;
 
-        String idMeme;
-        String idGroup;
-
         switch (match) {
 
             case MEMES:
-                deleted = db.delete(MemeEntry.TABLE_NAME, null, null);
-                break;
-
-            case MEME_BY_ID:
-                idMeme = uri.getPathSegments().get(1);
-                deleted = db.delete(MemeEntry.TABLE_NAME, WHERE_CLAUSE_ID, new String[]{idMeme});
+                deleted = db.delete(MemeEntry.TABLE_NAME, whereClause, whereArgs);
                 break;
 
             case GROUPS:
-                deleted = db.delete(GroupEntry.TABLE_NAME, null, null);
-                break;
-
-            case GROUP_BY_ID:
-                idGroup = uri.getPathSegments().get(1);
-                deleted = db.delete(GroupEntry.TABLE_NAME, WHERE_CLAUSE_ID, new String[]{idGroup});
+                deleted = db.delete(GroupEntry.TABLE_NAME, whereClause, whereArgs);
                 break;
 
             case GROUP_MEMES:
-                deleted = db.delete(GroupMemeEntry.TABLE_NAME, null, null);
-                break;
-
-            case GROUP_MEME_BY_IDS:
-                idMeme = uri.getPathSegments().get(1);
-                idGroup = uri.getPathSegments().get(2);
-                deleted = db.delete(GroupMemeEntry.TABLE_NAME,
-                        GroupMemeEntry.COLUMN_ID_MEME + "=? and " +
-                                GroupMemeEntry.COLUMN_ID_GROUP + "=?",
-                        new String[]{idMeme, idGroup});
+                deleted = db.delete(GroupMemeEntry.TABLE_NAME, whereClause, whereArgs);
                 break;
 
             case TAGS:
-                deleted = db.delete(TagsEntry.TABLE_NAME, null, null);
+                deleted = db.delete(TagsEntry.TABLE_NAME, whereClause, whereArgs);
                 break;
 
-            case TAGS_BY_ID:
-                idMeme = uri.getPathSegments().get(1);
-                deleted = db.delete(TagsEntry.TABLE_NAME, WHERE_CLAUSE_ID, new String[]{idMeme});
-                break;
 
             default:
                 throw new UnsupportedOperationException("URI deconhecida: " + uri);

@@ -79,7 +79,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.EditActivity" />
-        <activity android:name=".ui.DetailsActivity" />
+        <activity android:name=".ui.DetailsActivity" android:parentActivityName=".ui.MainActivity"
+            android:launchMode="singleTask"/>
 
     </application>
 

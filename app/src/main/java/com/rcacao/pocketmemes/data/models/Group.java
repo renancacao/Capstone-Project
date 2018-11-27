@@ -53,10 +53,6 @@ public class Group implements Parcelable {
         this.image = image;
     }
 
-    public String getName() {
-        return name;
-    }
-
     public void setName(String name) {
         this.name = name;
     }
